@@ -2,16 +2,7 @@
 <html lang="en-ie">
 
 <head>
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107339612-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-  	function gtag(){dataLayer.push(arguments)};
-  		gtag('js', new Date());
-
-  		gtag('config', 'UA-107339612-1');
-		gtag('set', {'user_id' : 'USER_ID'});
-    </script>
+    <title>Nazmul Alam - Full Stack Java Developer</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,9 +12,8 @@
     <meta name="author" content="Nazmul Alam">
     <meta name="robots" content="index, follow">
     <link rel="alternate" hreflang="en-ie" href="https://www.nalam.me">
-
-    <title>Nazmul Alam - Full Stack Java Developer</title>
-
+    <link rel="manifest" href="/manifest.json">
+    
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
@@ -42,14 +32,17 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-N6B6RTT');</script>
-    <!-- End Google Tag Manager -->
 
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107339612-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)};
+              gtag('js', new Date());
+    
+              gtag('config', 'UA-107339612-1');
+            gtag('set', {'user_id' : 'USER_ID'});
+        </script>
 </head>
 
 <body id="page-top" class="index">
@@ -289,7 +282,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        Copyright &copy; Nazmul Alam 2017
+                        Copyright &copy; Nazmul Alam 2018
                     </div>
                 </div>
             </div>
@@ -442,5 +435,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="//cdnjs.cloudflare.com/ajax/libs/startbootstrap-freelancer/3.3.7+1/js/freelancer.min.js"></script>
 
 </body>
-
+<script>
+    if ('serviceWorker' in navigator) {
+      console.log("Will the service worker register?");
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(reg){
+          console.log("Yes, it did.");
+        }).catch(function(err) {
+          console.log("No it didn't. This happened: ", err)
+        });
+    }
+  </script>
 </html>
