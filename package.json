@@ -1,0 +1,25 @@
+{
+  "name": "nalam.me",
+  "version": "1.0.0",
+  "description": "Personal portfolio",
+  "main": "index.html",
+  "repository": "git@github.com:naz-mul/naz-mul.github.io.git",
+  "author": "Naz Alam <hello@nalam.me>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "gulp": "^4.0.2"
+  },
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.19.1"
+  },
+  "scripts": {
+    "start": "npx gulp",
+    "verify": "yarn install --check-files",
+    "preci": "rm -fr node_modules",
+    "ci": "yarn install --frozen-lockfile",
+    "postinstall": "yarn start"
+  }
+}
