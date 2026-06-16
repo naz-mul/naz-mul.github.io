@@ -1,0 +1,27 @@
+---
+description: LESS source files and styling limitations
+globs: "less/**"
+alwaysApply: false
+---
+
+# LESS styling
+
+## File roles
+
+- `variables.less` — theme colours (`@theme-primary`, `@theme-success`, grays)
+- `mixins.less` — shared mixins
+- `freelancer.less` — main theme overrides (imports variables + mixins)
+
+## Important limitation
+
+Gulp does **not** compile LESS. `index.html` uses CDN Freelancer CSS. Edits to `less/` do not affect the live page unless you:
+
+1. Add a Gulp LESS compile task, and
+2. Link the compiled CSS in `index.html` instead of (or after) the CDN link.
+
+When changing appearance today, prefer editing CDN-linked behaviour via new `<style>` blocks or a compiled `css/` output — only after adding a compile step.
+
+## Conventions
+
+- Keep `@import` order: variables → mixins → rules
+- Preserve Freelancer class names used in `index.html` (e.g. `navbar-custom`, `star-primary`, `portfolio-item`)

@@ -1,0 +1,30 @@
+---
+description: Yarn, Gulp, and local development tooling
+globs: "{package.json,gulpfile.js,yarn.lock,.vscode/**}"
+alwaysApply: false
+---
+
+# Dev tooling
+
+## Scripts (`package.json`)
+
+| Script | Action |
+|--------|--------|
+| `yarn ci` | `rm -rf node_modules` then frozen install; `postinstall` runs `yarn start` |
+| `yarn start` | `npx gulp` — Browser-Sync on `./`, default port 3000 |
+| `yarn verify` | `yarn install --check-files` |
+
+## Gulp (`gulpfile.js`)
+
+Single default task: init Browser-Sync, watch `*.html` and `less/*.less`, reload on change.
+
+Do not add heavy tooling (webpack, vite) unless the user requests a migration.
+
+## VS Code / Cursor
+
+- **Run and Debug**: "Open nalam.me (Browser-Sync)" starts the dev server then opens Chrome
+- **Task**: `dev: Browser-Sync` for server only
+
+## Dependencies
+
+Dev only: `gulp`, `browser-sync`. No runtime npm dependencies for production (static site).

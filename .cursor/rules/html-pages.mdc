@@ -1,0 +1,34 @@
+---
+description: HTML page conventions for portfolio and error pages
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# HTML conventions
+
+## Page map (`index.html`)
+
+- `#mainNav` — fixed navbar; links to `#portfolio`, `#about`
+- `header` — profile image (`img/profile.png`), name, skills line
+- `#portfolio` — three `.portfolio-item` tiles opening modals
+- `#about` — two-column bio
+- `footer` — contact, social links, tech icons (font-mfizz)
+- `#portfolioModal1`–`3` — project detail modals at end of `<body>`
+
+## Adding a portfolio project
+
+1. Copy a `.col-sm-4.portfolio-item` block in `#portfolio`; update image and `href="#portfolioModalN"`.
+2. Copy a `.portfolio-modal` block before the script tags; give it a unique `id`.
+3. Place thumbnail under `img/portfolio/`.
+
+## CDN assets
+
+Styles and scripts load from CDNs in `<head>` and before `</body>`. Do not inline large libraries.
+
+## Analytics
+
+Google Analytics (`gtag`) in `<head>`; GTM noscript in `<body>`. Do not remove or duplicate tracking without user approval.
+
+## Error pages
+
+`403.html`, `404.html`, `50x.html` are standalone; keep styling consistent with the main theme where practical.

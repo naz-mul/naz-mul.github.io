@@ -1,6 +1,18 @@
 {
-    "files.associations": {
-        "*.spec": "gauge",
-        "*.cpt": "gauge"
-    }
+  "files.associations": {
+    "*.spec": "gauge",
+    "*.cpt": "gauge"
+  },
+  "files.exclude": {
+    "node_modules": true
+  },
+  "search.exclude": {
+    "node_modules": true,
+    "yarn.lock": true
+  },
+  "emmet.includeLanguages": {
+    "html": "html"
+  },
+  "html.format.wrapLineLength": 120,
+  "liveServer.settings.port": 3000
 }

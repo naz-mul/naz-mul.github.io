@@ -1,0 +1,14 @@
+# Dependencies and install artifacts
+node_modules/
+
+# Version control (large, rarely needed for editing)
+.git/
+
+# Logs and OS noise
+**/*.log
+yarn-error.log
+.DS_Store
+Thumbs.db
+
+# Lockfile is large; versions are documented in package.json and README
+yarn.lock

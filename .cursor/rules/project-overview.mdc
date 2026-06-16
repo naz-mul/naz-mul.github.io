@@ -1,0 +1,29 @@
+---
+description: Core context for nalam.me — static GitHub Pages portfolio
+alwaysApply: true
+---
+
+# nalam.me project context
+
+Static portfolio site. Repo root is the web root; GitHub Pages serves it at `nalam.me`.
+
+## Stack
+
+- HTML: single `index.html` (Start Bootstrap Freelancer 3.3.7 theme)
+- CSS: CDN Bootstrap 3 + Freelancer; local `less/` is source-only (not compiled by Gulp)
+- JS: jQuery 3, Bootstrap 3, Freelancer theme JS — all from CDN
+- Dev: Yarn, Gulp 4, Browser-Sync (port 3000)
+
+## Key files
+
+- `index.html` — all page content, nav, portfolio modals, analytics
+- `403.html`, `404.html`, `50x.html` — static error pages
+- `CNAME` — custom domain `nalam.me`
+- `gulpfile.js` — serves `./`, watches `*.html` and `less/*.less`
+
+## Principles
+
+- Minimize scope; no frameworks or build pipelines unless requested
+- Use Yarn, not npm (`engines.npm`: `please-use-yarn`)
+- Match existing Bootstrap 3 grid, modal, and Freelancer class patterns
+- See `AGENTS.md` and `README.md` for architecture diagrams and run instructions
