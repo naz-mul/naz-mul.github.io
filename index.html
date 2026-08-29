@@ -1,446 +1,57 @@
-<!DOCTYPE html>
-<html lang="en-ie">
-
-<head>
-    <title>Nazmul Alam - Backend Software Engineer</title>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Solutions-driven software developer, pragmatic DevOps engineer and a proven team player with leadership quality.">
-    <meta name="keywords"
-        content="Nazmul, Alam, Software, Developer, Engineer, JavaScript, AngularJS, Java, DevOps, Spring">
-    <meta name="author" content="Nazmul Alam">
-    <meta name="robots" content="index, follow">
-    <link rel="alternate" hreflang="en-ie" href="https://www.nalam.me">
-    <link rel="manifest" href="/manifest.json">
-
-    <!-- Bootstrap Core CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Theme CSS -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/startbootstrap-freelancer/3.3.7/css/freelancer.min.css"
-        rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        type="text/css">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="//fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGET43VDND"></script>
+<!doctype html>
+<html lang="en-IE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nazmul Alam — Senior Software Engineer</title>
+    <meta name="description" content="Senior software engineer in Galway. I build real-time voice AI for contact centres at Cisco, after a decade on backend systems in payments, healthcare, identity and finance." />
+    <meta name="author" content="Nazmul Alam" />
+    <link rel="canonical" href="https://nalam.me/" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Nazmul Alam" />
+    <meta property="og:title" content="Nazmul Alam — Senior Software Engineer" />
+    <meta property="og:description" content="Senior software engineer in Galway. I build real-time voice AI for contact centres at Cisco, after a decade on backend systems in payments, healthcare, identity and finance." />
+    <meta property="og:url" content="https://nalam.me/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="color-scheme" content="light dark" />
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-GGET43VDND');
+      // Runs before first paint so an explicit choice is on <html> before anything
+      // renders. No class means "follow the OS" — CSS handles that case, so this
+      // script does nothing at all for the default.
+      (function () {
+        try {
+          var p = localStorage.getItem('theme')
+          if (p === 'light' || p === 'dark') document.documentElement.classList.add(p)
+        } catch (e) {}
+      })()
     </script>
-</head>
-
-<body id="page-top" class="index">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N6B6RTT" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <!-- Navigation -->
-    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="#page-top">Nazmul Alam</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#portfolio">Projects</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#about">About Me</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
-
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <img class="img-responsive img-circle" src="img/profile.png" alt="Nazmul Alam">
-                    <div class="intro-text">
-                        <span class="name">Nazmul Alam</span>
-                        <hr class="star-light">
-                        <span class="skills">Java / Spring Boot / NodeJS / PostgreSQL / GCP</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Portfolio Grid Section -->
-    <section id="portfolio">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Projects</h2>
-                    <hr class="star-primary">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/circus.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/game.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/safe.png" class="img-responsive" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="success" id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2>Hey, I'm Nazmul</h2>
-                    <hr class="star-light">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-2">
-                    <p>
-                        Alrighty then, buckle up for the rollercoaster ride through my tech adventures! 🎢
-                    </p>
-                    <p>
-                        So, I kicked off my software escapades at Fexco - think EasyDebit Philippines, a fancy micro ATM and Payment Gateway with MPOS gizmos and a cheeky Android app. You know, the stuff that makes you go, "Well, ain't that clever?"
-                    </p>
-                    <p>
-                        Back in my Fexco trainee days, I was knee-deep in SpringBoot, Hibernate, and PostgreSQL. Cooked up a micro-service-based RESTful API for an Intranet system and even tried my hand at building a web app with AngularJS, HTML5, and Bootstrap. Because who doesn't love a bit of web wizardry?
-                    </p>
-                    <p>
-                        Now, on the academic front, I've got a degree in Computer Science - did the whole 1:1 dance. It's like getting top marks but with extra flair, right?
-                    </p>
-                </div>
-                <div class="col-lg-4">
-                    <p>
-                        Fast-forward to WP Engine – I was the Ruby on Rails maestro, jazzing up the user portal and making billing and signup flow like a finely tuned orchestra. Optum was the next stop, where I sprinkled some magic on the Emisar Analytics Gateway as a Senior Software Engineer.
-                    </p>
-                    <p>
-                        And here I am at Cisco, juggling scripts and clouds for Cisco dCloud. It's like tech theatre, but with less drama (well, most days).
-                    </p>
-                    <p>
-                        When I am not coding, I'm probably cooking,
-                        photographing, travelling, listening to self-help podcasts, or expanding my knowledge of Islam.
-                    </p>
-                </div>
-                <!-- <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="docs/naz-resume.pdf" class="btn btn-lg btn-outline">
-                        <i class="fa fa-download"></i> Download Resume
-                    </a>
-                </div> -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="text-center">
-        <div class="footer-above">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col col-md-4">
-                        <h3>Reach out</h3>
-                        <p>
-                            <i class="fa fa-map-marker" aria-hidden="true"></i> Tralee, Co Kerry
-                        </p>
-
-                        <p>
-                            <i class="fa fa-envelope" aria-hiden="true"></i> hello@nalam.me
-                        </p>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>Around the Web</h3>
-                        <ul class="list-inline">
-                            <li>
-                                <a href="https://ie.linkedin.com/in/nalam" class="btn-social btn-outline">
-                                    <i class="fa fa-fw fa-linkedin"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/naz-mul" class="btn-social btn-outline">
-                                    <i class="fa fa-fw fa-github"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://stackoverflow.com/users/4946884/nazmul" class="btn-social btn-outline">
-                                    <i class="fa fa-fw fa-stack-overflow"></i>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="https://twitter.com/danazzyr" class="btn-social btn-outline">
-                                    <i class="fa fa-fw fa-twitter"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-col col-md-4">
-                        <h3>Stuff I Know</h3>
-
-                        <ul class="list-inline">
-                            <li>
-                                <i class="icon-java-bold" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-spring" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-postgres" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-shell" style="font-size:3em"></i>
-                            </li>
-                        </ul>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="icon-nodejs" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-angular" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-bootstrap" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-html5-alt" style="font-size:3em"></i>
-                            </li>
-                        </ul>
-                        <ul class="list-inline">
-                            <li>
-                                <i class="icon-ubuntu" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-docker" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-git" style="font-size:3em"></i>
-                            </li>
-                            <li>
-                                <i class="icon-maven" style="font-size:3em"></i>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-below">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        Copyright &copy; Nazmul Alam 2026
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
-    <div class="scroll-top page-scroll hidden-sm hidden-xs hidden-lg hidden-md">
-        <a class="btn btn-primary" href="#page-top">
-            <i class="fa fa-chevron-up"></i>
-        </a>
-    </div>
-
-    <!-- Portfolio Modals -->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Sitar</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/circus.png" class="img-responsive img-centered" alt="">
-                            <p>Android music player. This application is free to download from <a
-                                    href="https://play.google.com/store/apps/details?id=com.nazmulalam.sitarplayer">Google
-                                    Play</a> store.</p>
-                            <ul class="list-inline item-details">
-                                <li>GitHub:
-                                    <strong>
-                                        <a href="https://github.com/naz-mul/sitar">Source code</a>
-                                    </strong>
-                                </li>
-                                <li>Purpose:
-                                    <strong>College Assignment</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong>May 2015</a>
-                                    </strong>
-                                </li>
-                                <li>Topics:
-                                    <strong>Android Development</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                    class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>SupremeBot</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/game.png" class="img-responsive img-centered" alt="">
-                            <p>CleverBot API based Artificial Intelligence - make conversation with your computer</p>
-                            <ul class="list-inline item-details">
-                                <li>GitHub:
-                                    <strong>
-                                        <a href="https://github.com/naz-mul/supremebot">Source code</a>
-                                    </strong>
-                                </li>
-                                <li>Purpose:
-                                    <strong>Course Assignment</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong>November 2014</a></strong>
-                                </li>
-                                <li>Topics:
-                                    <strong>Java, Swing, API</a></strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                    class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>Datagram FTP</h2>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/safe.png" class="img-responsive img-centered" alt="">
-                            <p>A simple File Transfer Protocol client-server application using the Java Socket API.</p>
-                            <ul class="list-inline item-details">
-                                <li>GitHub:
-                                    <strong>
-                                        <a href="https://github.com/naz-mul/datagram-ftp">Source code</a>
-                                    </strong>
-                                </li>
-                                <li>Purpose:
-                                    <strong>Course Assignment</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong>December 2016</a>
-                                    </strong>
-                                </li>
-                                <li>Topics:
-                                    <strong>Java, Socket API, Design Patterns, Maven</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i
-                                    class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-
-    <!-- Theme JavaScript -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/startbootstrap-freelancer/3.3.7/js/freelancer.min.js"></script>
-
-</body>
-
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Nazmul Alam",
+        "url": "https://nalam.me",
+        "image": "https://nalam.me/img/profile.jpg",
+        "email": "mailto:hello@nalam.me",
+        "jobTitle": "Senior Software Engineer",
+        "worksFor": { "@type": "Organization", "name": "Cisco" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Galway",
+          "addressCountry": "IE"
+        },
+        "sameAs": [
+          "https://github.com/naz-mul",
+          "https://www.linkedin.com/in/nalam"
+        ]
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/home-CamTtBmn.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/globals-14vruWJk.js">
+    <link rel="stylesheet" crossorigin href="/assets/globals-DzD3ys2U.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

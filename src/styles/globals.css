@@ -1,0 +1,329 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Typefaces — all self-hosted. The site makes zero third-party requests, so
+   these are served from /fonts/ alongside everything else.
+
+   Three faces, each with a distinct job:
+     Newsreader  — display and long-form prose. Editorial, high-contrast.
+     Geist Sans  — UI, navigation, lists, cards.
+     Geist Mono  — metadata, labels, section numbers, dates, tags.
+
+   Variable fonts, so one file covers the whole weight range.
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Newsreader";
+  src: url("/fonts/newsreader-var.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url("/fonts/newsreader-italic-var.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Sans";
+  src: url("/fonts/geist-sans-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/geist-mono-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* `dark:` utilities follow the same tri-state rule as the tokens below. */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:is(:root:not(.light) *) { @slot; }
+  }
+  &:is(:root.dark *) { @slot; }
+}
+
+/* ---------------------------------------------------------------------------
+   Palette.
+
+   Deliberately NOT the shadcn default look: no slate/zinc neutral, no 0.5rem
+   radius, no muted indigo accent. Neutrals are faintly cool rather than warm —
+   a cream/serif combination now reads as generic AI output, so the warmth is
+   dialled out and the character comes from structure instead.
+
+   Accent is a teal: signal-like, legible in both themes, and far enough from the
+   default indigo to look chosen.
+
+   VALUES ARE LOAD-BEARING. Every foreground here clears WCAG AA (4.5:1) against
+   the surface it sits on, and every colour is inside the sRGB gamut. The light
+   accent's chroma is pinned at 0.088 because that is the sRGB maximum at
+   L=0.529 / hue 205 — raising it does not make the colour more saturated, it
+   just clips unpredictably on non-P3 displays. Re-run the contrast check before
+   changing any of them.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --background: oklch(0.985 0.003 240);
+  --surface: oklch(1 0 0);
+  --surface-sunken: oklch(0.965 0.004 245);
+  --foreground: oklch(0.21 0.015 250);
+  --muted-foreground: oklch(0.485 0.015 250);
+  --faint-foreground: oklch(0.552 0.014 250);
+  --border: oklch(0.90 0.008 250);
+  --border-strong: oklch(0.82 0.010 250);
+  --accent: oklch(0.529 0.088 205);
+  --accent-foreground: oklch(0.99 0.002 205);
+  --accent-quiet: oklch(0.529 0.088 205 / 0.12);
+  --ring: oklch(0.529 0.088 205);
+
+  /* Sharp corners. The 8px-on-everything default is the single loudest tell
+     of an untuned component library. */
+  --radius: 0px;
+
+  --grain-opacity: 0.028;
+  --rule: 1px;
+}
+
+/*
+ * Theme is tri-state: light / dark / system, defaulting to system.
+ *
+ * System is handled by CSS, not JavaScript. No class on <html> means "follow the
+ * OS", so the browser reacts to an OS theme change instantly, with no listener,
+ * and it still works with JavaScript disabled. The `:not(.light)` guard lets an
+ * explicit light choice win over a dark OS.
+ *
+ * The dark palette is declared twice — once for the OS default and once for the
+ * explicit override. Plain CSS cannot share one block between a media query and
+ * a class selector, so KEEP THESE TWO BLOCKS IN SYNC.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --background: oklch(0.165 0.012 250);
+    --surface: oklch(0.205 0.014 250);
+    --surface-sunken: oklch(0.145 0.012 250);
+    --foreground: oklch(0.94 0.006 250);
+    --muted-foreground: oklch(0.675 0.012 250);
+    --faint-foreground: oklch(0.585 0.014 250);
+    --border: oklch(0.29 0.014 250);
+    --border-strong: oklch(0.38 0.016 250);
+    --accent: oklch(0.80 0.11 200);
+    --accent-foreground: oklch(0.17 0.012 250);
+    --accent-quiet: oklch(0.80 0.11 200 / 0.14);
+    --ring: oklch(0.80 0.11 200);
+    --grain-opacity: 0.035;
+  }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --background: oklch(0.165 0.012 250);
+  --surface: oklch(0.205 0.014 250);
+  --surface-sunken: oklch(0.145 0.012 250);
+  --foreground: oklch(0.94 0.006 250);
+  --muted-foreground: oklch(0.675 0.012 250);
+  --faint-foreground: oklch(0.585 0.014 250);
+  --border: oklch(0.29 0.014 250);
+  --border-strong: oklch(0.38 0.016 250);
+  --accent: oklch(0.80 0.11 200);
+  --accent-foreground: oklch(0.17 0.012 250);
+  --accent-quiet: oklch(0.80 0.11 200 / 0.14);
+  --ring: oklch(0.80 0.11 200);
+  --grain-opacity: 0.035;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint-foreground: var(--faint-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-quiet: var(--accent-quiet);
+  --color-ring: var(--ring);
+
+  /* shadcn primitives expect these names. */
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-muted: var(--surface-sunken);
+
+  --radius-lg: var(--radius);
+  --radius-md: var(--radius);
+  --radius-sm: var(--radius);
+
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Newsreader", Charter, "Bitstream Charter", "Sitka Text", Cambria,
+    ui-serif, Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Code",
+    Menlo, Consolas, monospace;
+
+  /* Fluid display scale. The jump from body to display is deliberately large —
+     scale contrast is what stops a single-column page reading as a document. */
+  --text-display: clamp(2.75rem, 1.2rem + 7.2vw, 5.5rem);
+  --text-title: clamp(2rem, 1.1rem + 4vw, 3.5rem);
+  --text-lead: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  /* Grain. A single fixed overlay rather than per-element backgrounds, so it
+     costs one composited layer and never scrolls out of register. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-quiet);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  /* Dates, durations and figures line up in columns. */
+  time, .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Cross-document transitions for the multi-page build. Progressive enhancement:
+   browsers without support simply navigate normally. */
+@view-transition {
+  navigation: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+--------------------------------------------------------------------------- */
+
+/* The small mono label used for section headings, metadata keys and tags.
+   This is the site's signature device — it carries the structure that a
+   single centred column otherwise lacks. */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-faint-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Long-form case-study prose, set in the serif. */
+@utility prose-editorial {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.68;
+  letter-spacing: -0.003em;
+
+  & p + p {
+    margin-top: 1.1em;
+  }
+  & strong {
+    font-weight: 650;
+  }
+  & em {
+    font-style: italic;
+  }
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background-color: var(--color-surface-sunken);
+    border: var(--rule) solid var(--color-border);
+    padding: 0.1em 0.35em;
+  }
+}
+
+/* Opening words of a case-study section, in small caps — a Tufte device that
+   gives a text-only page an entry point without needing a drop cap (whose
+   browser support is still poor). */
+@utility newthought {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* Hairline grid drawn in CSS, faded out with a mask. Used behind the hero to
+   give the page depth without an image. */
+@utility grid-field {
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--color-border) 0 var(--rule),
+      transparent var(--rule) 88px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--color-border) 0 var(--rule),
+      transparent var(--rule) 88px
+    );
+  mask-image: radial-gradient(120% 90% at 12% 0%, #000 0%, transparent 72%);
+}
+
+/* Link underline that grows from the left on hover. */
+@utility link-underline {
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% var(--rule);
+  transition: background-size 0.32s var(--ease-out-quart);
+
+  &:hover {
+    background-size: 100% var(--rule);
+  }
+}

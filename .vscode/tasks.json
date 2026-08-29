@@ -2,22 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev: Browser-Sync",
+      "label": "dev: Vite",
       "type": "shell",
-      "command": "yarn start",
+      "command": "yarn dev",
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "isBackground": true,
       "problemMatcher": {
-        "owner": "custom",
+        "owner": "vite",
         "pattern": {
           "regexp": "."
         },
         "background": {
           "activeOnStart": true,
           "beginsPattern": ".",
-          "endsPattern": "Local:"
+          "endsPattern": "ready in"
         }
       },
       "presentation": {
@@ -31,26 +31,69 @@
       }
     },
     {
-      "label": "install: yarn ci",
+      "label": "build",
       "type": "shell",
-      "command": "yarn ci",
+      "command": "yarn build",
       "options": {
         "cwd": "${workspaceFolder}"
       },
+      "problemMatcher": [
+        "$tsc"
+      ],
       "presentation": {
         "reveal": "always",
         "panel": "shared"
       }
     },
     {
-      "label": "verify: node_modules",
+      "label": "preview: built output",
       "type": "shell",
-      "command": "yarn verify",
+      "command": "yarn preview",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "Local:"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": false
+      }
+    },
+    {
+      "label": "typecheck",
+      "type": "shell",
+      "command": "yarn typecheck",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "install",
+      "type": "shell",
+      "command": "yarn install",
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "shared"
       }
     }

@@ -1,178 +1,277 @@
 # nalam.me
 
-Personal portfolio for [Nazmul Alam](https://www.nalam.me). Static HTML site based on [Start Bootstrap Freelancer](https://startbootstrap.com/template/freelancer), hosted on **GitHub Pages** with custom domain **`nalam.me`**.
+Personal site of [Nazmul Alam](https://nalam.me) — senior software engineer, Galway.
+Static site built with **Vite + React + Tailwind v4 + shadcn/ui**, deployed to
+**GitHub Pages** on the custom domain **`nalam.me`**.
 
 ## For Cursor / AI agents
 
-Read **`AGENTS.md`** first for editing conventions, file map, and constraints. Cursor rules live in **`.cursor/rules/`**.
+Read **`AGENTS.md`** first for conventions and constraints, then **`CONTEXT.md`** for
+domain vocabulary. Architectural decisions and their reasoning live in
+**`docs/adr/`**. Cursor rules are in **`.cursor/rules/`**.
 
 ## Architecture
 
 ```mermaid
 flowchart TB
-    subgraph Local["Local development"]
-        Yarn["yarn start"]
-        Gulp["gulpfile.js"]
-        BS["Browser-Sync :3000"]
-        Yarn --> Gulp --> BS
-        BS --> Root["Repo root (static files)"]
+    subgraph Source["Source — src/ (Vite root)"]
+        Content["content/site.ts<br/>all copy, one file"]
+        Comps["components/<br/>Home · CaseStudyPage · Layout"]
+        UI["components/ui/<br/>shadcn primitives"]
+        Styles["styles/globals.css<br/>Tailwind v4 @theme tokens"]
+        Entries["entries/*.tsx<br/>one mount script per page"]
+        Html["*.html<br/>one entry point per route"]
+        Content --> Comps
+        UI --> Comps
+        Comps --> Entries
+        Styles --> Entries
+        Entries --> Html
     end
 
-    subgraph Repo["Repository"]
-        Root
-        Index["index.html"]
-        Errors["403 / 404 / 50x"]
-        Less["less/*.less"]
-        Assets["img/ · docs/ · manifest.json"]
-        CNAME["CNAME → nalam.me"]
+    subgraph Build["yarn build"]
+        TSC["tsc --noEmit"]
+        Vite["vite build<br/>outDir = repo root<br/>emptyOutDir false"]
+        TSC --> Vite
     end
 
-    subgraph Prod["Production"]
-        GH["GitHub Pages"]
-        DNS["www.nalam.me"]
-        CNAME --> GH --> DNS
+    subgraph Output["Repo root — committed"]
+        OutHtml["index.html · 404.html<br/>work/*/index.html"]
+        Assets["assets/*.js · *.css<br/>content-hashed"]
+        Static["CNAME · favicon.ico · img/"]
     end
 
-    Root --> GH
+    Html --> TSC
+    Vite --> OutHtml
+    Vite --> Assets
+    OutHtml --> Pages["GitHub Pages<br/>serves branch root"]
+    Assets --> Pages
+    Static --> Pages
+    Pages --> Domain["nalam.me"]
 ```
 
-### Page structure
+### Routes
 
-Single-page layout in `index.html` — hash navigation and Bootstrap modals, no SPA framework.
+Each route is a **real HTML file**, not a client-side route. Deep links resolve as
+static files, so no `404.html` redirect hack is needed and `404.html` stays a genuine
+error page.
+
+```mermaid
+flowchart LR
+    Home["/"] --> Cisco["/work/cisco/"]
+    Home --> Fid["/work/fidelity/"]
+    Home --> HMH["/work/hmh/"]
+    Home --> Optum["/work/optum/"]
+    Cisco --> Home
+    Fid --> Home
+    HMH --> Home
+    Optum --> Home
+    NF["/404.html"] --> Home
+```
+
+| Route | Source HTML | Mount script | Component |
+|-------|-------------|--------------|-----------|
+| `/` | `src/index.html` | `src/entries/home.tsx` | `Home` |
+| `/work/cisco/` | `src/work/cisco/index.html` | `src/entries/cisco.tsx` | `CaseStudyPage` |
+| `/work/fidelity/` | `src/work/fidelity/index.html` | `src/entries/fidelity.tsx` | `CaseStudyPage` |
+| `/work/hmh/` | `src/work/hmh/index.html` | `src/entries/hmh.tsx` | `CaseStudyPage` |
+| `/work/optum/` | `src/work/optum/index.html` | `src/entries/optum.tsx` | `CaseStudyPage` |
+| `404.html` | `src/404.html` | `src/entries/not-found.tsx` | inline |
+
+Adding a route means all three: a new `src/<path>/index.html`, a matching
+`src/entries/<name>.tsx`, and an entry in `rollupOptions.input` in `vite.config.ts`.
+
+### Page composition
 
 ```mermaid
 flowchart TD
-    HTML["index.html"]
-    HTML --> Nav["#mainNav"]
-    HTML --> Header["header — profile + skills"]
-    HTML --> Portfolio["#portfolio — 3 projects"]
-    HTML --> About["#about — bio"]
-    HTML --> Footer["footer — contact + social"]
-    HTML --> Modals["#portfolioModal1–3"]
-    Portfolio --> Modals
-    Nav --> Portfolio
-    Nav --> About
+    Page["Page — Layout.tsx"] --> Header["Header · theme toggle"]
+    Page --> Main["main"]
+    Page --> Footer["Footer · email, GitHub, LinkedIn"]
+    Main --> Hero["Hero — headshot, name, one line"]
+    Main --> Now["Now"]
+    Main --> Work["Selected work — 4 case study cards"]
+    Main --> Exp["Experience — full dated history"]
+    Main --> Bg["Background — education, certs, personal"]
+    Main --> Contact["Contact"]
 ```
-
-### External assets (CDN)
-
-Production CSS/JS comes from CDNs, not from a local build:
-
-| Layer | Source |
-|-------|--------|
-| Grid / components | Bootstrap 3.3.7 |
-| Theme | startbootstrap-freelancer 3.3.7 |
-| Icons | Font Awesome 4.7, font-mfizz |
-| Fonts | Google Fonts (Montserrat, Lato) |
-| Scripts | jQuery 3.2.1, jquery.easing, Freelancer JS |
-| Analytics | Google Analytics + GTM |
-
-> **Note:** `less/` holds theme source files but Gulp does **not** compile them. The live site uses CDN Freelancer CSS. See [Styling](#styling) below.
 
 ## Repository layout
 
 ```
 naz-mul.github.io/
-├── index.html          # Main portfolio page (all content)
-├── 403.html            # Forbidden error page
-├── 404.html            # Not found error page
-├── 50x.html            # Server error page
-├── CNAME               # Custom domain (nalam.me)
-├── gulpfile.js         # Dev server + live reload
-├── package.json        # Yarn scripts and devDependencies
-├── less/
-│   ├── variables.less  # Colour tokens
-│   ├── mixins.less
-│   └── freelancer.less # Theme overrides (not auto-compiled)
-├── img/                # Profile and portfolio images (referenced by index.html)
-├── docs/               # Resume PDF (optional)
-├── .cursor/
-│   └── rules/          # Cursor AI rules (.mdc)
-├── .vscode/
-│   ├── launch.json     # Run & Debug: open site in Chrome
-│   ├── tasks.json      # Gulp dev server tasks
-│   └── settings.json
-├── AGENTS.md           # Agent / Cursor context
-└── README.md           # This file
+├── src/                      # Vite root — ALL source lives here
+│   ├── index.html            # / entry point
+│   ├── 404.html              # error page entry point
+│   ├── work/<client>/index.html
+│   ├── entries/*.tsx         # one createRoot mount per page
+│   ├── components/
+│   │   ├── Home.tsx          # home page sections
+│   │   ├── CaseStudyPage.tsx # shared case study template
+│   │   ├── Layout.tsx        # Page, Header, Footer, Section
+│   │   ├── ThemeToggle.tsx
+│   │   ├── theme.ts          # light/dark resolution + persistence
+│   │   └── ui/               # shadcn primitives (generated)
+│   ├── content/site.ts       # ← ALL copy: bio, experience, case studies
+│   ├── styles/globals.css    # Tailwind v4 tokens, @font-face, base layer
+│   ├── lib/utils.ts          # cn() helper
+│   └── public/               # dev-only mirror of root static files
+│       └── fonts/            # self-hosted variable woff2
+│
+├── index.html                # ─┐
+├── 404.html                  #  │ BUILD OUTPUT — generated, committed,
+├── work/<client>/index.html  #  │ served by GitHub Pages. Do not hand-edit.
+├── assets/                   # ─┘
+│
+├── CNAME                     # nalam.me
+├── favicon.ico
+├── img/profile.jpg           # headshot, 512×512
+├── fonts/                    # generated by `yarn sync:static` from src/public/fonts/
+│
+├── CONTEXT.md                # domain vocabulary
+├── docs/
+│   ├── adr/                  # architectural decision records
+│   ├── agents/               # issue tracker, triage labels, domain doc rules
+│   └── resume/               # GITIGNORED — private, never published
+│
+├── scripts/check-contrast.py # WCAG AA + sRGB gamut check
+├── vite.config.ts
+├── tsconfig.json
+├── components.json           # shadcn CLI config
+├── AGENTS.md
+└── README.md
 ```
+
+> **The repo root holds both source and build output.** Anything at the root matching
+> the output list above is generated — edit `src/`, then rebuild.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (LTS recommended)
-- [Yarn](https://yarnpkg.com/) ≥ 1.19.1 — **npm is intentionally blocked** (`engines.npm`: `please-use-yarn`)
+- **Node.js** ≥ 20
+- **Yarn 4** — npm is intentionally blocked (`engines.npm: please-use-yarn`)
 
 ## Development
 
-### Install dependencies
-
 ```bash
-yarn ci
+yarn install     # install dependencies
+yarn dev         # Vite dev server → http://localhost:3000
+yarn build       # typecheck, then build to the repo root
+yarn preview     # serve the built output → http://localhost:4173
+yarn typecheck   # tsc --noEmit
+yarn check:contrast  # WCAG AA + sRGB gamut audit of the palette
+yarn verify      # typecheck + contrast
 ```
 
-Runs a clean frozen lockfile install. `postinstall` automatically runs `yarn start` (dev server).
+`yarn build` chains `yarn clean` (clears `assets/` so stale content-hashed bundles do
+not accumulate) and `yarn sync:static` (copies the self-hosted fonts into the shipped
+`fonts/`) before typechecking and building.
 
-Verify an existing install:
+> **Yarn 4 does not auto-run `pre`/`post` scripts** for custom names. These steps live
+> inside `build` deliberately — a `prebuild` hook is silently skipped.
 
-```bash
-yarn verify
-```
-
-### Run locally
-
-```bash
-yarn start
-```
-
-Starts Gulp + Browser-Sync, serves the repo root, and reloads on changes to `*.html` and `less/*.less`.
-
-Default URL: **http://localhost:3000**
-
-### VS Code / Cursor run config
+### VS Code / Cursor
 
 | Action | How |
 |--------|-----|
-| **Run and Debug** | Choose **"Open nalam.me (Browser-Sync)"** — starts the dev server, then opens Chrome |
-| **Attach only** | Choose **"Attach: already running dev server"** if `yarn start` is already running |
-| **Tasks** | `Terminal → Run Task` → `dev: Browser-Sync` (default build task) |
+| **Run and Debug** | "Open nalam.me (Vite dev)" — starts the dev server, opens Chrome |
+| **Preview built output** | "Open nalam.me (built preview)" |
+| **Tasks** | `Terminal → Run Task` → `dev: Vite` (default build task) |
 
 ## Styling
 
-Two parallel paths exist today:
+Tailwind v4, **CSS-first** — there is no `tailwind.config.js`. Design tokens are CSS
+custom properties in `src/styles/globals.css`, exposed to Tailwind through `@theme
+inline`.
 
-1. **What users see:** CDN links in `index.html` (Bootstrap + Freelancer min CSS).
-2. **Local source:** `less/` mirrors the Freelancer theme for customisation.
+| Token group | Where |
+|-------------|-------|
+| Light palette | `:root` |
+| Dark palette (OS) | `@media (prefers-color-scheme: dark) { :root:not(.light) }` |
+| Dark palette (explicit) | `:root.dark` |
+| Tailwind mapping | `@theme inline` |
 
-To apply `less/` changes you must add a LESS compile step to Gulp (or another tool) and link the output CSS in `index.html`. Until then, edit appearance via CDN behaviour or inline additions only.
+### Theme: light / dark / system
 
-Theme tokens in `less/variables.less`:
+Tri-state, defaulting to **system**. System is implemented in **CSS, not JavaScript** —
+no class on `<html>` means "follow the OS", so an OS theme change applies instantly with
+no listener and the site still themes correctly with JavaScript disabled. `.light` and
+`.dark` are explicit overrides; a `:not(.light)` guard lets an explicit light choice beat
+a dark OS. A two-line inline script restores an explicit choice before first paint.
 
-- `@theme-primary`: `#2C3E50`
-- `@theme-success`: `#18BC9C`
+The dark palette is declared twice — once under the media query, once under `.dark`.
+Plain CSS cannot share a block between them, so **keep the two in sync.**
+
+### Type
+
+Three self-hosted variable typefaces, each with one job:
+
+| Face | Role | File |
+|------|------|------|
+| **Newsreader** | display + long-form prose | `newsreader-var.woff2` (+ italic) |
+| **Geist Sans** | UI, navigation, lists | `geist-sans-var.woff2` |
+| **Geist Mono** | labels, metadata, numbers | `geist-mono-var.woff2` |
+
+~171 KB total, served from `/fonts/`. **Never swap these for a Google Fonts `<link>`** —
+that would break the zero-third-party-request rule.
+
+### Colour
+
+OKLCH throughout. The values are load-bearing: every foreground clears WCAG AA (4.5:1)
+against the surface it sits on, and every colour is inside the sRGB gamut.
+
+```bash
+yarn check:contrast
+```
+
+verifies both, in both themes, straight from the CSS. Run it after changing any colour.
+
+shadcn components are generated into `src/components/ui/`:
+
+```bash
+yarn dlx shadcn@latest add <component>
+```
+
+## Content
+
+**All copy lives in `src/content/site.ts`.** Components render it; they do not contain
+prose. To change the bio, a job entry, or a case study, edit that one file.
+
+Content rules that came out of the design process — see `docs/adr/0005-sanitised-case-studies.md`:
+
+- Case studies **name clients but genericise their systems**. No internal architecture,
+  no proprietary identifiers, no unpublishable metrics.
+- **Never invent metrics.** Figures on the site (7s→2s, 5min→1.5min) come from the CV.
+- Voice is direct, specific, first person. No emoji, no skill bars, no logo walls.
+
+## Privacy
+
+`docs/resume/` is **gitignored and must stay that way**. The site is served from the
+repo root, so committing it would publish the CV — phone number included — at a public
+URL.
 
 ## Deployment
 
-Push to the `naz-mul.github.io` repository; **GitHub Pages** publishes the default branch. `CNAME` points the site at `nalam.me`.
+GitHub Pages serves the default branch root of `naz-mul.github.io`. There is no Actions
+workflow: **the build output is committed**.
 
-No build step is required for deploy — static files are served as-is.
+```bash
+yarn build
+git add -A
+git commit -m "..."
+git push
+```
 
-## Common tasks
+`CNAME` is never touched by the build (`emptyOutDir: false`), so the custom domain
+cannot be lost by a deploy.
 
-| Task | Where |
-|------|-------|
-| Update bio or copy | `index.html` → `#about` |
-| Add / edit a project | `index.html` → `#portfolio` + modal block at bottom |
-| Change contact or social links | `index.html` → `footer` |
-| Custom error pages | `403.html`, `404.html`, `50x.html` |
-| Profile / portfolio images | `img/` |
-| Resume download | Uncomment block in `#about`; file at `docs/naz-resume.pdf` |
+## Known limitation
 
-## Portfolio projects (current)
+Pages are **client-rendered**: the served HTML is a shell around `<div id="root">`, and
+the prose lives in the JS bundle. Metadata is static (`<title>`, `og:` tags, JSON-LD),
+so link previews and social cards work, and Google executes JS so indexing works. But a
+client that does not run JS sees an empty page.
 
-| Modal | Project | Links |
-|-------|---------|-------|
-| `portfolioModal1` | Sitar Player | [Play Store](https://play.google.com/store/apps/details?id=com.nazmulalam.sitarplayer), [GitHub](https://github.com/naz-mul/sitar) |
-| `portfolioModal2` | SupremeBot | [GitHub](https://github.com/naz-mul/supremebot) |
-| `portfolioModal3` | Datagram FTP | [GitHub](https://github.com/naz-mul/datagram-ftp) |
+The fix is build-time prerendering with `react-dom/server`, keeping React for
+hydration. See `docs/adr/0006-client-rendered-html.md`.
 
 ## License
 

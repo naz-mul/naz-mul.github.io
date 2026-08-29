@@ -1,0 +1,41 @@
+---
+description: HTML entry points, mount scripts and page structure
+globs: "{src/**/*.html,src/entries/**,src/components/Layout.tsx,src/components/Home.tsx,src/components/CaseStudyPage.tsx}"
+alwaysApply: false
+---
+
+# Pages and routing
+
+**Multi-page, not a SPA.** Each route is a real HTML file that loads its own mount
+script. There is no router and no client-side navigation. Deep links resolve as static
+files, which is why `404.html` can stay a genuine error page instead of an SPA redirect
+shim (ADR-0002).
+
+## Every HTML entry point must have
+
+- `<title>` and `<meta name="description">` specific to the page
+- `<link rel="canonical">` pointing at the **apex** `https://nalam.me/...` — matching
+  `CNAME`. Never `www.` (ADR-0003)
+- The inline theme bootstrap script — sets `.dark` on `<html>` before first paint. Omit
+  it and the page flashes light before going dark
+- `<div id="root">` and a module script pointing at `/entries/<name>.tsx`
+- `og:` tags. These are the only content crawlers see without executing JS, so they
+  matter more here than on a server-rendered site
+
+Only `src/index.html` carries the `Person` JSON-LD block.
+
+## Component structure
+
+- `Page` wraps every route: header, `<main>`, footer. Pass `back` on subpages for the
+  "← Nazmul Alam" link
+- `Section` is the layout unit — `max-w-3xl`, consistent padding, optional small-caps title
+- `CaseStudyPage` renders any case study from its slug; the four subpages differ only by
+  that slug. Content comes from `caseStudies` in `src/content/site.ts` — do not hardcode
+  prose in the component
+
+## Accessibility
+
+- The hero image is decorative (`alt=""`) because the `<h1>` beneath it already
+  announces the name. Do not "fix" this by adding alt text
+- Keep the visible focus ring in `globals.css`
+- Respect `prefers-reduced-motion` — already handled in the base layer

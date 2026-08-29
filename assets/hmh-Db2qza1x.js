@@ -1,0 +1,1 @@
+import{d as e,f as t,p as n}from"./globals-14vruWJk.js";import{t as r}from"./CaseStudyPage-e9o_KWgM.js";var i=n(),a=t(),o=e();(0,a.createRoot)(document.getElementById(`root`)).render((0,o.jsx)(i.StrictMode,{children:(0,o.jsx)(r,{slug:`hmh`})}));

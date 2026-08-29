@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "nalam.me",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "dev",
+        "--port",
+        "3000",
+        "--strictPort"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "nalam.me (built)",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "preview",
+        "--port",
+        "4173",
+        "--strictPort"
+      ],
+      "port": 4173
+    }
+  ]
+}

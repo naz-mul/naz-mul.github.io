@@ -1,30 +1,64 @@
 ---
-description: Yarn, Gulp, and local development tooling
-globs: "{package.json,gulpfile.js,yarn.lock,.vscode/**}"
+description: Yarn, Vite, TypeScript and editor tooling
+globs: "{package.json,vite.config.ts,tsconfig.json,components.json,yarn.lock,.vscode/**,.claude/**}"
 alwaysApply: false
 ---
 
 # Dev tooling
 
-## Scripts (`package.json`)
+## Scripts
 
 | Script | Action |
 |--------|--------|
-| `yarn ci` | `rm -rf node_modules` then frozen install; `postinstall` runs `yarn start` |
-| `yarn start` | `npx gulp` — Browser-Sync on `./`, default port 3000 |
-| `yarn verify` | `yarn install --check-files` |
+| `yarn dev` | Vite dev server, port 3000 |
+| `yarn build` | `clean` → `sync:static` → `tsc --noEmit` → `vite build` |
+| `yarn clean` | removes `assets/` so stale hashed bundles do not accumulate |
+| `yarn sync:static` | copies `src/public/fonts/*.woff2` to the shipped `fonts/` |
+| `yarn check:contrast` | WCAG AA + sRGB gamut audit of the palette |
+| `yarn verify` | typecheck + contrast |
+| `yarn preview` | Serve the built output, port 4173 |
+| `yarn typecheck` | `tsc --noEmit` |
 
-## Gulp (`gulpfile.js`)
+## vite.config.ts
 
-Single default task: init Browser-Sync, watch `*.html` and `less/*.less`, reload on change.
+Exports a **function** of `({ command })`, not a plain object — `publicDir` differs
+between dev and build.
 
-Do not add heavy tooling (webpack, vite) unless the user requests a migration.
+- `root` is `src/`; `base` is `/`
+- `build.outDir` is the repo root, `emptyOutDir: false` — see project-overview
+- `publicDir` is `src/public` in dev, `false` in build. In production the out dir *is*
+  the repo root, where `CNAME`, `favicon.ico` and `img/` already live; copying them over
+  themselves is redundant and Vite warns when publicDir sits inside outDir.
+  **`src/public/img/` must be kept in sync with `img/`** so dev and production resolve
+  the same absolute paths.
+- Every route is registered in `rollupOptions.input`. A new page that is not listed
+  there will not be built.
 
-## VS Code / Cursor
+## Yarn 4 has no pre/post scripts
 
-- **Run and Debug**: "Open nalam.me (Browser-Sync)" starts the dev server then opens Chrome
-- **Task**: `dev: Browser-Sync` for server only
+**Yarn 4 does not automatically run `preX`/`postX` for custom script names.** A
+`prebuild` script is silently ignored. Every step must be chained explicitly inside
+`build`. This bit once: `prebuild` never ran, so `assets/` accumulated 54 stale bundles
+and the self-hosted fonts were never copied into the build output — the deployed site
+would have 404'd all four and fallen back to system stacks.
+
+## Static files that ship
+
+`img/`, `favicon.ico`, `CNAME` live permanently at the repo root. **`fonts/` is
+generated** by `yarn sync:static` from `src/public/fonts/`, which is the source of
+truth — edit fonts there, never in `fonts/`.
+
+## Adding a page
+
+Three steps, all required:
+
+1. `src/<path>/index.html` — copy an existing one; update `<title>`, description, canonical
+2. `src/entries/<name>.tsx` — `createRoot` mount
+3. Register the HTML file in `rollupOptions.input`
 
 ## Dependencies
 
-Dev only: `gulp`, `browser-sync`. No runtime npm dependencies for production (static site).
+Runtime: `react`, `react-dom`, `clsx`, `tailwind-merge`, `class-variance-authority`,
+`lucide-react`. Everything else is dev-only.
+
+Do not add a router — routing is static HTML files by design (ADR-0002).

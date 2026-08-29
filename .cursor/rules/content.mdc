@@ -1,0 +1,43 @@
+---
+description: Editing site copy — the single content file and its rules
+globs: "src/content/**"
+alwaysApply: false
+---
+
+# Content
+
+`src/content/site.ts` is the **single source of truth for all copy**. Components render
+it and contain no prose. Change the bio, a job entry, or a case study here.
+
+## Rules that are not stylistic preferences
+
+These came out of a design process; they encode real constraints (ADR-0005).
+
+- **Never invent a metric.** Every number on the site traces to the CV: 7s→2s at
+  WP Engine, 5min→1.5min at Fexco. A new figure needs confirming with Nazmul first.
+- **Clients are named; their systems are genericised.** Naming Cisco, Fidelity, HMH or
+  Optum is fine — all are public on the CV and LinkedIn. Describing their internal
+  architecture, proprietary identifiers, or unpublished metrics is not.
+- **The text is written in the first person on Nazmul's behalf.** It makes claims about
+  his work. Do not add a claim he has not made.
+- **The term "vibe coding" is deliberately absent.** Show the practice, not the label.
+
+## Voice
+
+Direct, specific, first person. No emoji, no "passionate developer", no skill-percentage
+bars, no tech-logo walls. Prefer a concrete constraint over an adjective.
+
+## Case study shape
+
+Each is `Context → Constraints → What I did → Trade-offs → Outcome` (headings vary
+slightly). **The trade-offs section is the point** — it is what separates a case study
+from a job description. Name the alternative that was rejected and why.
+
+## Structure
+
+- `site` — identity, contact, meta description
+- `heroLine` — one sentence under the name. Specific beats comprehensive
+- `nowText` — current work
+- `caseStudies` — the four detailed engagements; `slug` maps to the route
+- `experience` — full dated history, including roles without a case study
+- `background` — education, certifications, volunteering, personal note

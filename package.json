@@ -1,25 +1,44 @@
 {
   "name": "nalam.me",
-  "version": "1.0.0",
-  "description": "Personal portfolio",
-  "main": "index.html",
-  "repository": "git@github.com:naz-mul/naz-mul.github.io.git",
+  "version": "2.0.0",
+  "description": "Personal site of Nazmul Alam",
   "author": "Naz Alam <hello@nalam.me>",
+  "repository": "git@github.com:naz-mul/naz-mul.github.io.git",
   "license": "MIT",
   "private": true,
-  "devDependencies": {
-    "browser-sync": "^2.29.3",
-    "gulp": "^4.0.2"
-  },
+  "type": "module",
+  "packageManager": "yarn@4.17.0",
   "engines": {
     "npm": "please-use-yarn",
-    "yarn": ">= 1.19.1"
+    "node": ">=20"
   },
   "scripts": {
-    "start": "npx gulp",
-    "verify": "yarn install --check-files",
-    "preci": "rm -fr node_modules",
-    "ci": "yarn install --frozen-lockfile",
-    "postinstall": "yarn start"
+    "dev": "vite",
+    "build": "yarn clean && yarn sync:static && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "check:contrast": "python3 scripts/check-contrast.py",
+    "verify": "yarn typecheck && yarn check:contrast",
+    "sync:static": "mkdir -p fonts && cp -f src/public/fonts/*.woff2 fonts/",
+    "clean": "rm -rf assets"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.37.0",
+    "radix-ui": "^1.6.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2"
   }
 }

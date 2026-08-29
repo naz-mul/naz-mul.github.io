@@ -1,2 +1,7 @@
 node_modules/
 **/*.log
+.DS_Store
+**/.DS_Store
+
+# Personal documents — never publish (the site is served from the repo root)
+docs/resume/

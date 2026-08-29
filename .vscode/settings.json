@@ -1,18 +1,27 @@
 {
   "files.associations": {
-    "*.spec": "gauge",
-    "*.cpt": "gauge"
+    "*.css": "tailwindcss"
   },
   "files.exclude": {
-    "node_modules": true
+    "node_modules": true,
+    ".yarn": true
   },
   "search.exclude": {
     "node_modules": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    "assets": true,
+    "index.html": true,
+    "404.html": true,
+    "work": true
   },
-  "emmet.includeLanguages": {
-    "html": "html"
+  "editor.formatOnSave": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "html.format.wrapLineLength": 100,
+  "[typescriptreact]": {
+    "editor.tabSize": 2
   },
-  "html.format.wrapLineLength": 120,
-  "liveServer.settings.port": 3000
+  "[typescript]": {
+    "editor.tabSize": 2
+  }
 }

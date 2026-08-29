@@ -1,29 +1,55 @@
 ---
-description: Core context for nalam.me — static GitHub Pages portfolio
+description: Core context for nalam.me — Vite + React static site on GitHub Pages
 alwaysApply: true
 ---
 
 # nalam.me project context
 
-Static portfolio site. Repo root is the web root; GitHub Pages serves it at `nalam.me`.
+Personal site of Nazmul Alam, senior software engineer. Static, client-rendered,
+served by GitHub Pages from the repo root at `nalam.me`.
 
 ## Stack
 
-- HTML: single `index.html` (Start Bootstrap Freelancer 3.3.7 theme)
-- CSS: CDN Bootstrap 3 + Freelancer; local `less/` is source-only (not compiled by Gulp)
-- JS: jQuery 3, Bootstrap 3, Freelancer theme JS — all from CDN
-- Dev: Yarn, Gulp 4, Browser-Sync (port 3000)
+- **Vite 8** multi-page build, **React 19**, **TypeScript** (strict)
+- **Tailwind v4**, CSS-first — there is no `tailwind.config.js`
+- **Self-hosted variable fonts**: Newsreader, Geist Sans, Geist Mono
+- **shadcn/ui** primitives in `src/components/ui/`
+- **Yarn 4** — npm is blocked (`engines.npm: please-use-yarn`)
+
+## The one structural fact to hold onto
+
+**The repo root contains both build output and static assets; all source is in `src/`.**
+
+Generated at the root, never hand-edited: `index.html`, `404.html`, `work/*/index.html`,
+`assets/`. If you find yourself editing one of those, you are in the wrong file — edit
+`src/` and rebuild.
+
+`build.outDir` is the repo root with **`emptyOutDir: false`**. That flag is load-bearing:
+without it a build would delete `CNAME`, `img/`, `docs/` and the entire source tree.
+Vite warns about this arrangement on every build; the warning is expected.
 
 ## Key files
 
-- `index.html` — all page content, nav, portfolio modals, analytics
-- `403.html`, `404.html`, `50x.html` — static error pages
-- `CNAME` — custom domain `nalam.me`
-- `gulpfile.js` — serves `./`, watches `*.html` and `less/*.less`
+| File | Role |
+|------|------|
+| `src/content/site.ts` | **All copy.** Bio, experience, case studies. Components hold no prose. |
+| `src/components/Home.tsx` | Home page sections |
+| `src/components/CaseStudyPage.tsx` | Shared case study template, selected by slug |
+| `src/components/Layout.tsx` | `Page`, `Header`, `Footer`, `Section` |
+| `src/styles/globals.css` | Design tokens, base layer, `prose-editorial` |
+| `vite.config.ts` | Route registry (`rollupOptions.input`), outDir rules |
+| `CONTEXT.md` | Domain vocabulary — use these terms |
+| `docs/adr/` | Why the architecture is the way it is |
 
 ## Principles
 
-- Minimize scope; no frameworks or build pipelines unless requested
-- Use Yarn, not npm (`engines.npm`: `please-use-yarn`)
-- Match existing Bootstrap 3 grid, modal, and Freelancer class patterns
-- See `AGENTS.md` and `README.md` for architecture diagrams and run instructions
+- **Zero third-party requests.** No analytics, no CDN, no remote fonts. Typefaces are
+  self-hosted in `src/public/fonts/`. This is a deliberate constraint (ADR-0004), not an
+  oversight. Do not add any.
+- **The look is deliberately not shadcn-default** — radius 0, cool neutrals, teal accent,
+  a three-face type system. See `.cursor/rules/styling.mdc` before changing visuals.
+- **Colour values are verified.** `yarn check:contrast` enforces WCAG AA and sRGB gamut.
+- **Never publish `docs/resume/`.** Gitignored; contains the CV and a phone number.
+- Use Yarn, not npm.
+- Prefer editing `src/content/site.ts` over touching components when the change is copy.
+- Read `AGENTS.md` and `README.md` before structural changes.
