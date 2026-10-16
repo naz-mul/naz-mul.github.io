@@ -1,0 +1,66 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { render } from 'astro:content'
+import WorkspaceShell from '../components/workspace/WorkspaceShell.astro'
+import type { WorkspaceSection } from '../components/workspace/navigation'
+import ArticleReader from '../components/reading/ArticleReader.astro'
+import CaseStudyReader from '../components/reading/CaseStudyReader.astro'
+import ExperienceReader from '../components/reading/ExperienceReader.astro'
+import WritingIndex from '../components/reading/WritingIndex.astro'
+import Contents from '../components/reading/Contents.astro'
+import { experienceContents, studySections, type ReaderHeading } from '../components/reading/model'
+import { getPublication, type PublicRoute } from '../content/publicationData'
+import { content } from '../content/site'
+import '../styles/reading.css'
+
+export const prerender = true
+
+export const getStaticPaths = (async () => {
+  const publication = await getPublication()
+  return publication.routes
+    .filter((route) => route.path !== '/' && route.path !== '/404.html')
+    .map((route) => ({
+      params: { path: route.path.slice(1, -1) },
+      props: { route },
+    }))
+}) satisfies GetStaticPaths
+
+interface Props { route: PublicRoute }
+
+const { route } = Astro.props
+const publication = await getPublication()
+const record = publication.byId.get(route.recordId)
+if (!record) throw new Error(`Missing public reading record: ${route.recordId}`)
+
+const identity = route.render
+const studies = [...content.flagships, content.supportingProof, content.currentWork]
+  .filter((study) => publication.routes.some((candidate) => candidate.path === study.href))
+const study = identity.kind === 'case-study' ? studies.find((candidate) => candidate.slug === identity.slug) : undefined
+if (identity.kind === 'case-study' && !study) throw new Error(`Missing reviewed case study: ${identity.slug}`)
+
+const entry = route.articleId ? publication.articlesById.get(route.articleId) : undefined
+if (route.articleId && !entry) throw new Error(`Missing published article body: ${route.articleId}`)
+const reading = entry ? await render(entry) : undefined
+const Content = reading?.Content
+const isExperience = identity.kind === 'experience'
+const isWriting = identity.kind === 'writing'
+if (!study && !Content && !isExperience && !isWriting) throw new Error(`No reader for public route: ${route.path}`)
+
+const headings: readonly ReaderHeading[] = study
+  ? [...studySections(study), { depth: 2, slug: 'official-context', text: 'Official context' }, { depth: 2, slug: 'other-work', text: 'Other work' }]
+  : isExperience ? experienceContents : reading?.headings ?? []
+const activeSection: WorkspaceSection = study ? 'projects' : isExperience ? 'experience' : 'writing'
+const fileLabel = study ? `work/${study.slug}.md` : isExperience ? 'experience.md' : isWriting ? 'writing/' : `${route.articleId}.md`
+---
+{isWriting ? (
+  <WorkspaceShell route={route} activeSection="writing" mode="index" fileLabel="writing/">
+    <WritingIndex record={record} writing={publication.writing} />
+  </WorkspaceShell>
+) : (
+  <WorkspaceShell route={route} activeSection={activeSection} mode="reading" fileLabel={fileLabel}>
+    {Content && <ArticleReader record={record} headings={headings}><Content /></ArticleReader>}
+    {study && <CaseStudyReader study={study} others={studies.filter((candidate) => candidate.slug !== study.slug)} headings={headings} />}
+    {isExperience && <ExperienceReader />}
+    <Contents slot="rail" headings={headings} />
+  </WorkspaceShell>
+)}

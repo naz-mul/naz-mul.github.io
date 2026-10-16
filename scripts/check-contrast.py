@@ -1,48 +1,75 @@
-import math, re, sys
-def lin(L,C,H):
-    h=math.radians(H); a,b=C*math.cos(h), C*math.sin(h)
-    l_=L+0.3963377774*a+0.2158037573*b; m_=L-0.1055613458*a-0.0638541728*b; s_=L-0.0894841775*a-1.2914855480*b
-    l,m,s=l_**3,m_**3,s_**3
-    return (4.0767416621*l-3.3077115913*m+0.2309699292*s,
-            -1.2684380046*l+2.6097574011*m-0.3413193965*s,
-            -0.0041960863*l-0.7034186147*m+1.7076147010*s)
-def enc(x):
-    x=max(0.0,min(1.0,x)); return 12.92*x if x<=0.0031308 else 1.055*(x**(1/2.4))-0.055
-def srgb(c): return [enc(v) for v in lin(*c)]
-def in_gamut(c,tol=1e-3): return all(-tol<=v<=1+tol for v in lin(*c))
-def rl(rgb):
-    f=lambda v: v/12.92 if v<=0.03928 else ((v+0.055)/1.055)**2.4
-    r,g,b=[f(x) for x in rgb]; return 0.2126*r+0.7152*g+0.0722*b
-def ratio(a,b):
-    L1,L2=rl(srgb(a)),rl(srgb(b)); hi,lo=max(L1,L2),min(L1,L2); return (hi+0.05)/(lo+0.05)
+"""Fail-closed WCAG AA check for the actual Developer Workspace tokens."""
+import argparse
+import pathlib
+import re
+import sys
 
-css=open('src/styles/globals.css').read()
-def block(pat):
-    m=re.search(pat, css, re.S); return m.group(1) if m else ''
-def toks(txt):
-    d={}
-    for name,L,C,H in re.findall(r'--([a-z-]+):\s*oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)', txt):
-        d[name]=(float(L),float(C),float(H))
-    return d
-light=toks(block(r':root \{(.*?)\n\}'))
-dark =toks(block(r':root\.dark \{(.*?)\n\}'))
-pairs=[('body text','foreground','background',4.5),
-       ('secondary text','muted-foreground','background',4.5),
-       ('mono labels','faint-foreground','background',4.5),
-       ('accent links','accent','background',4.5),
-       ('accent on sunken','accent','surface-sunken',4.5),
-       ('body on sunken','foreground','surface-sunken',4.5),
-       ('body on surface','foreground','surface',4.5)]
-fails=0
-for nm,t in (('LIGHT',light),('DARK',dark)):
-    print(f"\n=== {nm} ===")
-    for label,fg,bg,need in pairs:
-        if fg not in t or bg not in t: print(f"  ??   missing {fg}/{bg}"); continue
-        r=ratio(t[fg],t[bg]); ok=r>=need
-        fails += 0 if ok else 1
-        print(f"  {'PASS' if ok else 'FAIL'}  {r:5.2f}:1 (need {need})  {label}")
-    oog=[k for k,v in t.items() if not in_gamut(v)]
-    if oog: fails+=1
-    print(f"  gamut: {'all inside sRGB' if not oog else 'OUT OF GAMUT '+str(oog)}")
-print(f"\n{'ALL CHECKS PASS' if fails==0 else str(fails)+' FAILURES'}")
-sys.exit(1 if fails else 0)
+FOREGROUNDS = ('ink', 'muted', 'faint', 'blue', 'green')
+SURFACES = ('bg', 'panel', 'soft', 'active')
+REQUIRED = {*FOREGROUNDS, *SURFACES, 'rule'}
+
+
+def palette(css, selector):
+    match = re.search(re.escape(selector) + r'\s*\{([^{}]*)\}', css)
+    if not match:
+        raise ValueError(f'missing palette block: {selector}')
+    colors = dict(re.findall(r'--ws-([a-z-]+)\s*:\s*(#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3})?)\s*;', match.group(1)))
+    missing = REQUIRED.difference(colors)
+    if missing:
+        raise ValueError(f'missing sRGB hex tokens in {selector}: {", ".join(sorted(missing))}')
+    return {name: value.lower() for name, value in colors.items()}
+
+
+def luminance(color):
+    digits = color.removeprefix('#')
+    if len(digits) == 3:
+        digits = ''.join(channel * 2 for channel in digits)
+    channels = [int(digits[offset:offset + 2], 16) / 255 for offset in (0, 2, 4)]
+    linear = [value / 12.92 if value <= 0.04045 else ((value + 0.055) / 1.055) ** 2.4 for value in channels]
+    return sum(value * weight for value, weight in zip(linear, (0.2126, 0.7152, 0.0722)))
+
+
+def contrast(foreground, background):
+    low, high = sorted((luminance(foreground), luminance(background)))
+    return (high + 0.05) / (low + 0.05)
+
+
+def check(css, verbose=False):
+    light = palette(css, '.workspace-page')
+    dark = palette(css, ':root.dark .workspace-page')
+    system_dark = palette(css, ':root:not(.light) .workspace-page')
+    if dark != system_dark:
+        raise ValueError('system dark and explicit dark palettes differ')
+    failures = []
+    for label, colors in [('LIGHT', light), ('DARK', dark)]:
+        results = [(contrast(colors[foreground], colors[surface]), foreground, surface)
+                   for foreground in FOREGROUNDS for surface in SURFACES]
+        for ratio, foreground, surface in results:
+            if ratio < 4.5:
+                failures.append(f'{label} {foreground}/{surface}: {ratio:.3f}:1 (requires 4.5:1)')
+            if verbose:
+                print(f'{label} {foreground}/{surface}: {ratio:.3f}:1')
+        minimum, foreground, surface = min(results)
+        print(f'{label}: 20 text/surface pairs; minimum {minimum:.3f}:1 ({foreground}/{surface}); all tokens in sRGB')
+    if failures:
+        for failure in failures:
+            print(f'FAIL {failure}')
+        return 1
+    print('PASS: 40 WCAG AA pairs; system/explicit dark agree; no missing tokens.')
+    return 0
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--css', type=pathlib.Path, default=pathlib.Path('src/styles/workspace.css'))
+    parser.add_argument('--verbose', action='store_true')
+    args = parser.parse_args()
+    try:
+        return check(args.css.read_text(), args.verbose)
+    except (OSError, ValueError) as error:
+        print(f'FAIL {error}')
+        return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

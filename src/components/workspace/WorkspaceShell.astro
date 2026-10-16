@@ -1,0 +1,106 @@
+---
+import { ChevronDown, FileText, Terminal, X } from 'lucide-react'
+import type { PublicationRoute } from '../../content/publication'
+import { getPublication } from '../../content/publicationData'
+import { site } from '../../content/site'
+import FirebaseBootstrap from '../FirebaseBootstrap.astro'
+import Explorer from './Explorer.astro'
+import ProfileRail from './ProfileRail.astro'
+import { ThemeSelect } from './ThemeSelect'
+import { sectionHref, workspaceSections, type WorkspaceSection } from './navigation'
+import '../../styles/workspace.css'
+
+interface Props {
+  route: Pick<PublicationRoute, 'metadata' | 'indexable'>
+  activeSection?: WorkspaceSection
+  mode?: 'home' | 'reading' | 'index'
+  fileLabel?: string
+}
+
+const { route, activeSection = 'intro', mode = 'home', fileLabel = 'README.md' } = Astro.props
+const { metadata } = route
+const home = mode === 'home'
+const { featuredWork } = await getPublication()
+const hasRail = home || Astro.slots.has('rail')
+const person = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: 'Senior Software Engineer',
+  worksFor: { '@type': 'Organization', name: 'Cisco' },
+  sameAs: [site.github, site.linkedin],
+}).replace(/</g, '\\u003c')
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{metadata.title}</title>
+    <meta name="description" content={metadata.description} />
+    <meta name="robots" content={route.indexable ? 'index,follow' : 'noindex,follow'} />
+    <link rel="canonical" href={metadata.canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta property="og:type" content={metadata.openGraph.type} />
+    <meta property="og:title" content={metadata.openGraph.title} />
+    <meta property="og:description" content={metadata.openGraph.description} />
+    <meta property="og:url" content={metadata.openGraph.url} />
+    <meta property="og:site_name" content="nalam.me" />
+    <meta name="theme-color" content="#fbfcff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      try {
+        const preference = localStorage.getItem('theme');
+        if (preference === 'light' || preference === 'dark') document.documentElement.classList.add(preference);
+      } catch { /* CSS follows the operating system when storage is unavailable. */ }
+    </script>
+    {home && <script type="application/ld+json" set:html={person} />}
+    <slot name="head" />
+  </head>
+  <body class:list={['workspace-page', `workspace-mode-${mode}`, { 'workspace-has-rail': hasRail }]}>
+    <a class="workspace-skip" href="#main-content">Skip to content</a>
+    <header class="workspace-masthead">
+      <a class="workspace-brand" href="/" aria-label="nalam.me home"><Terminal size={31} strokeWidth={2.5} aria-hidden="true" /><span>nalam.me</span></a>
+      <nav class="workspace-primary-nav" aria-label="Primary navigation">
+        {workspaceSections.map((section) => <a href={sectionHref(section.id, home)} data-section-link={section.id} aria-current={activeSection === section.id ? 'location' : undefined}>{section.label}</a>)}
+      </nav>
+      <ThemeSelect client:load />
+    </header>
+    <details class="workspace-mobile-navigation">
+      <summary><span>Explore nalam.me</span><ChevronDown size={17} aria-hidden="true" /></summary>
+      <Explorer home={home} activeSection={activeSection} featuredWork={featuredWork} mobile />
+    </details>
+    <div class="workspace-grid">
+      <aside class="workspace-sidebar"><Explorer home={home} activeSection={activeSection} featuredWork={featuredWork} /></aside>
+      <div class="workspace-editor">
+        <div class="workspace-tab-strip"><div class="workspace-editor-tab"><FileText size={18} aria-hidden="true" /><span>{fileLabel}</span><X size={13} aria-hidden="true" /></div></div>
+        <main id="main-content" class="workspace-canvas" tabindex="-1">
+          <slot />
+        </main>
+        <footer class="workspace-footer"><a href="/">nalam.me</a><span>{site.location}</span><a href="#main-content">Back to top</a></footer>
+      </div>
+      {hasRail && <aside class="workspace-context-rail" aria-label={home ? 'Profile and personal notes' : 'Article context'}><slot name="rail"><ProfileRail /></slot></aside>}
+    </div>
+    <FirebaseBootstrap />
+    <script>
+      const mobileNavigation = document.querySelector<HTMLDetailsElement>('.workspace-mobile-navigation');
+      mobileNavigation?.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('a')) mobileNavigation.open = false;
+      });
+      const sections = document.querySelectorAll<HTMLElement>('.workspace-home-section');
+      if ('IntersectionObserver' in window && sections.length) {
+        const links = document.querySelectorAll<HTMLAnchorElement>('[data-section-link]');
+        const observer = new IntersectionObserver((entries) => {
+          const active = entries.find((entry) => entry.isIntersecting);
+          if (!active) return;
+          for (const link of links) {
+            if (link.dataset.sectionLink === active.target.id) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          }
+        }, { rootMargin: '-60px 0px -65% 0px', threshold: 0 });
+        sections.forEach((section) => observer.observe(section));
+      }
+    </script>
+  </body>
+</html>

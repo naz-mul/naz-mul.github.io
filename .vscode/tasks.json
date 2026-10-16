@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "dev: Vite",
+      "label": "dev: Astro",
       "type": "shell",
       "command": "yarn dev",
       "options": {
@@ -10,7 +10,7 @@
       },
       "isBackground": true,
       "problemMatcher": {
-        "owner": "vite",
+        "owner": "astro",
         "pattern": {
           "regexp": "."
         },
@@ -46,7 +46,7 @@
       }
     },
     {
-      "label": "preview: built output",
+      "label": "preview: public artifact",
       "type": "shell",
       "command": "yarn preview",
       "options": {
@@ -54,14 +54,14 @@
       },
       "isBackground": true,
       "problemMatcher": {
-        "owner": "vite",
+        "owner": "public-artifact",
         "pattern": {
           "regexp": "."
         },
         "background": {
           "activeOnStart": true,
           "beginsPattern": ".",
-          "endsPattern": "Local:"
+          "endsPattern": "Public artifact preview:"
         }
       },
       "presentation": {

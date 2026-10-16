@@ -1,0 +1,38 @@
+---
+import type { PublicationRecord } from '../../content/publication'
+
+interface Props {
+  record: PublicationRecord
+  writing: readonly PublicationRecord[]
+}
+
+const { record, writing } = Astro.props
+const kindLabels = {
+  'technical-note': 'Technical note',
+  article: 'Article',
+  'research-note': 'Research note',
+  'external-article': 'LinkedIn article',
+} as const
+---
+<article class="reader-document reader-writing-index">
+  <header class="reader-header">
+    <a class="reader-back-link" href="/#writing">Back to README</a>
+    <h1>{record.title}</h1>
+    <p class="reader-lead">{record.description}</p>
+  </header>
+  <ol class="reader-writing-list">
+    {writing.map((item) => {
+      const external = item.kind === 'external-article'
+      const href = external ? item.source.url : item.permalink
+      const kind = item.kind === 'technical-note' || item.kind === 'research-note' || item.kind === 'external-article' ? item.kind : 'article'
+      const action = external ? 'Read on LinkedIn' : kind === 'technical-note' ? 'Read note' : 'Read article'
+      return (
+        <li>
+          <h2><a href={href} rel={external ? 'noopener' : undefined}>{item.title}<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d={external ? 'M7 17 17 7M7 7h10v10' : 'M5 12h14m-6-6 6 6-6 6'} /></svg><span class="reader-writing-action">{action}</span></a></h2>
+          <div class="reader-document-meta"><span>{kindLabels[kind]}</span>{item.publishedAt && <time datetime={item.publishedAt}>{item.publishedAt}</time>}</div>
+          <p>{item.description}</p>
+        </li>
+      )
+    })}
+  </ol>
+</article>

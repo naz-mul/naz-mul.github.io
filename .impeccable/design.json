@@ -1,0 +1,504 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-15T14:49:38.967325+00:00",
+  "title": "Design System: nalam.me",
+  "extensions": {
+    "colorMeta": {
+      "ws-bg": {
+        "role": "neutral",
+        "displayName": "Cool Ground",
+        "tonalRamp": [
+          "oklch(15.000% 0.004112 271.371)",
+          "oklch(26.429% 0.004112 271.371)",
+          "oklch(37.857% 0.004112 271.371)",
+          "oklch(49.286% 0.004112 271.371)",
+          "oklch(60.714% 0.004112 271.371)",
+          "oklch(72.143% 0.004112 271.371)",
+          "oklch(83.571% 0.004112 271.371)",
+          "oklch(95.000% 0.004112 271.371)"
+        ]
+      },
+      "ws-panel": {
+        "role": "neutral",
+        "displayName": "Document Surface",
+        "tonalRamp": [
+          "oklch(15.000% 0.000000 89.876)",
+          "oklch(26.429% 0.000000 89.876)",
+          "oklch(37.857% 0.000000 89.876)",
+          "oklch(49.286% 0.000000 89.876)",
+          "oklch(60.714% 0.000000 89.876)",
+          "oklch(72.143% 0.000000 89.876)",
+          "oklch(83.571% 0.000000 89.876)",
+          "oklch(95.000% 0.000000 89.876)"
+        ]
+      },
+      "ws-soft": {
+        "role": "neutral",
+        "displayName": "Chrome Field",
+        "tonalRamp": [
+          "oklch(15.000% 0.007393 260.732)",
+          "oklch(26.429% 0.007393 260.732)",
+          "oklch(37.857% 0.007393 260.732)",
+          "oklch(49.286% 0.007393 260.732)",
+          "oklch(60.714% 0.007393 260.732)",
+          "oklch(72.143% 0.007393 260.732)",
+          "oklch(83.571% 0.007393 260.732)",
+          "oklch(95.000% 0.007393 260.732)"
+        ]
+      },
+      "ws-ink": {
+        "role": "neutral",
+        "displayName": "Navy Ink",
+        "tonalRamp": [
+          "oklch(15.000% 0.067420 270.381)",
+          "oklch(26.429% 0.067420 270.381)",
+          "oklch(37.857% 0.067420 270.381)",
+          "oklch(49.286% 0.067420 270.381)",
+          "oklch(60.714% 0.067420 270.381)",
+          "oklch(72.143% 0.067420 270.381)",
+          "oklch(83.571% 0.067420 270.381)",
+          "oklch(95.000% 0.067420 270.381)"
+        ]
+      },
+      "ws-muted": {
+        "role": "neutral",
+        "displayName": "Reading Slate",
+        "tonalRamp": [
+          "oklch(15.000% 0.053561 263.337)",
+          "oklch(26.429% 0.053561 263.337)",
+          "oklch(37.857% 0.053561 263.337)",
+          "oklch(49.286% 0.053561 263.337)",
+          "oklch(60.714% 0.053561 263.337)",
+          "oklch(72.143% 0.053561 263.337)",
+          "oklch(83.571% 0.053561 263.337)",
+          "oklch(95.000% 0.053561 263.337)"
+        ]
+      },
+      "ws-faint": {
+        "role": "neutral",
+        "displayName": "Source Slate",
+        "tonalRamp": [
+          "oklch(15.000% 0.061346 262.878)",
+          "oklch(26.429% 0.061346 262.878)",
+          "oklch(37.857% 0.061346 262.878)",
+          "oklch(49.286% 0.061346 262.878)",
+          "oklch(60.714% 0.061346 262.878)",
+          "oklch(72.143% 0.061346 262.878)",
+          "oklch(83.571% 0.061346 262.878)",
+          "oklch(95.000% 0.061346 262.878)"
+        ]
+      },
+      "ws-blue": {
+        "role": "primary",
+        "displayName": "Workspace Blue",
+        "tonalRamp": [
+          "oklch(15.000% 0.221887 260.616)",
+          "oklch(26.429% 0.221887 260.616)",
+          "oklch(37.857% 0.221887 260.616)",
+          "oklch(49.286% 0.221887 260.616)",
+          "oklch(60.714% 0.221887 260.616)",
+          "oklch(72.143% 0.221887 260.616)",
+          "oklch(83.571% 0.221887 260.616)",
+          "oklch(95.000% 0.221887 260.616)"
+        ]
+      },
+      "ws-green": {
+        "role": "secondary",
+        "displayName": "Source Green",
+        "tonalRamp": [
+          "oklch(15.000% 0.138915 149.933)",
+          "oklch(26.429% 0.138915 149.933)",
+          "oklch(37.857% 0.138915 149.933)",
+          "oklch(49.286% 0.138915 149.933)",
+          "oklch(60.714% 0.138915 149.933)",
+          "oklch(72.143% 0.138915 149.933)",
+          "oklch(83.571% 0.138915 149.933)",
+          "oklch(95.000% 0.138915 149.933)"
+        ]
+      },
+      "ws-rule": {
+        "role": "neutral",
+        "displayName": "Hairline Rule",
+        "tonalRamp": [
+          "oklch(15.000% 0.018400 258.354)",
+          "oklch(26.429% 0.018400 258.354)",
+          "oklch(37.857% 0.018400 258.354)",
+          "oklch(49.286% 0.018400 258.354)",
+          "oklch(60.714% 0.018400 258.354)",
+          "oklch(72.143% 0.018400 258.354)",
+          "oklch(83.571% 0.018400 258.354)",
+          "oklch(95.000% 0.018400 258.354)"
+        ]
+      },
+      "ws-active": {
+        "role": "primary",
+        "displayName": "Selected Blue Field",
+        "tonalRamp": [
+          "oklch(15.000% 0.019464 260.170)",
+          "oklch(26.429% 0.019464 260.170)",
+          "oklch(37.857% 0.019464 260.170)",
+          "oklch(49.286% 0.019464 260.170)",
+          "oklch(60.714% 0.019464 260.170)",
+          "oklch(72.143% 0.019464 260.170)",
+          "oklch(83.571% 0.019464 260.170)",
+          "oklch(95.000% 0.019464 260.170)"
+        ]
+      },
+      "ws-bg-dark": {
+        "role": "neutral",
+        "displayName": "Cool Ground \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.034113 269.559)",
+          "oklch(26.429% 0.034113 269.559)",
+          "oklch(37.857% 0.034113 269.559)",
+          "oklch(49.286% 0.034113 269.559)",
+          "oklch(60.714% 0.034113 269.559)",
+          "oklch(72.143% 0.034113 269.559)",
+          "oklch(83.571% 0.034113 269.559)",
+          "oklch(95.000% 0.034113 269.559)"
+        ]
+      },
+      "ws-panel-dark": {
+        "role": "neutral",
+        "displayName": "Document Surface \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.037497 267.008)",
+          "oklch(26.429% 0.037497 267.008)",
+          "oklch(37.857% 0.037497 267.008)",
+          "oklch(49.286% 0.037497 267.008)",
+          "oklch(60.714% 0.037497 267.008)",
+          "oklch(72.143% 0.037497 267.008)",
+          "oklch(83.571% 0.037497 267.008)",
+          "oklch(95.000% 0.037497 267.008)"
+        ]
+      },
+      "ws-soft-dark": {
+        "role": "neutral",
+        "displayName": "Chrome Field \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.044448 266.230)",
+          "oklch(26.429% 0.044448 266.230)",
+          "oklch(37.857% 0.044448 266.230)",
+          "oklch(49.286% 0.044448 266.230)",
+          "oklch(60.714% 0.044448 266.230)",
+          "oklch(72.143% 0.044448 266.230)",
+          "oklch(83.571% 0.044448 266.230)",
+          "oklch(95.000% 0.044448 266.230)"
+        ]
+      },
+      "ws-ink-dark": {
+        "role": "neutral",
+        "displayName": "Navy Ink \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.016947 267.792)",
+          "oklch(26.429% 0.016947 267.792)",
+          "oklch(37.857% 0.016947 267.792)",
+          "oklch(49.286% 0.016947 267.792)",
+          "oklch(60.714% 0.016947 267.792)",
+          "oklch(72.143% 0.016947 267.792)",
+          "oklch(83.571% 0.016947 267.792)",
+          "oklch(95.000% 0.016947 267.792)"
+        ]
+      },
+      "ws-muted-dark": {
+        "role": "neutral",
+        "displayName": "Reading Slate \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.040170 262.886)",
+          "oklch(26.429% 0.040170 262.886)",
+          "oklch(37.857% 0.040170 262.886)",
+          "oklch(49.286% 0.040170 262.886)",
+          "oklch(60.714% 0.040170 262.886)",
+          "oklch(72.143% 0.040170 262.886)",
+          "oklch(83.571% 0.040170 262.886)",
+          "oklch(95.000% 0.040170 262.886)"
+        ]
+      },
+      "ws-faint-dark": {
+        "role": "neutral",
+        "displayName": "Source Slate \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.051666 260.825)",
+          "oklch(26.429% 0.051666 260.825)",
+          "oklch(37.857% 0.051666 260.825)",
+          "oklch(49.286% 0.051666 260.825)",
+          "oklch(60.714% 0.051666 260.825)",
+          "oklch(72.143% 0.051666 260.825)",
+          "oklch(83.571% 0.051666 260.825)",
+          "oklch(95.000% 0.051666 260.825)"
+        ]
+      },
+      "ws-blue-dark": {
+        "role": "primary",
+        "displayName": "Workspace Blue \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.123664 258.784)",
+          "oklch(26.429% 0.123664 258.784)",
+          "oklch(37.857% 0.123664 258.784)",
+          "oklch(49.286% 0.123664 258.784)",
+          "oklch(60.714% 0.123664 258.784)",
+          "oklch(72.143% 0.123664 258.784)",
+          "oklch(83.571% 0.123664 258.784)",
+          "oklch(95.000% 0.123664 258.784)"
+        ]
+      },
+      "ws-green-dark": {
+        "role": "secondary",
+        "displayName": "Source Green \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.136559 156.340)",
+          "oklch(26.429% 0.136559 156.340)",
+          "oklch(37.857% 0.136559 156.340)",
+          "oklch(49.286% 0.136559 156.340)",
+          "oklch(60.714% 0.136559 156.340)",
+          "oklch(72.143% 0.136559 156.340)",
+          "oklch(83.571% 0.136559 156.340)",
+          "oklch(95.000% 0.136559 156.340)"
+        ]
+      },
+      "ws-rule-dark": {
+        "role": "neutral",
+        "displayName": "Hairline Rule \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.051222 264.123)",
+          "oklch(26.429% 0.051222 264.123)",
+          "oklch(37.857% 0.051222 264.123)",
+          "oklch(49.286% 0.051222 264.123)",
+          "oklch(60.714% 0.051222 264.123)",
+          "oklch(72.143% 0.051222 264.123)",
+          "oklch(83.571% 0.051222 264.123)",
+          "oklch(95.000% 0.051222 264.123)"
+        ]
+      },
+      "ws-active-dark": {
+        "role": "primary",
+        "displayName": "Selected Blue Field \u2014 dark",
+        "tonalRamp": [
+          "oklch(15.000% 0.068411 258.084)",
+          "oklch(26.429% 0.068411 258.084)",
+          "oklch(37.857% 0.068411 258.084)",
+          "oklch(49.286% 0.068411 258.084)",
+          "oklch(60.714% 0.068411 258.084)",
+          "oklch(72.143% 0.068411 258.084)",
+          "oklch(83.571% 0.068411 258.084)",
+          "oklch(95.000% 0.068411 258.084)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Homepage name."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Homepage section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sequential featured-project titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Base workspace document text."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Theme selector text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Current-document filename tab."
+      },
+      "source": {
+        "displayName": "Source",
+        "purpose": "Profile JSON source text."
+      },
+      "reader-display": {
+        "displayName": "Reader Display",
+        "purpose": "Long-form document title."
+      },
+      "reader-headline": {
+        "displayName": "Reader Headline",
+        "purpose": "Reader section headings."
+      },
+      "reader-body": {
+        "displayName": "Reader Body",
+        "purpose": "Sustained technical prose."
+      },
+      "reader-meta": {
+        "displayName": "Reader Meta",
+        "purpose": "Post-title kind, knowledge state, evidence and date metadata."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "reduced-motion",
+        "value": "scroll-behavior: auto !important; transition: none !important; animation: none !important;",
+        "purpose": "Applied to workspace descendants and pseudo-elements when prefers-reduced-motion is reduce. No timed motion tokens exist."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-shell",
+        "value": "1601px"
+      },
+      {
+        "name": "compact-chrome",
+        "value": "1199px"
+      },
+      {
+        "name": "compact-reader",
+        "value": "1100px"
+      },
+      {
+        "name": "compact-focus",
+        "value": "1050px"
+      },
+      {
+        "name": "single-column-shell",
+        "value": "900px"
+      },
+      {
+        "name": "stacked-supporting-panels",
+        "value": "540px"
+      },
+      {
+        "name": "small-reader",
+        "value": "420px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Theme control",
+      "kind": "input",
+      "refersTo": "theme-control",
+      "description": "Native System / Light / Dark select. The production React island enables it after restoring preference; the specimen is enabled for native interaction.",
+      "html": "<label class=\"ds-theme\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"20\" height=\"14\" x=\"2\" y=\"3\" rx=\"2\"></rect><line x1=\"8\" x2=\"16\" y1=\"21\" y2=\"21\"></line><line x1=\"12\" x2=\"12\" y1=\"17\" y2=\"21\"></line></svg><span>Theme:</span><select aria-label=\"Colour theme\"><option>System</option><option>Light</option><option>Dark</option></select><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"></path></svg></label>",
+      "css": ".ds-theme { display: inline-flex; position: relative; align-items: center; gap: 9px; min-height: 38px; padding: 6px 12px; border: 1px solid var(--ws-rule, #e1e9f5); border-radius: 7px; color: var(--ws-muted, #536382); font-size: 14px; white-space: nowrap; }\n.ds-theme { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; line-height: 1.5; }\n.ds-theme select { appearance: none; width: 68px; margin-left: -5px; border: 0; background: transparent; color: var(--ws-ink, #0b1234); font: inherit; cursor: pointer; }\n.ds-theme select:disabled { cursor: default; opacity: 1; }\n.ds-theme select option { background: var(--ws-panel, #ffffff); color: var(--ws-ink, #0b1234); }\n.ds-theme > svg:last-child { pointer-events: none; }\n.ds-theme select:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }"
+    },
+    {
+      "name": "Profile copy button",
+      "kind": "button",
+      "refersTo": "profile-copy",
+      "description": "Header utility styling. Production copies only approved JSON, exposes busy state, announces success, and selects source text with a recovery message after clipboard failure.",
+      "html": "<button class=\"ds-copy\" type=\"button\" aria-label=\"Copy profile JSON\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"></rect><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"></path></svg></button>",
+      "css": ".ds-copy { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: -4px -6px -4px auto; border-radius: 3px; color: var(--ws-muted, #536382); cursor: pointer; }\n.ds-copy { border: 0; background: transparent; padding: 0; font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; }\n.ds-copy:hover { background: var(--ws-active, #eaf2ff); color: var(--ws-blue, #005de7); }\n.ds-copy:disabled { cursor: wait; }\n.ds-copy:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }"
+    },
+    {
+      "name": "Explorer navigation",
+      "kind": "nav",
+      "refersTo": "explorer-link",
+      "description": "File-like anchors use tinted current state, soft hover fill and a shared visible focus outline; actual destinations remain ordinary links.",
+      "html": "<nav class=\"ds-explorer\" aria-label=\"Site explorer\"><a class=\"ds-explorer-link ds-explorer-file\" href=\"#intro\" aria-current=\"location\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path></svg><span>README.md</span></a><a class=\"ds-explorer-link ds-explorer-folder\" href=\"#projects\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"></path></svg><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"></path></svg><span>projects/</span></a><a class=\"ds-explorer-link ds-explorer-folder\" href=\"/writing/\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"></path></svg><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z\"></path></svg><span>writing/</span></a></nav>",
+      "css": ".ds-explorer { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; line-height: 1.5; }\n.ds-explorer-link { display: flex; align-items: center; gap: 12px; min-height: 32px; padding: 3px 8px; border-radius: 4px; color: var(--ws-muted, #536382); font-size: clamp(12px, 1.05vw, 16px); line-height: 1.35; text-decoration: none; }\n.ds-explorer-link:hover { color: var(--ws-blue, #005de7); background: var(--ws-soft, #f5f8fd); }\n.ds-explorer-link[aria-current] { color: var(--ws-blue, #005de7); background: var(--ws-active, #eaf2ff); }\n.ds-explorer-link svg { flex: none; }\n.ds-explorer-link:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }\n@media (max-width: 900px) { .ds-explorer-link { min-height: 40px; font-size: 14px; } }\n.ds-explorer-file { margin-left: 24px; padding-left: 21px; } .ds-explorer-folder { margin-left: 17px; gap: 11px; }"
+    },
+    {
+      "name": "Document file tab",
+      "kind": "custom",
+      "refersTo": "editor-tab",
+      "description": "Current-document chrome; the close SVG is decorative and has no fabricated action.",
+      "html": "<div class=\"ds-tabs\"><div class=\"ds-tab\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg><span>README.md</span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg></div></div>",
+      "css": ".ds-tabs { display: flex; align-items: end; height: 50px; padding-left: 15px; border-bottom: 1px solid var(--ws-rule, #e1e9f5); background: var(--ws-soft, #f5f8fd); }\n.ds-tab { display: inline-flex; align-items: center; gap: 11px; min-height: 38px; max-width: calc(100% - 15px); padding: 8px 14px; border: 1px solid var(--ws-rule, #e1e9f5); border-bottom-color: var(--ws-panel, #ffffff); border-radius: 6px 6px 0 0; background: var(--ws-panel, #ffffff); color: var(--ws-ink, #0b1234); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 13px; font-weight: 600; transform: translateY(1px); }\n.ds-tab { line-height: 1.5; }\n.ds-tab > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }\n.ds-tab > svg { color: var(--ws-faint, #5a6d91); }\n.ds-tab > svg:last-child { margin-left: 6px; }"
+    },
+    {
+      "name": "Sequential project row",
+      "kind": "card",
+      "refersTo": "project-row",
+      "description": "A truthful work summary with its own index, green leading edge and ruled status footer. The current artifact supplies no project action for these in-progress entries.",
+      "html": "<article class=\"ds-project\"><span class=\"ds-project-index\" aria-hidden=\"true\">01</span><div class=\"ds-project-body\"><h3>AI Voice Platform</h3><p>Real-time speech-to-speech integrations, load testing, observability, retries, and production reliability.</p><div class=\"ds-project-footer\"><span class=\"ds-work-state\">In progress</span></div></div></article>",
+      "css": ".ds-project { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; color: var(--ws-ink, #0b1234); background: var(--ws-panel, #ffffff); line-height: 1.5; }\n.ds-project { display: grid; position: relative; grid-template-columns: 10% minmax(0, 1fr); min-height: calc(130 * var(--workspace-unit, 1px)); border: 1px solid var(--ws-rule, #e1e9f5); border-left: 4px solid var(--ws-green, #087c38); border-radius: 6px; }\n.ds-project-index { display: flex; justify-content: center; padding-top: calc(12 * var(--workspace-unit, 1px)); border-right: 1px solid var(--ws-rule, #e1e9f5); color: var(--ws-green, #087c38); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(17px, 1.395vw, 23px); font-weight: 550; }\n.ds-project-body { display: flex; flex-direction: column; padding: calc(11 * var(--workspace-unit, 1px)) calc(17 * var(--workspace-unit, 1px)) calc(5 * var(--workspace-unit, 1px)); }\n.ds-project-body h3 { font-size: clamp(18px, 1.594vw, 26px); font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }\n.ds-project-body > p { margin-top: calc(3 * var(--workspace-unit, 1px)); color: var(--ws-muted, #536382); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(13px, 1.063vw, 17px); line-height: 1.34; text-wrap: pretty; }\n.ds-project-body h3, .ds-project-body > p { margin: 0; }\n.ds-project-body > p { margin-top: calc(3 * var(--workspace-unit, 1px)); color: var(--ws-muted, #536382); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(13px, 1.063vw, 17px); line-height: 1.34; text-wrap: pretty; }\n.ds-project-footer { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; min-height: calc(28 * var(--workspace-unit, 1px)); margin-top: auto; border-top: 1px solid var(--ws-rule, #e1e9f5); }\n.ds-work-state { display: inline-flex; align-items: center; gap: 7px; color: var(--ws-green, #087c38); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 12px; }\n.ds-work-state::before { width: 5px; height: 5px; border: 1px solid currentColor; border-radius: 50%; content: \"\"; }\n@media (max-width: 900px) { .ds-project { grid-template-columns: 43px minmax(0, 1fr); min-height: 150px; } .ds-project-index { padding-top: 13px; font-size: 17px; } .ds-project-body { padding: 12px 13px 8px; } .ds-project-body h3 { font-size: 20px; line-height: 1.3; } .ds-project-body > p { margin-top: 8px; font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.6; } .ds-project-footer { min-height: 31px; margin-top: 11px; padding-top: 5px; } .ds-work-state { font-size: 11px; } } @media (max-width: 540px) { .ds-project { grid-template-columns: 36px minmax(0, 1fr); } .ds-project-body { padding-inline: 11px; } .ds-project-body h3 { font-size: 19px; } }"
+    },
+    {
+      "name": "Focus panel",
+      "kind": "card",
+      "refersTo": "focus-panel",
+      "description": "Compact indexed supporting material uses the same flat green-edge grammar; grid stacking belongs to the shell breakpoints.",
+      "html": "<article class=\"ds-focus\"><span class=\"ds-focus-index\" aria-hidden=\"true\">01</span><div><h3>Distributed systems / Real-time voice</h3><p>Designing and building distributed systems that handle real-time voice and media workloads. I focus on reliability, observability, scalability, and maintainable architecture.</p></div></article>",
+      "css": ".ds-focus { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; color: var(--ws-ink, #0b1234); background: var(--ws-panel, #ffffff); line-height: 1.5; }\n.ds-focus { display: grid; grid-template-columns: calc(44 * var(--workspace-unit, 1px)) minmax(0, 1fr); gap: 0; min-height: calc(128 * var(--workspace-unit, 1px)); padding: calc(7 * var(--workspace-unit, 1px)) calc(10 * var(--workspace-unit, 1px)); border: 1px solid var(--ws-rule, #e1e9f5); border-left: 3px solid var(--ws-green, #087c38); border-radius: 5px; }\n.ds-focus-index { color: var(--ws-green, #087c38); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(15px, 1.15vw, 18px); }\n.ds-focus h3 { font-size: clamp(12px, 0.86vw, 13px); font-weight: 600; line-height: 1.34; letter-spacing: -0.025em; }\n.ds-focus h3, .ds-focus p { margin: 0; }\n.ds-focus p { margin-top: 6px; color: var(--ws-muted, #536382); font-size: clamp(12px, 0.9vw, 14px); line-height: 1.36; }\n@media (max-width: 900px) { .ds-focus { grid-template-columns: 32px minmax(0, 1fr); gap: 4px; min-height: 0; padding: 12px 13px 15px; } .ds-focus-index { font-size: 16px; } .ds-focus h3 { font-size: 15px; line-height: 1.4; } .ds-focus p { margin-top: 9px; font-size: 14px; line-height: 1.65; } }"
+    },
+    {
+      "name": "Profile source panel",
+      "kind": "card",
+      "refersTo": "source-panel",
+      "description": "Static source-panel specimen with the production JSON fallback. The production script adjusts the decorative gutter to rendered wrapped rows; the separate copy specimen documents its utility.",
+      "html": "<section class=\"ds-profile\"><h2 class=\"ds-panel-tab\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1\"></path><path d=\"M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1\"></path></svg>profile.json</h2><div class=\"ds-profile-body\"><span class=\"ds-source-numbers\" aria-hidden=\"true\"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span></span><pre class=\"ds-profile-source\"><code><span class=\"ds-json-punctuation\">{\n  </span><span class=\"ds-json-key\">&quot;name&quot;</span><span class=\"ds-json-punctuation\">: </span><span class=\"ds-json-string\">&quot;Nazmul Alam&quot;</span><span class=\"ds-json-punctuation\">,\n  </span><span class=\"ds-json-key\">&quot;role&quot;</span><span class=\"ds-json-punctuation\">: </span><span class=\"ds-json-string\">&quot;Senior Software Engineer&quot;</span><span class=\"ds-json-punctuation\">,\n  </span><span class=\"ds-json-key\">&quot;company&quot;</span><span class=\"ds-json-punctuation\">: </span><span class=\"ds-json-string\">&quot;Cisco&quot;</span><span class=\"ds-json-punctuation\">,\n  </span><span class=\"ds-json-key\">&quot;experience_years&quot;</span><span class=\"ds-json-punctuation\">: </span><span class=\"ds-json-number\">10</span><span class=\"ds-json-punctuation\">,\n  </span><span class=\"ds-json-key\">&quot;tagline&quot;</span><span class=\"ds-json-punctuation\">: </span><span class=\"ds-json-string\">&quot;Building systems. Sharing the decisions.&quot;</span><span class=\"ds-json-punctuation\">,\n  </span><span class=\"ds-json-key\">&quot;focus&quot;</span><span class=\"ds-json-punctuation\">: [\n    </span><span class=\"ds-json-string\">&quot;Distributed systems&quot;</span><span class=\"ds-json-punctuation\">,\n    </span><span class=\"ds-json-string\">&quot;Real-time voice&quot;</span><span class=\"ds-json-punctuation\">\n  ],\n  </span><span class=\"ds-json-key\">&quot;exploring&quot;</span><span class=\"ds-json-punctuation\">: [\n    </span><span class=\"ds-json-string\">&quot;Agentic AI&quot;</span><span class=\"ds-json-punctuation\">,\n    </span><span class=\"ds-json-string\">&quot;Software architecture&quot;</span><span class=\"ds-json-punctuation\">\n  ]\n}</span></code></pre></div></section>",
+      "css": ".ds-profile { position: relative; min-width: 0; border: 1px solid var(--ws-rule, #e1e9f5); border-radius: 5px; }\n.ds-profile { background: var(--ws-bg, #fbfcff); color: var(--ws-ink, #0b1234); line-height: 1.5; }\n.ds-panel-tab { display: flex; align-items: center; gap: 12px; min-height: 41px; padding: 8px 13px; border-bottom: 1px solid var(--ws-rule, #e1e9f5); background: var(--ws-soft, #f5f8fd); color: var(--ws-ink, #0b1234); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 13px; font-weight: 550; }\n.ds-panel-tab { margin: 0; }\n.ds-profile-body { position: relative; min-height: calc(373 * var(--workspace-unit, 1px)); padding: 10px 9px 18px 43px; font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(10px, 0.84vw, 13px); line-height: 1.7; counter-reset: json-line; }\n.ds-profile-body::before { position: absolute; top: 0; bottom: 0; left: 32px; border-left: 1px solid var(--ws-rule, #e1e9f5); content: \"\"; }\n.ds-profile-source { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }\n.ds-profile-source code { font: inherit; }\n.ds-source-numbers { display: flex; position: absolute; top: 10px; left: 9px; flex-direction: column; width: 16px; color: var(--ws-faint, #5a6d91); font: inherit; text-align: right; pointer-events: none; user-select: none; }\n.ds-source-numbers > span { height: 1lh; }\n.ds-json-key { color: var(--ws-blue, #005de7); }\n.ds-json-string, .ds-json-punctuation { color: var(--ws-green, #087c38); }\n.ds-json-number { color: var(--ws-blue, #005de7); }\n@media (max-width: 1199px) and (min-width: 901px) { .ds-profile-body { padding-left: 32px; padding-right: 7px; } .ds-profile-body::before { left: 24px; } .ds-profile-body .ds-source-numbers { left: 3px; width: 14px; } } @media (max-width: 900px) { .ds-profile-body { min-height: 0; font-size: 12px; padding-bottom: 20px; } }"
+    },
+    {
+      "name": "Notes source panel",
+      "kind": "card",
+      "refersTo": "source-panel",
+      "description": "Ordinary selectable notes use a ruled, aria-hidden local source gutter. Production numbering follows actual displayed rows after enhancement.",
+      "html": "<section class=\"ds-notes\"><h2 class=\"ds-notes-tab\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"19\" height=\"19\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg>notes.txt</h2><div class=\"ds-notes-copy\"><span class=\"ds-source-numbers\" aria-hidden=\"true\"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></span><div class=\"ds-notes-source\"><p>Systems are built with people, context, and trade-offs.</p><p>I enjoy turning complex requirements into simple, reliable solutions.</p></div></div></section>",
+      "css": ".ds-notes { position: relative; min-width: 0; border: 1px solid var(--ws-rule, #e1e9f5); border-radius: 5px; }\n.ds-notes { background: var(--ws-bg, #fbfcff); line-height: 1.5; }\n.ds-notes-tab { display: flex; align-items: center; gap: 12px; min-height: 41px; padding: 8px 13px; border-bottom: 1px solid var(--ws-rule, #e1e9f5); background: var(--ws-soft, #f5f8fd); color: var(--ws-ink, #0b1234); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 13px; font-weight: 550; }\n.ds-notes-tab { margin: 0; }\n.ds-notes-copy { position: relative; padding: 12px 18px 18px 46px; color: var(--ws-muted, #536382); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: clamp(11px, 0.92vw, 14px); line-height: 1.55; }\n.ds-notes-copy::before { position: absolute; top: 0; bottom: 0; left: 32px; border-left: 1px solid var(--ws-rule, #e1e9f5); content: \"\"; }\n.ds-source-numbers { display: flex; position: absolute; top: 10px; left: 9px; flex-direction: column; width: 16px; color: var(--ws-faint, #5a6d91); font: inherit; text-align: right; pointer-events: none; user-select: none; }\n.ds-source-numbers > span { height: 1lh; }\n.ds-notes-copy .ds-source-numbers { top: 12px; }\n.ds-notes-source { display: flow-root; }\n.ds-notes-source p { margin: 0; }\n.ds-notes-source p + p { margin-top: 1lh; }\n@media (max-width: 900px) { .ds-notes-copy { padding-left: 46px; font-size: 13px; } }"
+    },
+    {
+      "name": "Reader contents",
+      "kind": "nav",
+      "refersTo": "reader-contents",
+      "description": "Desktop contents links become a native disclosed Contents list on mobile; no client router is involved.",
+      "html": "<div class=\"ds-reader-contents\"><p class=\"ds-contents-title\">On this page</p><nav aria-label=\"On this page\"><ol><li><a href=\"#chronology\">Chronology</a></li><li><a href=\"#education\">Education</a></li><li><a href=\"#certifications\">Certifications</a></li></ol></nav><a class=\"ds-contents-return\" href=\"#main-content\">Back to top</a></div><details class=\"ds-mobile-contents\"><summary><span>Contents</span><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"></path></svg></summary><nav aria-label=\"Article contents\"><ol><li><a href=\"#chronology\">Chronology</a></li><li><a href=\"#education\">Education</a></li><li><a href=\"#certifications\">Certifications</a></li></ol></nav></details>",
+      "css": ".ds-reader-contents, .ds-mobile-contents { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; color: var(--ws-ink, #0b1234); line-height: 1.5; } .ds-reader-contents ol, .ds-mobile-contents ol { margin: 0; padding: 0; list-style: none; } .ds-contents-title { margin: 0; }\n.ds-reader-contents { position: sticky; top: 28px; padding: 19px 16px 24px; }\n.ds-contents-title { padding-bottom: 15px; color: var(--ws-ink, #0b1234); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 12px; font-weight: 600; }\n.ds-reader-contents nav { border-top: 1px solid var(--ws-rule, #e1e9f5); }\n.ds-reader-contents ol { padding-top: 12px !important; }\n.ds-reader-contents li + li { margin-top: 2px; }\n.ds-reader-contents li a { display: block; padding: 7px 0; color: var(--ws-muted, #536382); font-size: 13px; line-height: 1.65; text-decoration: none; }\n.ds-reader-contents li a:hover { color: var(--ws-blue, #005de7); text-decoration: underline; }\n.ds-contents-return { display: inline-flex; margin-top: 25px; padding-block: 8px; color: var(--ws-blue, #005de7); font-size: 12px; text-decoration: none; }\n.ds-contents-return:hover { text-decoration: underline; }\n.ds-mobile-contents { display: none; }\n.ds-reader-contents a:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }\n.ds-mobile-contents a:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }\n.ds-mobile-contents summary:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }\n@media (max-width: 900px) { .ds-reader-contents { display: none; } .ds-mobile-contents { display: block; margin-bottom: 26px; border-top: 1px solid var(--ws-rule, #e1e9f5); border-bottom: 1px solid var(--ws-rule, #e1e9f5); } .ds-mobile-contents > summary { display: flex; align-items: center; justify-content: space-between; gap: 15px; min-height: 46px; padding-block: 12px; color: var(--ws-ink, #0b1234); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 12px; cursor: pointer; list-style: none; } .ds-mobile-contents > summary::-webkit-details-marker { display: none; } .ds-mobile-contents[open] > summary svg { transform: rotate(180deg); } .ds-mobile-contents nav ol { padding-bottom: 14px; } .ds-mobile-contents li a { display: block; min-height: 40px; padding: 8px 0; color: var(--ws-blue, #005de7); font-size: 14px; line-height: 1.6; text-decoration: none; } .ds-mobile-contents li a:hover { text-decoration: underline; } }"
+    },
+    {
+      "name": "Technical reader",
+      "kind": "custom",
+      "refersTo": "reader-prose",
+      "description": "Actual title, lead and opening paragraph from the built deprovisioning note. Reader kind metadata follows the title; sustained prose uses the quiet sans-serif measure.",
+      "html": "<article class=\"ds-reader\"><header class=\"ds-reader-header\"><a class=\"ds-reader-back\" href=\"/writing/\">All writing</a><h1>Consistency guarantees for deprovisioning during live identity migration</h1><div class=\"ds-reader-meta\"><span>Technical note</span><span>Analysis</span></div><p class=\"ds-reader-lead\">A generic analysis of why ordinary profile changes and security-sensitive deprovisioning need different consistency guarantees during live migration.</p></header><div class=\"ds-reader-prose\"><p>A live identity migration temporarily creates more than one path by which identity state can be written, copied, or read. The central design question is not whether every field is instantly consistent. It is which inconsistency windows are acceptable for each consequence.</p></div></article>",
+      "css": ".ds-reader { font-family: \"Geist Sans\", ui-sans-serif, system-ui, sans-serif; color: var(--ws-ink, #0b1234); line-height: 1.5; background: var(--ws-panel, #ffffff); } .ds-reader h1, .ds-reader p { margin: 0; }\n.ds-reader { max-width: 72ch; padding-bottom: 64px; }\n.ds-reader-header { padding-bottom: 32px; }\n.ds-reader-back { display: inline-flex; min-height: 32px; margin-bottom: 18px; color: var(--ws-blue, #005de7); font-size: 13px; text-decoration: none; }\n.ds-reader-back:hover { text-decoration: underline; }\n.ds-reader h1 { font-size: 2.5rem; font-weight: 730; line-height: 1.16; letter-spacing: -0.035em; overflow-wrap: anywhere; }\n.ds-reader .ds-reader-lead { margin-top: 22px; color: var(--ws-muted, #536382); font-size: 1.125rem; line-height: 1.75; }\n.ds-reader-meta { display: flex; flex-wrap: wrap; gap: 5px 18px; margin-top: 20px; color: var(--ws-muted, #536382); font-family: \"Geist Mono\", ui-monospace, monospace; font-size: 11px; line-height: 1.7; }\n.ds-reader-prose { max-width: 72ch; padding-top: 26px; border-top: 1px solid var(--ws-rule, #e1e9f5); font-size: 1.0625rem; line-height: 1.85; overflow-wrap: anywhere; }\n.ds-reader-prose a { color: var(--ws-blue, #005de7); text-decoration: underline; text-decoration-thickness: 1px; }\n.ds-reader-prose a:hover { text-decoration-thickness: 2px; }\n.ds-reader a:focus-visible { outline: 2px solid var(--ws-blue, #005de7); outline-offset: 4px; }\n@media (max-width: 1100px) and (min-width: 901px) { .ds-reader h1 { font-size: 2rem; } .ds-reader-prose { font-size: 1rem; } } @media (max-width: 900px) { .ds-reader { max-width: 72ch; margin-inline: auto; padding-bottom: 42px; } .ds-reader h1 { font-size: 2rem; } .ds-reader-header { padding-bottom: 26px; } .ds-reader .ds-reader-lead { margin-top: 18px; font-size: 1.0625rem; } .ds-reader-prose { padding-top: 24px; font-size: 1rem; line-height: 1.85; } } @media (max-width: 420px) { .ds-reader h1 { font-size: 1.75rem; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Developer Workspace",
+    "overview": "A developer's own workspace makes engineering work easy to inspect. Cool white fields, deep navy text, blue navigation and green source markers give the site the familiarity of an editor while keeping it an ordinary readable website. Flat panels, fine rules, a file explorer and a continuous document canvas carry the character; imagery and animation do not carry the interface.\n\nGeist Sans provides strong headings and readable prose. Geist Mono identifies files, code, source rows and compact technical metadata. The homepage supports a denser README expression, while articles, work accounts and experience use the same shell with quieter reading typography. The user rejected the academic serif-led direction; its retained Vite stylesheet is historical and does not define this system.",
+    "keyCharacteristics": [
+      "Cool white or deep navy surfaces with blue navigation and green project/source markers.",
+      "Flat editor chrome with fine dividers and restrained rounded corners.",
+      "Strong sans-serif hierarchy paired with purposeful monospace detail.",
+      "Real links, native disclosures and readable static documents.",
+      "Minimal motion, clear keyboard focus and system/light/dark themes."
+    ],
+    "rules": [
+      {
+        "name": "The Semantic Theme Rule",
+        "body": "Change semantic roles together. Classless HTML follows the operating system; explicit light and dark classes override it. Keep the system-dark and explicit-dark declarations identical.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measured Color Rule",
+        "body": "Preserve the measured text/background pairings and rerun `yarn check:contrast` after color changes. Blue and green never replace a readable label, number or focus outline.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Faces Rule",
+        "body": "Use Geist Sans for headings and sustained reading, Geist Mono for file/code vocabulary and metadata. Preserve the deliberate mobile switch from dense mono summaries to sans-serif prose.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Chrome Rule",
+        "body": "Keep panels and rows flat at rest and on hover. Use existing tonal fields, rules and focus outlines to express separation and state.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** preserve the cool workspace palette and the matched system/light/dark semantic roles.",
+      "**Do** use the two locally served Geist faces according to the heading/prose and file/code roles.",
+      "**Do** keep real anchors, native disclosures, visible keyboard focus and useful static main text.",
+      "**Do** retain truthful work-state and evidence labels after their titles or headings.",
+      "**Do** translate dense desktop chrome into readable mobile flow and contain code/table overflow locally.",
+      "**Do** keep assets and automatic page resources same-origin and respect reduced-motion preference."
+    ],
+    "donts": [
+      "**Don't** restore the rejected academic serif-led world from the retained Vite stylesheet.",
+      "**Don't** add shadows, decorative motion or imagery as a substitute for the established editor structure.",
+      "**Don't** invent project actions, article destinations, delivered outcomes or editor controls.",
+      "**Don't** put small kind/evidence labels above headings as decorative eyebrows.",
+      "**Don't** expose decorative source numbers to assistive technology or include them in copied JSON.",
+      "**Don't** let optional rails, enhancement failure or service initialization delay reading or navigation."
+    ]
+  }
+}

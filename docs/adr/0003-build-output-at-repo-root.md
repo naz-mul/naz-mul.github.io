@@ -1,6 +1,23 @@
 # ADR-0003 — Commit build output to the repo root
 
-**Status:** accepted · **Date:** 2026-08-29
+**Status:** branch-root publication retained; generation amended by [ADR-0009](0009-astro-staged-publication.md) · **Date:** 2026-08-29
+
+## 2026-10-15 amendment
+
+GitHub Pages still serves committed branch-root output. Source generation is now
+separate: Astro builds only `dist/site-build`, validation creates `dist/public`, and
+a guarded dry-run publisher previews an exact ownership-based root replacement.
+An authorized apply changes only recorded owned destinations, preserves protected
+and unrelated files, saves transaction backups and supports guarded rollback.
+Neither the normal build nor preview writes root output or deploys.
+
+The original direct-root Vite arrangement below is retained as history and a
+recoverable incumbent path. Its `emptyOutDir: false` remains load-bearing while
+that configuration exists. Astro must never use the repository root as its output
+directory. The old direct deploy sequence is superseded by the scoped authorization,
+read-back and recovery procedure in [the publication runbook](../operations/publication.md).
+The local candidate has not replaced the incumbent root snapshot or changed Pages
+settings, the custom domain or Firebase resources.
 
 ## Context
 

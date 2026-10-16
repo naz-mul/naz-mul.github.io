@@ -1,0 +1,16 @@
+---
+import WorkspaceShell from '../components/workspace/WorkspaceShell.astro'
+import { getPublication } from '../content/publicationData'
+import '../styles/reading.css'
+
+const route = (await getPublication()).routes.find((candidate) => candidate.path === '/404.html')
+if (!route) throw new Error('Missing genuine 404 route')
+---
+<WorkspaceShell route={route} mode="reading" fileLabel="404.md">
+  <section class="reader-document reader-not-found" aria-labelledby="not-found">
+    <h1 id="not-found">Not found</h1>
+    <p class="reader-lead">That page does not exist.</p>
+    <p>Open the README or browse the technical notes to find your way back.</p>
+    <nav class="reader-end-navigation" aria-label="Find another page"><a href="/">Open README</a><a href="/writing/">Technical writing</a></nav>
+  </section>
+</WorkspaceShell>

@@ -1,0 +1,28 @@
+---
+import { ChevronDown } from 'lucide-react'
+import type { ReaderHeading } from './model'
+
+interface Props {
+  headings: readonly ReaderHeading[]
+  inline?: boolean
+}
+
+const { headings, inline = false } = Astro.props
+const sections = headings.filter((heading) => heading.depth === 2)
+---
+{sections.length > 0 && (inline ? (
+  <details class="reader-mobile-contents">
+    <summary><span>Contents</span><ChevronDown size={16} aria-hidden="true" /></summary>
+    <nav aria-label="Article contents">
+      <ol>{sections.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol>
+    </nav>
+  </details>
+) : (
+  <div class="reader-contents">
+    <p class="reader-contents-title">On this page</p>
+    <nav aria-label="On this page">
+      <ol>{sections.map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol>
+    </nav>
+    <a class="reader-contents-return" href="#main-content">Back to top</a>
+  </div>
+))}

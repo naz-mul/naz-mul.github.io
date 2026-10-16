@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { ThemeToggle } from './ThemeToggle'
 import { cn } from '@/lib/utils'
 import { site } from '@/content/site'
+import { navigationRoutes } from '@/content/routes'
 
 /**
  * Layout primitives.
@@ -44,7 +45,7 @@ export function Header({ back }: { back?: boolean }) {
 }
 
 export function Footer() {
-  const links = [
+  const externalLinks = [
     { href: `mailto:${site.email}`, label: site.email },
     { href: site.github, label: 'GitHub' },
     { href: site.linkedin, label: 'LinkedIn' },
@@ -53,10 +54,25 @@ export function Footer() {
     <footer className="mt-24 border-t border-border">
       <Shell>
         <div className="grid gap-8 py-12 lg:grid-cols-[10rem_1fr]">
-          <p className="label">Elsewhere</p>
+          <p className="label">Explore</p>
           <div>
+            <nav aria-label="Site routes">
+              <ul className="flex flex-wrap gap-x-7 gap-y-2 text-sm">
+                {navigationRoutes.map((route) => (
+                  <li key={route.id}>
+                    <a
+                      href={route.path}
+                      className="link-underline text-foreground/85 transition-colors hover:text-accent"
+                    >
+                      {route.navigation!.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <p className="label mb-3 mt-8">Elsewhere</p>
             <ul className="flex flex-wrap gap-x-7 gap-y-2 text-sm">
-              {links.map((l) => (
+              {externalLinks.map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}

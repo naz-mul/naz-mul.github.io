@@ -1,10 +1,3 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { CaseStudyPage } from '@/components/CaseStudyPage'
-import '@/styles/globals.css'
+import { mountRoute } from '@/routing/client'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <CaseStudyPage slug="cisco" />
-  </StrictMode>,
-)
+mountRoute('cisco')

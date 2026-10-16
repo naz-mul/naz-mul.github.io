@@ -1,18 +1,9 @@
 import { Page, Section, Shell, SpecList } from '@/components/Layout'
-import {
-  background,
-  caseStudies,
-  experience,
-  heroLine,
-  nowText,
-  site,
-} from '@/content/site'
+import { content, site } from '@/content/site'
 
 /**
- * The hero has to do the job a product screenshot would do elsewhere: none of
- * this work is publicly showable. It does it with scale and a spec block —
- * the name set very large against a hairline grid field, then hard facts in
- * mono. Structure standing in for imagery.
+ * The hero leads with the durable systems thesis. Current work follows as
+ * evidence, so no employer or technology defines the opening identity.
  */
 function Hero() {
   return (
@@ -45,18 +36,19 @@ function Hero() {
           </div>
 
           <div>
+            <p className="label mb-5 text-accent">01 · Systems thesis</p>
             <h1
               className="font-serif font-medium tracking-[-0.03em]"
               style={{ fontSize: 'var(--text-display)', lineHeight: 0.94 }}
             >
-              Nazmul Alam
+              {site.name}
             </h1>
 
             <p
               className="mt-7 max-w-2xl text-muted-foreground"
               style={{ fontSize: 'var(--text-lead)', lineHeight: 1.5 }}
             >
-              {heroLine}
+              {content.positioning.thesis}
             </p>
 
             <SpecList
@@ -64,8 +56,6 @@ function Hero() {
               items={[
                 { key: 'Role', value: site.title },
                 { key: 'Based', value: site.location },
-                { key: 'Focus', value: 'Real-time voice AI · distributed backends' },
-                { key: 'Since', value: <span className="tabular">2016</span> },
               ]}
             />
           </div>
@@ -75,108 +65,83 @@ function Hero() {
   )
 }
 
-function Now() {
+function ProofStatement({
+  label,
+  copy,
+}: {
+  label: string
+  copy: string
+}) {
   return (
-    <Section id="now" index="01" title="Now">
-      <div className="prose-editorial max-w-[62ch]">
-        {nowText.map((paragraph, i) => (
-          <p key={i} className={i > 0 ? 'mt-4' : undefined}>
-            {i === 0 ? (
-              <>
-                <span className="newthought">At Cisco</span>
-                {paragraph.replace(/^\s*At Cisco/, '')}
-              </>
-            ) : (
-              paragraph
-            )}
+    <div>
+      <p className="label mb-2 text-[0.625rem]">{label}</p>
+      <p className="text-[0.9375rem] leading-relaxed text-muted-foreground">{copy}</p>
+    </div>
+  )
+}
+
+function CurrentFrontier() {
+  return (
+    <Section id="current-frontier" index="02" title="Current frontier">
+      <div className="max-w-[62ch]">
+        <p
+          className="font-serif tracking-[-0.015em]"
+          style={{ fontSize: 'var(--text-title)', lineHeight: 1.16 }}
+        >
+          {content.positioning.currentFrontier}
+        </p>
+        <div className="mt-8 border-l border-accent pl-5">
+          <ProofStatement
+            label="Reviewed contribution"
+            copy={content.currentWork.contribution.copy}
+          />
+          <p className="label mt-5 text-[0.625rem] text-faint-foreground">
+            Evidence boundary
           </p>
-        ))}
+          <p className="mt-2 text-sm leading-relaxed text-faint-foreground">
+            {content.currentWork.roleInNarrative}
+          </p>
+        </div>
       </div>
     </Section>
   )
 }
 
-/**
- * Case-study cards have no thumbnails to lean on, so they are built from type
- * and rules instead: a large serif client name, the summary, and the stack as
- * mono tags. The whole row is the hit target and the rule brightens on hover.
- */
-function SelectedWork() {
+function FlagshipProofs() {
   return (
-    <Section id="work" index="02" title="Selected work">
-      <ul className="-mt-2">
-        {caseStudies.map((study, i) => (
-          <li key={study.slug}>
-            <a
-              href={study.href}
-              className="group block border-b border-border py-7 transition-colors duration-300 hover:border-accent"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h3 className="font-serif text-2xl font-medium tracking-[-0.02em] transition-colors duration-300 group-hover:text-accent sm:text-[1.75rem]">
-                  {study.client}
-                </h3>
-                <span className="label tabular whitespace-nowrap">{study.period}</span>
-              </div>
-
-              <p className="mt-2.5 max-w-[58ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
-                {study.summary}
-              </p>
-
-              <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-                {study.stack.map((item) => (
-                  <span
-                    key={item}
-                    className="label border border-border px-1.5 py-0.5 text-[0.625rem] tracking-[0.1em]"
-                  >
-                    {item}
-                  </span>
-                ))}
-                <span
-                  aria-hidden="true"
-                  className="label ml-auto text-accent opacity-0 transition-all duration-300 ease-[var(--ease-out-quart)] group-hover:translate-x-0.5 group-hover:opacity-100"
-                >
-                  Read →
-                </span>
-              </div>
-              <span className="sr-only">Read the {study.client} case study</span>
-              {i === -1 && null}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Section>
-  )
-}
-
-function Experience() {
-  return (
-    <Section id="experience" index="03" title="Experience">
-      <ol className="space-y-0">
-        {experience.map((job) => (
-          <li
-            key={`${job.company}-${job.period}`}
-            className="grid gap-x-8 gap-y-1 border-b border-border py-5 last:border-b-0 sm:grid-cols-[10.5rem_1fr]"
-          >
-            <p className="label tabular whitespace-nowrap pt-1">{job.period}</p>
-            <div>
-              <h3 className="font-medium tracking-tight">
-                {job.role} <span className="text-faint-foreground">·</span> {job.company}
-              </h3>
-              {job.note && (
-                <p className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
-                  {job.note}{' '}
-                  {job.href && (
-                    <a
-                      href={job.href}
-                      className="link-underline whitespace-nowrap text-accent"
-                    >
-                      Read more
-                    </a>
-                  )}
-                </p>
-              )}
-              <p className="mt-1 text-[0.8125rem] text-faint-foreground">{job.location}</p>
+    <Section id="flagship-proofs" index="03" title="Flagship proofs">
+      <ol className="grid gap-10 lg:grid-cols-2">
+        {content.flagships.map((story) => (
+          <li key={story.slug} className="flex flex-col border-t border-border-strong pt-5">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h2 className="font-serif text-2xl font-medium tracking-[-0.02em]">
+                {story.client}
+              </h2>
+              <span className="label tabular whitespace-nowrap">{story.period}</span>
             </div>
+            <p className="mt-3 text-[0.9375rem] leading-relaxed">{story.summary}</p>
+
+            <div className="mt-6 space-y-5">
+              <ProofStatement
+                label="Why it mattered · editorial framing"
+                copy={story.proof.systemConsequence.copy}
+              />
+              <ProofStatement
+                label="What I owned · reviewed contribution"
+                copy={story.proof.exactOwnership.copy}
+              />
+              <ProofStatement
+                label="Observable outcome · reviewed contribution"
+                copy={story.proof.observableOutcome.copy}
+              />
+            </div>
+
+            <a
+              href={story.href}
+              className="link-underline mt-6 self-start text-sm text-accent"
+            >
+              Read the {story.client} evidence
+            </a>
           </li>
         ))}
       </ol>
@@ -184,51 +149,90 @@ function Experience() {
   )
 }
 
-function Background() {
+function DecisionIndex() {
   return (
-    <Section id="background" index="04" title="Background">
-      <div className="grid gap-10 sm:grid-cols-2">
-        <div>
-          <p className="text-[0.9375rem] leading-relaxed">
-            <strong className="font-medium">{background.education.degree}</strong>
-            <br />
-            <span className="text-muted-foreground">
-              {background.education.school} — {background.education.detail}
-            </span>
-          </p>
-          <ul className="mt-6 space-y-1.5">
-            {background.certifications.map((cert) => (
-              <li key={cert} className="text-[0.875rem] text-muted-foreground">
-                {cert}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="space-y-4 text-[0.9375rem] leading-relaxed text-muted-foreground">
-          <p>{background.volunteering}</p>
-          <p>{background.personal}</p>
-        </div>
-      </div>
+    <Section id="design-decisions" index="04" title="Design decisions">
+      <ul className="divide-y divide-border border-y border-border">
+        {content.flagships.map((story) => (
+          <li
+            key={story.slug}
+            className="grid gap-3 py-5 sm:grid-cols-[8rem_1fr]"
+          >
+            <a
+              href={story.href}
+              className="label self-start text-accent transition-colors hover:text-foreground"
+            >
+              {story.client}
+            </a>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {story.proof.consequentialDecision.copy}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  )
+}
+
+function TechnicalNotes() {
+  return (
+    <Section id="technical-notes" index="05" title="Technical notes">
+      <ol>
+        {content.technicalNotes.map((note) => (
+          <li key={note.slug} className="border-b border-border py-6 first:pt-0">
+            <a href={note.href} className="group block">
+              <h2 className="font-serif text-2xl font-medium tracking-[-0.02em] transition-colors group-hover:text-accent">
+                {note.workingTitle}
+              </h2>
+              <p className="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
+                {note.purpose}
+              </p>
+            </a>
+            <p className="label mt-5 text-[0.625rem] text-faint-foreground">
+              Evidence boundary
+            </p>
+            <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-faint-foreground">
+              {note.evidenceBoundary}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </Section>
+  )
+}
+
+function CareerCredibility() {
+  return (
+    <Section id="career-credibility" index="06" title="Career credibility">
+      <p
+        className="max-w-[54ch] font-serif tracking-[-0.015em]"
+        style={{ fontSize: 'var(--text-title)', lineHeight: 1.16 }}
+      >
+        {content.credibilityLine}
+      </p>
+      <a href="/experience/" className="link-underline mt-6 inline-block text-sm text-accent">
+        Full experience
+      </a>
     </Section>
   )
 }
 
 function Contact() {
   return (
-    <Section id="contact" index="05" title="Contact">
+    <Section id="contact" index="07" title="Contact">
       <p
         className="max-w-[46ch] font-serif tracking-[-0.015em]"
         style={{ fontSize: 'var(--text-title)', lineHeight: 1.12 }}
       >
-        Say hello —{' '}
+        {content.contact.heading}
+      </p>
+      <p className="mt-6 max-w-[52ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
+        {content.contact.invitation}
+      </p>
+      <p className="mt-6">
         <a href={`mailto:${site.email}`} className="link-underline text-accent">
           {site.email}
         </a>
-      </p>
-      <p className="mt-6 max-w-[52ch] text-[0.9375rem] leading-relaxed text-muted-foreground">
-        I am not looking for work, but I am always glad to talk about real-time systems,
-        voice interfaces, or the parts of a migration that never make it into the
-        write-up.
       </p>
     </Section>
   )
@@ -238,10 +242,11 @@ export function Home() {
   return (
     <Page>
       <Hero />
-      <Now />
-      <SelectedWork />
-      <Experience />
-      <Background />
+      <CurrentFrontier />
+      <FlagshipProofs />
+      <DecisionIndex />
+      <TechnicalNotes />
+      <CareerCredibility />
       <Contact />
     </Page>
   )

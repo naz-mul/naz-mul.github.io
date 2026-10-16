@@ -1,7 +1,16 @@
 # ADR-0001 — Rebuild on Vite + React + shadcn/ui
 
-**Status:** accepted · **Date:** 2026-08-29
+**Status:** superseded by [ADR-0009](0009-astro-staged-publication.md) on 2026-10-15 · **Date:** 2026-08-29
 **Supersedes:** the Start Bootstrap Freelancer / Gulp / LESS stack (2017–2026)
+
+## 2026-10-15 amendment
+
+The owner subsequently selected Astro static output with React islands for the
+Developer Workspace and Markdown/MDX writing experience. ADR-0009 records that
+choice and its staged publication boundary. The original React preference and
+trade-off below remain the historical rationale; the retained Vite implementation
+is a recovery path, not the default build. Local implementation does not establish
+a new branch-root or live release.
 
 ## Context
 

@@ -1,0 +1,43 @@
+---
+import { background, content } from '../../content/site'
+import { experiencePage } from '../../content/routePages'
+import Contents from './Contents.astro'
+import { experienceContents } from './model'
+---
+<article class="reader-document reader-experience">
+  <header class="reader-header">
+    <a class="reader-back-link" href="/#experience">Back to README</a>
+    <h1>{experiencePage.title}</h1>
+    <p class="reader-lead">{experiencePage.introduction}</p>
+  </header>
+  <Contents headings={experienceContents} inline />
+  <section class="reader-section" aria-labelledby="chronology">
+    <h2 id="chronology">Chronology<a class="reader-heading-anchor" href="#chronology" aria-label="Link to Chronology"><span aria-hidden="true">#</span></a></h2>
+    <ol class="reader-career-list">
+      {content.experience.map((job) => (
+        <li>
+          <div class="reader-career-heading">
+            <h3>{'href' in job && job.href ? <a href={job.href}>{job.company}</a> : job.company}</h3>
+            <p class="reader-career-period">{job.period}</p>
+          </div>
+          <p class="reader-career-role">{job.role}<span>{job.location}</span></p>
+          {job.note && <p class="reader-career-note">{job.note}</p>}
+        </li>
+      ))}
+    </ol>
+  </section>
+  <section class="reader-section" aria-labelledby="education">
+    <h2 id="education">Education<a class="reader-heading-anchor" href="#education" aria-label="Link to Education"><span aria-hidden="true">#</span></a></h2>
+    <h3 class="reader-subheading">{background.education.degree}</h3>
+    <p class="reader-detail-copy">{background.education.school}</p>
+    <p class="reader-evidence-label">{background.education.detail}</p>
+  </section>
+  <section class="reader-section" aria-labelledby="certifications">
+    <h2 id="certifications">Certifications<a class="reader-heading-anchor" href="#certifications" aria-label="Link to Certifications"><span aria-hidden="true">#</span></a></h2>
+    <ul class="reader-certification-list">{background.certifications.map((certification) => <li>{certification}</li>)}</ul>
+  </section>
+  <section class="reader-section" aria-labelledby="beyond-work">
+    <h2 id="beyond-work">Beyond work<a class="reader-heading-anchor" href="#beyond-work" aria-label="Link to Beyond work"><span aria-hidden="true">#</span></a></h2>
+    <div class="reader-prose reader-section-prose"><p>{background.volunteering}</p><p>{background.personal}</p></div>
+  </section>
+</article>

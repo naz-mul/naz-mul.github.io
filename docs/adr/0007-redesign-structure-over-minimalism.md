@@ -1,7 +1,25 @@
 # ADR-0007 — Redesign: structure over minimalism
 
-**Status:** accepted · **Date:** 2026-08-29
+**Status:** amended by the selected Developer Workspace on 2026-10-15 · **Date:** 2026-08-29
 **Amends:** the visual direction recorded in the original rebuild
+
+## 2026-10-15 amendment
+
+The owner rejected the subsequent Engineering Publication exploration as too
+academic, requested a coder's haven, supplied Trace Developer as a reference and
+selected Developer Workspace. The current structure is explorer navigation, a
+continuous README canvas, sequential in-progress work summaries and an optional
+personal/context rail. Mobile uses normal disclosed navigation and one reading
+column; articles keep a quieter technical prose setting.
+
+Geist Sans now carries headings and prose; Geist Mono carries code and metadata.
+The blue/green workspace palette, focus and syntax-highlight colors are measured by
+the current contrast/gamut checker. Self-hosted fonts, system/light/dark themes and
+reduced motion remain constraints. The incumbent Newsreader/texture stylesheet is
+retained outside the Astro dependency graph. The earlier exact palette, sharp-corner
+and decorative devices below are historical, not instructions to restyle the
+selected composition. [ADR-0009](0009-astro-staged-publication.md) records the new
+generation architecture; this visual amendment does not claim a live release.
 
 ## Context
 

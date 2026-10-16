@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "kind": "managed-root-publication",
+  "origin": "https://nalam.me",
+  "artifactDigest": "d904bb414bd2319f7e9c9e3951e9333a9261b905720680d041e92046c5fddda2",
+  "digest": "8f94292cdc6ce948b967a257e14e6846aa42bc9f824a09c326ec0a7e2fd5b6d4",
+  "files": [
+    {
+      "path": "404.html",
+      "sha256": "d54bcc33985a6e277e22815b185a8c57791be62c30a36f0fb9df227f1f5928df",
+      "size": 29993
+    },
+    {
+      "path": "assets/client.Dgympkv5.js",
+      "sha256": "b58c3089365cbec12aa391fc4672c9d2eba5b1b79bda0e64dee7a25288a42f56",
+      "size": 183974
+    },
+    {
+      "path": "assets/FirebaseBootstrap.astro_astro_type_script_index_0_lang.0vYEXo6i.js",
+      "sha256": "d9a6044912ed9d18e5c7f47991d2ecc52ceb51889ca4d06b4a11f60e8f61a76c",
+      "size": 2779
+    },
+    {
+      "path": "assets/index.esm.yjPO637Y.js",
+      "sha256": "c064c1deb760f0948be68fe147bc230e861afdf3e1a89000bebfba48a6fd00cd",
+      "size": 27593
+    },
+    {
+      "path": "assets/react.DSfmxFZS.js",
+      "sha256": "adf1cf3c94a3015ed2afb1e9cc7ab4a7de1c13fd47d58ceebb5a685c21aacb19",
+      "size": 7565
+    },
+    {
+      "path": "assets/reading.C6quP19D.css",
+      "sha256": "5f7fd15551818d26eb24b5a8bb3df3a9077ef6239ef8b1d2c8da90eaa6970c17",
+      "size": 10050
+    },
+    {
+      "path": "assets/ThemeSelect.BbaJUTja.js",
+      "sha256": "14e01cdeb85607257b810dca37ba7cdf159ade8f46f418a2a626a7501dae994a",
+      "size": 3764
+    },
+    {
+      "path": "assets/WorkspaceShell.BuphIQiG.css",
+      "sha256": "649264500bd6aae7e9a5b2b84e89f6819f5cbf3c892538950e8df04337436f42",
+      "size": 47156
+    },
+    {
+      "path": "experience/index.html",
+      "sha256": "8ad03e2b54c8de4229a0a7f91d1f1111b95db3e4a0c90bb7f758a1c484f335d3",
+      "size": 35205
+    },
+    {
+      "path": "index.html",
+      "sha256": "a9f9b442ce908edb11421621c24a382de9c7531c5c8e0e872b50cac94b0bdf8c",
+      "size": 48414
+    },
+    {
+      "path": "notes/consistency-guarantees-for-deprovisioning/index.html",
+      "sha256": "6190fdfe3b6340745f6933df6e927a6971c6c7a861fd76a0911608bddb8df88a",
+      "size": 38532
+    },
+    {
+      "path": "notes/testing-real-time-voice-orchestration-under-interruption/index.html",
+      "sha256": "e988747fbd99bfc06bc452c878ca205bbf5f33a184b330de59cf0a123d8548ae",
+      "size": 39057
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "1ee8381059d51684b8925e2ccb891359492e6932d3036839b3a58202fe636b76",
+      "size": 663
+    },
+    {
+      "path": "work/cisco/index.html",
+      "sha256": "73c4ec1a0ada41224f19523c4d1e155bdd159165469c5fbd083ddfc41d4cf050",
+      "size": 33948
+    },
+    {
+      "path": "work/fidelity/index.html",
+      "sha256": "e0d132c247a4018fedf3099aff2abf2ef519149a08a053b9a18f71c6af9b8961",
+      "size": 33589
+    },
+    {
+      "path": "work/hmh/index.html",
+      "sha256": "ebc95e3b727c18f27ca64aceb80f0ff45cae5956b81f1f2ef5fc3def1fcdfbfa",
+      "size": 38296
+    },
+    {
+      "path": "work/optum/index.html",
+      "sha256": "f6f45cf305661f85c8cfe543c8f812dca5190dab154684ecd6c16439f3975b60",
+      "size": 38242
+    },
+    {
+      "path": "writing/index.html",
+      "sha256": "14fe37c5412f64327d1983b42679b4193b4f66e4471ab55194182c4318048b96",
+      "size": 31287
+    }
+  ]
+}

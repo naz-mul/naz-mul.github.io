@@ -1,277 +1,186 @@
 # nalam.me
 
-Personal site of [Nazmul Alam](https://nalam.me) — senior software engineer, Galway.
-Static site built with **Vite + React + Tailwind v4 + shadcn/ui**, deployed to
-**GitHub Pages** on the custom domain **`nalam.me`**.
+Nazmul Alam's professional site: engineering work, current technical focus,
+experience and original writing. The selected Developer Workspace design uses an
+explorer, README canvas and quiet technical-reading pages with self-hosted Geist
+Sans and Geist Mono.
 
-## For Cursor / AI agents
-
-Read **`AGENTS.md`** first for conventions and constraints, then **`CONTEXT.md`** for
-domain vocabulary. Architectural decisions and their reasoning live in
-**`docs/adr/`**. Cursor rules are in **`.cursor/rules/`**.
+**Current implementation:** Astro generates static HTML into disposable staging;
+small React islands handle actual interaction. **Current hosting:** GitHub Pages
+still serves the incumbent committed branch-root files at [nalam.me](https://nalam.me).
+Building and previewing the new implementation do not replace those files or
+change the live site. Release is a separate authorized operation.
 
 ## Architecture
 
 ```mermaid
-flowchart TB
-    subgraph Source["Source — src/ (Vite root)"]
-        Content["content/site.ts<br/>all copy, one file"]
-        Comps["components/<br/>Home · CaseStudyPage · Layout"]
-        UI["components/ui/<br/>shadcn primitives"]
-        Styles["styles/globals.css<br/>Tailwind v4 @theme tokens"]
-        Entries["entries/*.tsx<br/>one mount script per page"]
-        Html["*.html<br/>one entry point per route"]
-        Content --> Comps
-        UI --> Comps
-        Comps --> Entries
-        Styles --> Entries
-        Entries --> Html
-    end
-
-    subgraph Build["yarn build"]
-        TSC["tsc --noEmit"]
-        Vite["vite build<br/>outDir = repo root<br/>emptyOutDir false"]
-        TSC --> Vite
-    end
-
-    subgraph Output["Repo root — committed"]
-        OutHtml["index.html · 404.html<br/>work/*/index.html"]
-        Assets["assets/*.js · *.css<br/>content-hashed"]
-        Static["CNAME · favicon.ico · img/"]
-    end
-
-    Html --> TSC
-    Vite --> OutHtml
-    Vite --> Assets
-    OutHtml --> Pages["GitHub Pages<br/>serves branch root"]
-    Assets --> Pages
-    Static --> Pages
-    Pages --> Domain["nalam.me"]
-```
-
-### Routes
-
-Each route is a **real HTML file**, not a client-side route. Deep links resolve as
-static files, so no `404.html` redirect hack is needed and `404.html` stays a genuine
-error page.
-
-```mermaid
 flowchart LR
-    Home["/"] --> Cisco["/work/cisco/"]
-    Home --> Fid["/work/fidelity/"]
-    Home --> HMH["/work/hmh/"]
-    Home --> Optum["/work/optum/"]
-    Cisco --> Home
-    Fid --> Home
-    HMH --> Home
-    Optum --> Home
-    NF["/404.html"] --> Home
+    Original["Reviewed Markdown / MDX"] --> Projection["Typed publication projection"]
+    Career["Reviewed career + work records"] --> Projection
+    External["Curated LinkedIn metadata"] --> Projection
+    Projection --> Astro["Astro static HTML + local assets"]
+    Astro --> Staging["dist/site-build"]
+    Staging --> Validate["Allowlist + route / resource validation"]
+    Validate --> Artifact["dist/public"]
+    Validate --> Report["dist/publication-report.json"]
+    Artifact --> Preview["Local artifact preview :4173"]
+    Artifact -. "separately authorized release" .-> Publisher["Guarded root publisher"]
+    Publisher --> Pages["Owned branch-root output → GitHub Pages"]
+    Artifact -. "future migration only" .-> Hosting["Firebase Hosting"]
 ```
 
-| Route | Source HTML | Mount script | Component |
-|-------|-------------|--------------|-----------|
-| `/` | `src/index.html` | `src/entries/home.tsx` | `Home` |
-| `/work/cisco/` | `src/work/cisco/index.html` | `src/entries/cisco.tsx` | `CaseStudyPage` |
-| `/work/fidelity/` | `src/work/fidelity/index.html` | `src/entries/fidelity.tsx` | `CaseStudyPage` |
-| `/work/hmh/` | `src/work/hmh/index.html` | `src/entries/hmh.tsx` | `CaseStudyPage` |
-| `/work/optum/` | `src/work/optum/index.html` | `src/entries/optum.tsx` | `CaseStudyPage` |
-| `404.html` | `src/404.html` | `src/entries/not-found.tsx` | inline |
+The common `getPublication()` projection supplies eligible route identities,
+metadata, writing, featured work and export requirements. A record needs
+`publicationState: published`, `visibility: public` and `reviewed: true` to join
+that view. Work maturity and research maturity remain independent.
 
-Adding a route means all three: a new `src/<path>/index.html`, a matching
-`src/entries/<name>.tsx`, and an entry in `rollupOptions.input` in `vite.config.ts`.
-
-### Page composition
+The eight established indexable URLs are preserved; `/writing/` is the ninth.
+A useful `/404.html` is generated separately, marked `noindex` and excluded from
+the sitemap. Routes are ordinary static documents with complete main text,
+canonical/Open Graph metadata and real links before JavaScript runs. There is no
+client router, production render server or catch-all SPA rewrite.
 
 ```mermaid
 flowchart TD
-    Page["Page — Layout.tsx"] --> Header["Header · theme toggle"]
-    Page --> Main["main"]
-    Page --> Footer["Footer · email, GitHub, LinkedIn"]
-    Main --> Hero["Hero — headshot, name, one line"]
-    Main --> Now["Now"]
-    Main --> Work["Selected work — 4 case study cards"]
-    Main --> Exp["Experience — full dated history"]
-    Main --> Bg["Background — education, certs, personal"]
-    Main --> Contact["Contact"]
+    Shell["WorkspaceShell.astro"] --> Explorer["Explorer / mobile navigation"]
+    Shell --> Main["Main reader document"]
+    Shell --> Rail["Optional profile / contents rail"]
+    Main --> Home["Introduction → Projects → Focus → Experience → Writing → About → Contact"]
+    Main --> Reading["Original articles / reviewed case studies / experience"]
+    Shell --> Theme["React theme island"]
+    Shell --> Firebase["Bundled browser-only firebase/app initialization"]
 ```
 
-## Repository layout
+The editor appearance comes from semantic HTML and CSS. Readers do not need
+terminal commands, a simulated editor, hover or animation to access the content.
+At small widths navigation becomes a native disclosure and the document becomes
+a single reading column. Article contents remain ordinary fragment links.
 
-```
-naz-mul.github.io/
-├── src/                      # Vite root — ALL source lives here
-│   ├── index.html            # / entry point
-│   ├── 404.html              # error page entry point
-│   ├── work/<client>/index.html
-│   ├── entries/*.tsx         # one createRoot mount per page
-│   ├── components/
-│   │   ├── Home.tsx          # home page sections
-│   │   ├── CaseStudyPage.tsx # shared case study template
-│   │   ├── Layout.tsx        # Page, Header, Footer, Section
-│   │   ├── ThemeToggle.tsx
-│   │   ├── theme.ts          # light/dark resolution + persistence
-│   │   └── ui/               # shadcn primitives (generated)
-│   ├── content/site.ts       # ← ALL copy: bio, experience, case studies
-│   ├── styles/globals.css    # Tailwind v4 tokens, @font-face, base layer
-│   ├── lib/utils.ts          # cn() helper
-│   └── public/               # dev-only mirror of root static files
-│       └── fonts/            # self-hosted variable woff2
-│
-├── index.html                # ─┐
-├── 404.html                  #  │ BUILD OUTPUT — generated, committed,
-├── work/<client>/index.html  #  │ served by GitHub Pages. Do not hand-edit.
-├── assets/                   # ─┘
-│
-├── CNAME                     # nalam.me
-├── favicon.ico
-├── img/profile.jpg           # headshot, 512×512
-├── fonts/                    # generated by `yarn sync:static` from src/public/fonts/
-│
-├── CONTEXT.md                # domain vocabulary
-├── docs/
-│   ├── adr/                  # architectural decision records
-│   ├── agents/               # issue tracker, triage labels, domain doc rules
-│   └── resume/               # GITIGNORED — private, never published
-│
-├── scripts/check-contrast.py # WCAG AA + sRGB gamut check
-├── vite.config.ts
-├── tsconfig.json
-├── components.json           # shadcn CLI config
-├── AGENTS.md
-└── README.md
-```
+## Repository boundaries
 
-> **The repo root holds both source and build output.** Anything at the root matching
-> the output list above is generated — edit `src/`, then rebuild.
+| Location | Meaning |
+|----------|---------|
+| `src/pages/` | Astro route generation and build-only manifest endpoint |
+| `src/components/workspace/` | Shared shell, explorer, profile rail and React theme control |
+| `src/components/reading/` | Static article, case-study, experience and writing-index readers |
+| `src/content/articles/` | Reviewed-public Markdown/MDX; both existing technical notes retain their URLs |
+| `src/content/site.ts` | Reviewed identity, career and bounded client contribution records |
+| `src/content/showcase.ts` | Curated featured work and external metadata inputs |
+| `src/content/publication.ts` | Strict schema, eligibility, canonical/reference/link/asset rules |
+| `src/content/publicationData.ts` | Build-time projection and legacy URL adaptation |
+| `src/content/routes.ts` | Preserved legacy route identities and metadata compatibility |
+| `src/content/routePages.ts` | Experience copy and retained incumbent note compatibility |
+| `src/styles/workspace.css`, `reading.css` | Current visual system and technical prose |
+| `src/styles/globals.css` | Retained incumbent Vite fonts/tokens; outside the Astro dependency graph |
+| `src/public/` | Self-hosted fonts and reviewed public resource inputs |
+| `src/lib/firebase/` | Exact supplied public app config and guarded browser lifecycle |
+| `scripts/publication/` | Artifact validation, exact ownership and transactional recovery |
+| `dist/site-build/` | Disposable raw generator output; includes a tooling manifest |
+| `dist/public/` | Validated public artifact; the only directory the preview server exposes |
+| `dist/publication-report.json` | Tooling report and artifact identities; excluded from the public artifact |
+| `dist/verification/` | Local browser results and failure traces |
+| `.private-drafts/`, `.private-preview/` | Ignored local authoring and disposable previews |
+| Root HTML, `assets/`, `sitemap.xml` | Incumbent branch-root publication until an authorized replacement |
+| Root `CNAME`, `.nojekyll`, `favicon.ico`, `img/`, `fonts/` | Protected/static resources or reviewed existing assets; not a deletion scope |
 
-## Prerequisites
+`dist/` is ignored. The public artifact excludes source, documentation, tests,
+configuration, drafts, workflow mocks, source maps and dependencies. The
+build-only `/publication-manifest.json` and sitemap-plugin intermediate files
+are excluded; the established `/sitemap.xml` is projected from eligible routes.
 
-- **Node.js** ≥ 20
-- **Yarn 4** — npm is intentionally blocked (`engines.npm: please-use-yarn`)
+A public repository does not provide private draft storage. Even a filtered-out
+Markdown record is public if committed. Keep private drafts local and ignored;
+promote only reviewed, publishable content into tracked source.
+`docs/resume/` remains ignored and must never be included in a commit or artifact.
 
-## Development
+## Toolchain and commands
 
-```bash
-yarn install     # install dependencies
-yarn dev         # Vite dev server → http://localhost:3000
-yarn build       # typecheck, then build to the repo root
-yarn preview     # serve the built output → http://localhost:4173
-yarn typecheck   # tsc --noEmit
-yarn check:contrast  # WCAG AA + sRGB gamut audit of the palette
-yarn verify      # typecheck + contrast
+Use **Node 24.16.0** and **Yarn 4.17.0**. `.node-version`, `.nvmrc`, `package.json`
+and `yarn.lock` hold the exact supported baseline. npm is intentionally blocked.
+Direct framework pins are Astro 7.3.8, React 19.2.8, React integration 7.0.1,
+MDX integration 8.0.3, sitemap integration 3.7.4, Tailwind 4.3.3 and TypeScript
+5.9.3. Ordinary fenced code uses Astro's built-in build-time highlighting;
+there is no additional client highlighter, CMS or application backend.
+
+```sh
+yarn install
+yarn dev               # Astro → http://127.0.0.1:3000
+yarn check             # Astro diagnostics and TypeScript
+yarn verify            # check, measured contrast/gamut and focused unit/fixture tests
+yarn build             # verify → static generation → validated artifact + local Hosting CSP hashes
+yarn preview           # only dist/public → http://127.0.0.1:4173
+yarn test:e2e          # built-artifact Chromium checks; starts its own preview server
+yarn publish:root      # root-publication dry-run; no root output writes
 ```
 
-`yarn build` chains `yarn clean` (clears `assets/` so stale content-hashed bundles do
-not accumulate) and `yarn sync:static` (copies the self-hosted fonts into the shipped
-`fonts/`) before typechecking and building.
+Stop an existing preview before `yarn test:e2e`; the suite deliberately refuses to
+reuse a listener. Focused scripts include `test:content`, `test:firebase`,
+`test:publication`, `test:preview-server`, `test:contrast` and `check:contrast`.
+Browser details and limits are in [tests/e2e/README.md](tests/e2e/README.md).
+Commands describe current tooling; a successful local suite does not establish
+complete WCAG conformance, every browser family or live hosting behavior.
 
-> **Yarn 4 does not auto-run `pre`/`post` scripts** for custom names. These steps live
-> inside `build` deliberately — a `prebuild` hook is silently skipped.
+All required stages are explicitly chained: Yarn 4 does not automatically run
+custom `pre`/`post` hooks. `.yarnrc.yml` contains narrow released-manifest repairs
+for Astro's checker dependencies; see [the publication runbook](docs/operations/publication.md#toolchain-notes)
+before removing them. Firebase's unused compatibility-package peer warnings are
+recorded in [the Firebase boundary](src/lib/firebase/README.md).
 
-### VS Code / Cursor
+The retained `legacy:build`, `prerender`, `clean` and `sync:static` scripts belong
+to the incumbent Vite recovery path. They can write or remove branch-root output
+and are not part of normal Astro builds. Preserve its `emptyOutDir: false` while
+it remains recoverable. Never point Astro at the repository root.
 
-| Action | How |
-|--------|-----|
-| **Run and Debug** | "Open nalam.me (Vite dev)" — starts the dev server, opens Chrome |
-| **Preview built output** | "Open nalam.me (built preview)" |
-| **Tasks** | `Terminal → Run Task` → `dev: Vite` (default build task) |
+## Authoring and design
 
-## Styling
+Follow [the authoring guide](docs/operations/authoring.md) for new Markdown/MDX,
+publication promotion, project detail and curated LinkedIn entries. Original
+writing is self-canonical on nalam.me. LinkedIn entries contain reviewed metadata
+and a clear **Read on LinkedIn** destination; no body import, embed or automatic
+LinkedIn request runs.
 
-Tailwind v4, **CSS-first** — there is no `tailwind.config.js`. Design tokens are CSS
-custom properties in `src/styles/globals.css`, exposed to Tailwind through `@theme
-inline`.
+The current three featured summaries are **In progress**. Additional detail pages
+need reviewed Problem, Your role, Architecture, Challenges, Outcome, Technology
+and Links material; a title does not justify fabricated outcomes or placeholder
+actions. Existing client case studies keep their original evidence boundaries.
+Principal engineer and architect remain career goals.
 
-| Token group | Where |
-|-------------|-------|
-| Light palette | `:root` |
-| Dark palette (OS) | `@media (prefers-color-scheme: dark) { :root:not(.light) }` |
-| Dark palette (explicit) | `:root.dark` |
-| Tailwind mapping | `@theme inline` |
+Tailwind v4 is CSS-first. Current workspace and reader styles use the selected
+blue/green palette, strong sans-serif headings/prose and monospace code/metadata.
+Newsreader definitions remain in retained legacy CSS; they do not define the
+selected workspace typography. Theme preference is system by default: classless
+HTML follows the OS in CSS, with explicit `.light` / `.dark` overrides restored
+before paint. Keep both dark-token declarations in sync.
 
-### Theme: light / dark / system
+All automatic page resources remain same-origin: self-hosted fonts, bundled
+modules and local images. Run `yarn check:contrast` after palette changes and
+retain keyboard focus, reduced motion and narrow-screen reflow.
 
-Tri-state, defaulting to **system**. System is implemented in **CSS, not JavaScript** —
-no class on `<html>` means "follow the OS", so an OS theme change applies instantly with
-no listener and the site still themes correctly with JavaScript disabled. `.light` and
-`.dark` are explicit overrides; a `:not(.light)` guard lets an explicit light choice beat
-a dark OS. A two-line inline script restores an explicit choice before first paint.
+## Firebase and release
 
-The dark palette is declared twice — once under the media query, once under `.dark`.
-Plain CSS cannot share a block between them, so **keep the two in sync.**
+The supplied `nalam-aa058` app is initialized through the modular `firebase/app`
+boundary in the browser only. Repeated/concurrent entry retains the intended
+app; initialization failure does not block reading or navigation. No Firebase
+product, analytics, remote project/site binding or deployment is enabled by that
+initializer. [Boundary details](src/lib/firebase/README.md) describe the exact
+lifecycle and configuration evidence without duplicating app values here.
 
-### Type
+`firebase.json` is a **future classic Hosting configuration** selecting only
+`dist/public`. `yarn build` updates its enforceable CSP hashes for the actual
+artifact; it does not upload anything. Firebase preview channels are public.
+Project/site selection, provider routes, genuine 404 status, cache/header/CSP
+behavior and migration rollback require separately authorized live verification.
+GitHub Pages remains the current host.
 
-Three self-hosted variable typefaces, each with one job:
+For current-host release or recovery, use [the publication runbook](docs/operations/publication.md).
+The publisher defaults to a dry-run, checks exact ownership/identities and saves
+transaction backups before an authorized application. Stage only explicitly
+reviewed paths; release tooling never commits or pushes. A local replacement,
+a Git push and a verified live release are distinct outcomes.
 
-| Face | Role | File |
-|------|------|------|
-| **Newsreader** | display + long-form prose | `newsreader-var.woff2` (+ italic) |
-| **Geist Sans** | UI, navigation, lists | `geist-sans-var.woff2` |
-| **Geist Mono** | labels, metadata, numbers | `geist-mono-var.woff2` |
-
-~171 KB total, served from `/fonts/`. **Never swap these for a Google Fonts `<link>`** —
-that would break the zero-third-party-request rule.
-
-### Colour
-
-OKLCH throughout. The values are load-bearing: every foreground clears WCAG AA (4.5:1)
-against the surface it sits on, and every colour is inside the sRGB gamut.
-
-```bash
-yarn check:contrast
-```
-
-verifies both, in both themes, straight from the CSS. Run it after changing any colour.
-
-shadcn components are generated into `src/components/ui/`:
-
-```bash
-yarn dlx shadcn@latest add <component>
-```
-
-## Content
-
-**All copy lives in `src/content/site.ts`.** Components render it; they do not contain
-prose. To change the bio, a job entry, or a case study, edit that one file.
-
-Content rules that came out of the design process — see `docs/adr/0005-sanitised-case-studies.md`:
-
-- Case studies **name clients but genericise their systems**. No internal architecture,
-  no proprietary identifiers, no unpublishable metrics.
-- **Never invent metrics.** Figures on the site (7s→2s, 5min→1.5min) come from the CV.
-- Voice is direct, specific, first person. No emoji, no skill bars, no logo walls.
-
-## Privacy
-
-`docs/resume/` is **gitignored and must stay that way**. The site is served from the
-repo root, so committing it would publish the CV — phone number included — at a public
-URL.
-
-## Deployment
-
-GitHub Pages serves the default branch root of `naz-mul.github.io`. There is no Actions
-workflow: **the build output is committed**.
-
-```bash
-yarn build
-git add -A
-git commit -m "..."
-git push
-```
-
-`CNAME` is never touched by the build (`emptyOutDir: false`), so the custom domain
-cannot be lost by a deploy.
-
-## Known limitation
-
-Pages are **client-rendered**: the served HTML is a shell around `<div id="root">`, and
-the prose lives in the JS bundle. Metadata is static (`<title>`, `og:` tags, JSON-LD),
-so link previews and social cards work, and Google executes JS so indexing works. But a
-client that does not run JS sees an empty page.
-
-The fix is build-time prerendering with `react-dom/server`, keeping React for
-hydration. See `docs/adr/0006-client-rendered-html.md`.
+[ADR-0009](docs/adr/0009-astro-staged-publication.md) records the Astro decision;
+earlier ADRs retain their historical rationale with current-status pointers.
+[CONTEXT.md](CONTEXT.md) defines vocabulary and [AGENTS.md](AGENTS.md) guides agents.
 
 ## License
 

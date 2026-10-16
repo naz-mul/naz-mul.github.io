@@ -1,0 +1,96 @@
+---
+import { Braces, Copy, FileText } from 'lucide-react'
+import { site } from '../../content/site'
+
+const profile = [
+  { key: 'name', value: site.name },
+  { key: 'role', value: 'Senior Software Engineer' },
+  { key: 'company', value: 'Cisco' },
+  { key: 'experience_years', value: 10 },
+  { key: 'tagline', value: 'Building systems. Sharing the decisions.' },
+  { key: 'focus', value: ['Distributed systems', 'Real-time voice'] },
+  { key: 'exploring', value: ['Agentic AI', 'Software architecture'] },
+]
+const profileText = JSON.stringify(Object.fromEntries(profile.map(({ key, value }) => [key, value])), null, 2)
+const profileRows = profileText.split('\n').length
+const profileTokens = [...profileText.matchAll(/"(?:\\.|[^"\\])*"|-?\d+(?:\.\d+)?|[^"\d-]+|-/g)].map((match) => {
+  const text = match[0]
+  const next = profileText.slice((match.index ?? 0) + text.length)
+  const kind = text.startsWith('"') ? (/^\s*:/.test(next) ? 'json-key' : 'json-string') : /^-?\d/.test(text) ? 'json-number' : 'json-punctuation'
+  return { text, kind }
+})
+---
+<div class="profile-rail-content">
+  <section class="workspace-panel profile-panel" id="profile" aria-labelledby="profile-label">
+    <div class="workspace-panel-tab">
+      <Braces size={19} aria-hidden="true" /><h2 id="profile-label">profile.json</h2>
+      <button class="workspace-profile-copy" type="button" data-profile-copy aria-label="Copy profile JSON" disabled hidden><Copy size={16} aria-hidden="true" /></button>
+    </div>
+    <p class="workspace-copy-status" role="status"></p>
+    <div class="profile-json" data-numbered-source>
+      <span class="workspace-source-numbers" aria-hidden="true">{Array.from({ length: profileRows }, (_, index) => <span>{index + 1}</span>)}</span>
+      <pre class="profile-json-source" data-source-content><code>{profileTokens.map(({ text, kind }) => <span class={kind}>{text}</span>)}</code></pre>
+    </div>
+  </section>
+  <section class="workspace-panel personal-notes-panel" id="personal-notes" aria-labelledby="personal-notes-label">
+    <h2 class="workspace-panel-tab" id="personal-notes-label"><FileText size={19} aria-hidden="true" /><span>notes.txt</span></h2>
+    <div class="personal-notes-copy" data-numbered-source>
+      <span class="workspace-source-numbers" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((number) => <span>{number}</span>)}</span>
+      <div class="personal-notes-source" data-source-content>
+        <p>Systems are built with people, context, and trade-offs.</p>
+        <p>I enjoy turning complex requirements into simple, reliable solutions.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  // Decorative source numbers follow rendered rows, including soft wrapping.
+  // Source text remains ordinary static HTML when JavaScript is unavailable.
+  for (const source of document.querySelectorAll<HTMLElement>('[data-numbered-source]')) {
+    const content = source.querySelector<HTMLElement>('[data-source-content]');
+    const gutter = source.querySelector<HTMLElement>('.workspace-source-numbers');
+    if (!content || !gutter) continue;
+    const updateNumbers = () => {
+      const lineHeight = Number.parseFloat(getComputedStyle(content).lineHeight);
+      if (!Number.isFinite(lineHeight) || lineHeight <= 0) return;
+      const rows = Math.max(1, Math.round(content.getBoundingClientRect().height / lineHeight));
+      if (gutter.children.length === rows) return;
+      gutter.replaceChildren(...Array.from({ length: rows }, (_, index) => {
+        const number = document.createElement('span');
+        number.textContent = String(index + 1);
+        return number;
+      }));
+    };
+    updateNumbers();
+    if ('ResizeObserver' in window) new ResizeObserver(updateNumbers).observe(content);
+    document.fonts.ready.then(updateNumbers, updateNumbers);
+  }
+
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-profile-copy]');
+  const profileCode = document.querySelector<HTMLElement>('.profile-json-source code');
+  const copyStatus = document.querySelector<HTMLElement>('.workspace-copy-status');
+  if (copyButton && profileCode && copyStatus) {
+    copyButton.hidden = false;
+    copyButton.disabled = false;
+    copyButton.addEventListener('click', async () => {
+      copyButton.disabled = true;
+      copyButton.setAttribute('aria-busy', 'true');
+      copyStatus.textContent = '';
+      try {
+        await navigator.clipboard.writeText(profileCode.textContent ?? '');
+        copyStatus.textContent = 'Profile copied.';
+      } catch {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(profileCode);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        copyStatus.textContent = 'Copy unavailable. The profile text is selected; use your copy shortcut.';
+      } finally {
+        copyButton.disabled = false;
+        copyButton.removeAttribute('aria-busy');
+      }
+    });
+  }
+</script>

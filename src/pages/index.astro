@@ -1,0 +1,97 @@
+---
+import { ArrowRight, ArrowUpRight, Mail } from 'lucide-react'
+import WorkspaceShell from '../components/workspace/WorkspaceShell.astro'
+import { getPublication } from '../content/publicationData'
+import { content, site, type Job } from '../content/site'
+
+const publication = await getPublication()
+const route = publication.routes.find((candidate) => candidate.path === '/')
+if (!route) throw new Error('The public homepage route is missing.')
+const workStateLabels = { 'in-progress': 'In progress', planned: 'Planned', delivered: 'Delivered' } as const
+const experience: readonly Job[] = content.experience
+---
+<WorkspaceShell route={route} mode="home" activeSection="intro">
+  <section class="workspace-home-section workspace-intro" id="intro" aria-labelledby="intro-heading">
+    <div class="intro-line-numbers" aria-hidden="true">{[1, 2, 3, 4, 5, 6].map((number) => <span>{number}</span>)}</div>
+    <h1 id="intro-heading"><span class="markdown-hash" aria-hidden="true">#</span>{site.name}</h1>
+    <p class="workspace-role">{site.title}</p>
+    <p class="workspace-experience-line">10 years of engineering experience</p>
+    <p class="workspace-tagline">Building systems. Sharing the decisions.</p>
+    <p class="workspace-intro-copy">I work on distributed systems and real-time voice. I enjoy turning complex requirements into reliable, maintainable systems and sharing the reasoning behind the technical decisions.</p>
+  </section>
+
+  <section class="workspace-home-section workspace-projects" id="projects" aria-labelledby="projects-heading">
+    <h2 class="workspace-section-heading" id="projects-heading"><span class="project-source-lines workspace-heading-lines" aria-hidden="true">{[8, 9].map((number) => <span>{number}</span>)}</span><span class="markdown-hash" aria-hidden="true">##</span>Featured projects</h2>
+    <ol class="workspace-project-list">
+      {publication.featuredWork.map((project, index) => <li class="workspace-project-row" id={project.id}>
+        <span class="project-source-lines" aria-hidden="true">{[11 + index * 5, 12 + index * 5, 13 + index * 5, 14 + index * 5].map((number) => <span>{number}</span>)}</span>
+        <span class="workspace-project-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <div class="workspace-project-body">
+          <h3>{project.title}</h3>
+          <p>{project.description}</p>
+          <div class="workspace-project-footer">
+            {project.workState && <span class="workspace-work-state">{workStateLabels[project.workState]}</span>}
+            {project.links.map((link) => <a href={link.url}>{link.label}<ArrowUpRight size={14} aria-hidden="true" /></a>)}
+          </div>
+        </div>
+      </li>)}
+    </ol>
+    {publication.featuredWork.length === 0 && <p class="workspace-empty">Engineering project notes are being prepared.</p>}
+  </section>
+
+  <section class="workspace-home-section workspace-focus" id="focus" aria-labelledby="focus-heading">
+    <h2 class="workspace-section-heading" id="focus-heading"><span class="project-source-lines workspace-heading-lines" aria-hidden="true">{[26, 27].map((number) => <span>{number}</span>)}</span><span class="markdown-hash" aria-hidden="true">##</span>Current technical focus</h2>
+    <div class="workspace-focus-grid">
+      <span class="project-source-lines workspace-focus-lines" aria-hidden="true">{[28, 29, 30, 31].map((number) => <span>{number}</span>)}</span>
+      <article class="workspace-focus-panel">
+        <span class="focus-index" aria-hidden="true">01</span>
+        <div><h3>Distributed systems / Real-time voice</h3><p>Designing and building distributed systems that handle real-time voice and media workloads. I focus on reliability, observability, scalability, and maintainable architecture.</p></div>
+      </article>
+      <article class="workspace-focus-panel">
+        <span class="focus-index" aria-hidden="true">02</span>
+        <div><h3>Exploring Agentic AI and software architecture</h3><p>Deepening my understanding of agentic AI systems and modern software architecture. I’m exploring how these technologies can work together to create more capable and reliable systems.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="workspace-home-section workspace-lower-section" id="experience" aria-labelledby="experience-heading">
+    <h2 class="workspace-section-heading" id="experience-heading"><span class="markdown-hash" aria-hidden="true">##</span>Experience</h2>
+    <p class="workspace-section-intro">{content.credibilityLine}</p>
+    <ol class="workspace-experience-list">
+      {experience.map((job) => <li>
+        <div class="experience-company">{job.href ? <a href={job.href}>{job.company}<ArrowUpRight size={15} aria-hidden="true" /></a> : <strong>{job.company}</strong>}<span>{job.period}</span></div>
+        <p class="experience-role">{job.role}</p>
+        {job.note && <p class="experience-note">{job.note}</p>}
+      </li>)}
+    </ol>
+    <a class="workspace-text-link" href="/experience/">Full experience<ArrowRight size={16} aria-hidden="true" /></a>
+  </section>
+
+  <section class="workspace-home-section workspace-lower-section" id="writing" aria-labelledby="writing-heading">
+    <h2 class="workspace-section-heading" id="writing-heading"><span class="markdown-hash" aria-hidden="true">##</span>Technical writing</h2>
+    <p class="workspace-section-intro">Notes on system behaviour, implementation, and the decisions behind reliable software.</p>
+    <ol class="workspace-writing-list">
+      {publication.writing.map((writing) => <li>
+        <h3><a href={writing.permalink ?? writing.source.url}>{writing.title}<ArrowUpRight size={17} aria-hidden="true" /></a></h3>
+        <span class="workspace-writing-kind">{writing.source.kind === 'linkedin' ? 'LinkedIn article' : writing.knowledgeState === 'analysis' ? 'Engineering analysis' : 'Technical note'}</span>
+        <p>{writing.description}</p>
+        {writing.source.kind === 'linkedin' && <a class="workspace-text-link" href={writing.source.url}>Read on LinkedIn<ArrowUpRight size={15} aria-hidden="true" /></a>}
+      </li>)}
+    </ol>
+    <a class="workspace-text-link" href="/writing/">All technical writing<ArrowRight size={16} aria-hidden="true" /></a>
+  </section>
+
+  <section class="workspace-home-section workspace-lower-section workspace-about" id="about" aria-labelledby="about-heading">
+    <h2 class="workspace-section-heading" id="about-heading"><span class="markdown-hash" aria-hidden="true">##</span>About</h2>
+    <p>{content.positioning.thesis}</p>
+    <p>I’m based in {site.location}. My current interests include Agentic AI and software architecture, as I work towards principal-level engineering and architectural responsibility.</p>
+    <p>Systems are built with people, context, and trade-offs. I share the decisions as well as the implementation.</p>
+  </section>
+
+  <section class="workspace-home-section workspace-lower-section workspace-contact" id="contact" aria-labelledby="contact-heading">
+    <h2 class="workspace-section-heading" id="contact-heading"><span class="markdown-hash" aria-hidden="true">##</span>Contact</h2>
+    <p class="contact-invitation">{content.contact.invitation}</p>
+    <a class="workspace-email" href={`mailto:${site.email}`}><Mail size={21} aria-hidden="true" />{site.email}<ArrowUpRight size={22} aria-hidden="true" /></a>
+    <ul class="workspace-social-links"><li><a href={site.github}>GitHub<ArrowUpRight size={14} aria-hidden="true" /></a></li><li><a href={site.linkedin}>LinkedIn<ArrowUpRight size={14} aria-hidden="true" /></a></li></ul>
+  </section>
+</WorkspaceShell>

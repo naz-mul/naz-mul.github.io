@@ -1,6 +1,14 @@
 # ADR-0002 — Multi-page build, not a single-page app
 
-**Status:** accepted · **Date:** 2026-08-29
+**Status:** static-document decision retained; Vite mechanism superseded by [ADR-0009](0009-astro-staged-publication.md) · **Date:** 2026-08-29
+
+## 2026-10-15 amendment
+
+Astro now generates real static reader documents from the shared publication
+projection. The ordinary-navigation, direct-link and genuine-404 decisions remain.
+Vite HTML inputs and mount scripts below describe the retained incumbent mechanism;
+new original writing uses the reviewed collection and an explicit stable permalink,
+without three coordinated entry-point edits. No SPA redirect shim is introduced.
 
 ## Context
 

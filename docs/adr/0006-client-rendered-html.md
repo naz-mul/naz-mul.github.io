@@ -1,6 +1,10 @@
 # ADR-0006 — Client-rendered HTML (known limitation)
 
-**Status:** accepted, with a known remedy · **Date:** 2026-08-29
+**Status:** superseded by [ADR-0008](0008-local-prerendered-route-manifest.md), then [ADR-0009](0009-astro-staged-publication.md) · **Date:** 2026-08-29
+
+The client-only limitation below is historical. Local prerendering first supplied
+useful reader HTML; the current Astro implementation preserves that requirement
+with static documents and small interactive islands.
 
 ## Context
 

@@ -1,13 +1,116 @@
 /**
  * Single source of truth for site content.
  *
- * ⚠️ REVIEW BEFORE PUBLISHING. Every case study below was drafted from the CV in
- * docs/resume/ plus what was agreed during planning. Nothing here is invented, but
- * it is written in the first person on your behalf — read it as your own claim.
+ * REVIEW BEFORE PUBLISHING. First-person contribution statements are reviewed
+ * self-attestation. Editorial framing and official public context are separate
+ * evidence classes and must not be presented as corroborating those statements.
  */
 
 const CISCO_TITLE = 'Senior Software Engineer'
 const CISCO_START = 'May 2026'
+
+export type EvidenceClass =
+  | 'editorial-consequence-framing'
+  | 'reviewed-self-attestation'
+  | 'official-public-context'
+
+export type EvidenceStatement = {
+  copy: string
+  evidenceClass: Exclude<EvidenceClass, 'official-public-context'>
+}
+
+export type OfficialContext = {
+  label: string
+  url: string
+  evidenceClass: 'official-public-context'
+  boundary: string
+}
+
+export type PublicationBoundary = {
+  allowed: readonly string[]
+  excluded: readonly string[]
+}
+
+export type WorkSummary = {
+  slug: 'cisco' | 'fidelity' | 'hmh' | 'optum'
+  client: string
+  href: string
+  period: string
+  role: string
+  summary: string
+  stack: readonly string[]
+}
+
+export type FlagshipProof = {
+  systemConsequence: EvidenceStatement
+  exactOwnership: EvidenceStatement
+  consequentialDecision: EvidenceStatement
+  sanitizedMechanism: EvidenceStatement
+  rolloutAndOperations: EvidenceStatement
+  observableOutcome: EvidenceStatement
+  retrospective: EvidenceStatement
+}
+
+export type FlagshipStory = WorkSummary & {
+  tier: 'flagship'
+  proof: FlagshipProof
+  officialContext: OfficialContext
+  publicationBoundary: PublicationBoundary
+}
+
+export type SupportingProof = WorkSummary & {
+  tier: 'supporting-proof'
+  contribution: EvidenceStatement
+  roleInNarrative: string
+  officialContext: OfficialContext
+  publicationBoundary: PublicationBoundary
+}
+
+export type CurrentWorkProof = WorkSummary & {
+  tier: 'current-work-note'
+  contribution: EvidenceStatement
+  roleInNarrative: string
+  officialContext: readonly OfficialContext[]
+  publicationBoundary: PublicationBoundary
+}
+
+export type TechnicalNoteDescriptor = {
+  slug: string
+  href: string
+  workingTitle: string
+  purpose: string
+  evidenceBoundary: string
+  minimumArtifacts: readonly string[]
+  excluded: readonly string[]
+}
+
+export type Job = {
+  role: string
+  company: string
+  location: string
+  period: string
+  note?: string
+  href?: string
+}
+
+export type SiteContentContract = {
+  positioning: {
+    thesis: string
+    currentFrontier: string
+    audience: readonly string[]
+    leadershipBoundary: string
+  }
+  currentWork: CurrentWorkProof
+  flagships: readonly [FlagshipStory, FlagshipStory]
+  supportingProof: SupportingProof
+  technicalNotes: readonly [TechnicalNoteDescriptor, TechnicalNoteDescriptor]
+  credibilityLine: string
+  contact: {
+    heading: string
+    invitation: string
+  }
+  experience: readonly Job[]
+}
 
 export const site = {
   name: 'Nazmul Alam',
@@ -19,336 +122,419 @@ export const site = {
   linkedin: 'https://www.linkedin.com/in/nalam',
   title: `${CISCO_TITLE}, Cisco`,
   description:
-    'Senior software engineer in Galway. I build real-time voice AI for contact centres at Cisco, and have spent a decade on backend systems in payments, healthcare, identity and finance.',
+    'Senior software engineer designing distributed backends for latency-sensitive and high-consequence platforms.',
 } as const
 
-/** The one line under the name. Specific beats comprehensive. */
-export const heroLine =
-  'I build the real-time layer of speech-to-speech voice AI for contact centres at Cisco — the part where a conversation has to feel like a conversation.'
+const cisco = {
+  tier: 'current-work-note',
+  slug: 'cisco',
+  client: 'Cisco',
+  href: '/work/cisco/',
+  period: `${CISCO_START} — Present`,
+  role: CISCO_TITLE,
+  summary:
+    'Current work at the real-time voice frontier, bounded to personally implemented test and codec work.',
+  stack: ['Real-time audio', 'Speech-to-speech testing', 'G.711 A-law'],
+  contribution: {
+    copy:
+      'At Cisco, I built a speech-to-speech load-testing simulator and implemented G.711 A-law support.',
+    evidenceClass: 'reviewed-self-attestation',
+  },
+  roleInNarrative:
+    'Current evidence of the durable systems thesis, not a completed impact story or the whole professional identity.',
+  officialContext: [
+    {
+      label: 'Webex Contact Center BYOVA',
+      url: 'https://developer.webex.com/webex-contact-center/docs/bring-your-own-virtual-agent',
+      evidenceClass: 'official-public-context',
+      boundary:
+        'Public product context only; it does not corroborate this contribution or describe an internal Cisco implementation.',
+    },
+    {
+      label: 'Cisco public G711A codec listing',
+      url: 'https://developer.cisco.com/docs/packaged-contact-center/virtualized-voice-browser-configuration-api/',
+      evidenceClass: 'official-public-context',
+      boundary:
+        'Public codec context only; it does not establish internal adoption, rollout, performance, or outcome.',
+    },
+  ],
+  publicationBoundary: {
+    allowed: [
+      'The reviewed simulator and G.711 A-law contribution.',
+      'Generic lessons that do not reveal internal implementation or evaluation details.',
+    ],
+    excluded: [
+      'Turn-taking or interruption orchestration ownership.',
+      'Vendor evaluation, load-test matrices, tested capacity, or customer scale.',
+      'Internal architecture, objectives, rollout, release readiness, adoption, or outcomes.',
+    ],
+  },
+} as const satisfies CurrentWorkProof
+
+const hmh = {
+  tier: 'flagship',
+  slug: 'hmh',
+  client: 'Houghton Mifflin Harcourt',
+  href: '/work/hmh/',
+  period: 'Aug 2024 — Jul 2025',
+  role: 'Senior Software Engineer (contract)',
+  summary:
+    'A live identity-platform migration shaped by continuity, cutover, and consequence-sensitive consistency.',
+  stack: ['Identity platforms', 'Event-driven synchronization', 'Provisioning'],
+  proof: {
+    systemConsequence: {
+      copy:
+        'For a school district, changing the identity platform is not a background infrastructure swap. The transition has to preserve a dependable route into the learning systems people already use.',
+      evidenceClass: 'editorial-consequence-framing',
+    },
+    exactOwnership: {
+      copy:
+        'At HMH, I was an early contributor who led implementation of an identity-platform migration for a school district.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    consequentialDecision: {
+      copy:
+        'I chose event-driven synchronization for identity changes instead of polling downstream state or coupling the provisioning path directly to every consumer. That kept the migration paths separable, while security-sensitive deprovisioning required stronger handling than ordinary profile changes.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    sanitizedMechanism: {
+      copy:
+        'I built provisioning services that interacted with an identity platform and emitted identity-change events for downstream consumers. The mechanism covered creation, updates, and deprovisioning without exposing customer-specific architecture or proprietary identifiers.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    rolloutAndOperations: {
+      copy:
+        'The integration supported a gradual cutover in which migration paths could coexist during the transition, rather than requiring every dependent system to change in one step.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    observableOutcome: {
+      copy:
+        'A district identity migration was implemented with downstream synchronization carried by identity-change events.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    retrospective: {
+      copy:
+        'The consistency guarantee should follow the consequence of delay. Eventual consistency can be reasonable for ordinary profile changes; deprovisioning deserves stronger, explicitly verified treatment because stale access is a security condition, not merely stale data.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+  },
+  officialContext: {
+    label: 'HMH district SAML SSO guidance',
+    url: 'https://support.hmhco.com/s/article/set-up-saml-sso-rostering-hmh-heinemann',
+    evidenceClass: 'official-public-context',
+    boundary:
+      'District SSO context only; it does not identify the district or corroborate the project, contribution, rollout, or outcome.',
+  },
+  publicationBoundary: {
+    allowed: [
+      'Reviewed technical implementation ownership and the sanitized seven-stage proof.',
+      'Gradual cutover and coexistence without claiming completion or zero disruption.',
+    ],
+    excluded: [
+      'Customer identity, user count, unpublished timing, or customer-specific capacity.',
+      'Proprietary identifiers, internal architecture, or measured operational impact.',
+      'People-management implications or the word “pioneer”.',
+    ],
+  },
+} as const satisfies FlagshipStory
+
+const optum = {
+  tier: 'flagship',
+  slug: 'optum',
+  client: 'Optum',
+  href: '/work/optum/',
+  period: 'Oct 2021 — Apr 2023',
+  role: 'Senior Software Engineer (contract)',
+  summary:
+    'Technical design and implementation for healthcare-data work where analytical usefulness and stewardship shaped the same boundary.',
+  stack: ['Analytical data', 'Governed APIs', 'Observability'],
+  proof: {
+    systemConsequence: {
+      copy:
+        'Healthcare-data systems make technical decisions consequential: the work has to make useful analysis possible while treating data stewardship as a design constraint.',
+      evidenceClass: 'editorial-consequence-framing',
+    },
+    exactOwnership: {
+      copy:
+        'At Optum, I led technical design and implementation for healthcare-data work, including architecture, design decisions, and coordination.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    consequentialDecision: {
+      copy:
+        'I decided per report how much aggregation belonged in the analytical store and how much belonged in the API, rather than imposing one uniform rule. Pushing aggregation down reduced data movement; retaining it in the API preserved flexibility for consumer-specific needs.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    sanitizedMechanism: {
+      copy:
+        'I designed and implemented a governed API layer over an analytical data store. Access boundaries were part of the data and API design, and operational instrumentation made the service observable without exposing internal names or detailed architecture.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    rolloutAndOperations: {
+      copy:
+        'I worked with dashboard and frontend engineers to shape the API around reporting needs, and added operational instrumentation around the service so its behaviour could be examined during delivery and use.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    observableOutcome: {
+      copy:
+        'The work delivered an API boundary supporting dashboard and reporting workflows over regulated analytical data.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+    retrospective: {
+      copy:
+        'Aggregation placement is workload-specific: the useful boundary depends on query shape, data movement, and the flexibility consumers need. In regulated analytical systems, governance and consumer workflows have to shape the API boundary together.',
+      evidenceClass: 'reviewed-self-attestation',
+    },
+  },
+  officialContext: {
+    label: 'Optum data and analytics',
+    url: 'https://business.optum.com/en/data-analytics.html',
+    evidenceClass: 'official-public-context',
+    boundary:
+      'Sector context only; it does not prove a particular system, contribution, architecture, adoption, or outcome.',
+  },
+  publicationBoundary: {
+    allowed: [
+      'Reviewed technical design and implementation ownership.',
+      'The sanitized seven-stage proof and bounded delivery outcome.',
+    ],
+    excluded: [
+      'A specific product, customer, dataset, internal architecture, or scale.',
+      'Measured reliability, adoption, incident, customer, or business outcomes.',
+      'Team, line, or people-management claims and organization-wide authority.',
+    ],
+  },
+} as const satisfies FlagshipStory
+
+const fidelity = {
+  tier: 'supporting-proof',
+  slug: 'fidelity',
+  client: 'Fidelity Investments',
+  href: '/work/fidelity/',
+  period: 'Sep 2025 — Apr 2026',
+  role: 'Senior Software Engineer (contract)',
+  summary:
+    'Collaborative evidence of working through workflow-service modernization and migration trade-offs.',
+  stack: ['Workflow services', 'Modernization', 'Migration'],
+  contribution: {
+    copy:
+      'At Fidelity, I contributed to modernising workflow services, including architecture discussions, design decisions, and migration work.',
+    evidenceClass: 'reviewed-self-attestation',
+  },
+  roleInNarrative:
+    'Supporting modernization proof; the available evidence does not support a deep impact or completion story.',
+  officialContext: {
+    label: 'XTRAC workflow and document-management overview',
+    url: 'https://www.xtracsolutions.com/DOCS/1-WorkHub/5.0/WorkHub/Content/NewtoXTRAC.htm',
+    evidenceClass: 'official-public-context',
+    boundary:
+      'Product context only; it does not corroborate Fidelity implementation details, this contribution, or a migration result.',
+  },
+  publicationBoundary: {
+    allowed: [
+      'Collaborative contribution to architecture discussions, design decisions, and migration work.',
+      'Generic modernization and retirement trade-offs.',
+    ],
+    excluded: [
+      'Implementation-stack and internal-architecture details.',
+      'Sole ownership, completed migration, service retirement, scale, performance, or operational outcomes.',
+      'Architecture shape presented as impact.',
+    ],
+  },
+} as const satisfies SupportingProof
+
+export const content = {
+  positioning: {
+    thesis:
+      'I design distributed backends for latency-sensitive and high-consequence platforms — systems that must remain correct while changing and responsive while parts fail.',
+    currentFrontier:
+      'Voice AI is my current frontier: another place where latency, partial failure, and system boundaries become visible to the person using the system.',
+    audience: [
+      'Staff and principal engineers, technical founders, and startup CTOs.',
+      'Engineering directors and hiring managers.',
+      'Recruiters who need clear role vocabulary and compact chronology.',
+    ],
+    leadershipBoundary:
+      'Leadership means technical design ownership: designing, deciding, implementing, operating, and aligning around systems. It does not imply people management or organization-wide authority.',
+  },
+  currentWork: cisco,
+  flagships: [hmh, optum],
+  supportingProof: fidelity,
+  technicalNotes: [
+    {
+      slug: 'testing-real-time-voice-orchestration-under-interruption',
+      href: '/notes/testing-real-time-voice-orchestration-under-interruption/',
+      workingTitle: 'Testing real-time voice orchestration under interruption',
+      purpose:
+        'A public-source engineering analysis of turn boundaries, interruption and barge-in, duplex timing, codec boundaries, backpressure, and observable failure modes.',
+      evidenceBoundary:
+        'The analysis is not a Cisco case study. A separate current-work sidebar may state only the reviewed simulator and G.711 A-law contribution.',
+      minimumArtifacts: [
+        'An annotated session timeline or state model.',
+        'A compact scenario matrix covering normal turns, overlap, barge-in, codec conversion, and degraded dependencies.',
+      ],
+      excluded: [
+        'Cisco turn-taking or interruption-orchestration ownership.',
+        'Cisco architecture, vendor evaluation, internal test matrices, capacity, rollout, adoption, or outcomes.',
+        'Any implication that public-source analysis describes Cisco implementation.',
+      ],
+    },
+    {
+      slug: 'consistency-guarantees-for-deprovisioning',
+      href: '/notes/consistency-guarantees-for-deprovisioning/',
+      workingTitle: 'Consistency guarantees for deprovisioning during live identity migration',
+      purpose:
+        'A generic analysis of why ordinary profile changes and security-sensitive deprovisioning need different consistency guarantees during live migration.',
+      evidenceBoundary:
+        'Reviewed generic first-person lessons may be used, but client systems remain genericised and public patterns must not be presented as proprietary architecture.',
+      minimumArtifacts: [
+        'A consistency-invariant matrix.',
+        'A failure-window sequence comparing profile changes with disable, revoke, and deprovision events.',
+      ],
+      excluded: [
+        'Customer counts, unpublished timing, proprietary identifiers, or architecture.',
+        'Unreviewed operational detail or invented metrics.',
+        'Claims that eventual consistency is unsafe for every identity attribute.',
+      ],
+    },
+  ],
+  credibilityLine:
+    'A decade across payments, identity, healthcare data, financial workflows, and real-time voice systems.',
+  contact: {
+    heading: 'For considered technical conversations.',
+    invitation:
+      'I welcome peer conversations about real-time systems, difficult migrations, and backend platforms, as well as unusually consequential technical roles.',
+  },
+  experience: [
+    {
+      role: CISCO_TITLE,
+      company: 'Cisco',
+      location: 'Galway',
+      period: `${CISCO_START} — Present`,
+      note: 'Speech-to-speech load-testing simulator and G.711 A-law support.',
+      href: '/work/cisco/',
+    },
+    {
+      role: 'Senior Software Engineer (contract)',
+      company: 'Fidelity Investments',
+      location: 'Galway',
+      period: 'Sep 2025 — Apr 2026',
+      note: 'Collaborative workflow-service modernization and migration work.',
+      href: '/work/fidelity/',
+    },
+    {
+      role: 'Senior Software Engineer (contract)',
+      company: 'Houghton Mifflin Harcourt',
+      location: 'Dublin',
+      period: 'Aug 2024 — Jul 2025',
+      note: 'Led implementation of an identity-platform migration for a school district.',
+      href: '/work/hmh/',
+    },
+    {
+      role: 'Senior Software Engineer (contract)',
+      company: 'Cisco',
+      location: 'Galway',
+      period: 'Jul 2023 — Apr 2024',
+      note: 'Backend work on a demonstration platform.',
+    },
+    {
+      role: 'Senior Software Engineer (contract)',
+      company: 'Optum',
+      location: 'Dublin',
+      period: 'Oct 2021 — Apr 2023',
+      note: 'Technical design and implementation for healthcare-data work.',
+      href: '/work/optum/',
+    },
+    {
+      role: 'Software Engineer',
+      company: 'WP Engine',
+      location: 'Limerick',
+      period: 'Apr 2021 — Sep 2021',
+      note: 'User portal, billing, and signup work. Cut single-page render from 7s to 2s.',
+    },
+    {
+      role: 'Software Engineer',
+      company: 'Fexco',
+      location: 'Killorglin, Kerry',
+      period: 'Jan 2016 — Mar 2021',
+      note: 'Payments and financial services. Apache Camel work cut response times from 5 minutes to 1.5.',
+    },
+  ],
+} as const satisfies SiteContentContract
+
+/** Compatibility exports keep current consumers type-safe until later route/layout tickets. */
+export const heroLine = content.positioning.thesis
 
 export const nowText = [
-  `At Cisco I work on contact-centre voice AI: the systems that let a caller talk to a
-   machine and be understood without noticing the machinery. My focus is orchestration —
-   session lifecycle, turn-taking, interruption handling, and the calls out to business
-   systems that happen mid-conversation — inside a latency budget that a human ear
-   notices long before a dashboard does.`,
-  `Before that I spent five years contracting across financial services, education
-   technology, healthcare analytics and Cisco's own demo platform. Most of that work was
-   the same shape: an existing system that mattered, a constraint that made the obvious
-   answer wrong, and a migration that had to happen without anyone noticing.`,
+  content.currentWork.contribution.copy,
+  content.positioning.currentFrontier,
 ] as const
 
-export type CaseStudy = {
-  slug: string
-  client: string
-  href: string
-  period: string
-  role: string
-  summary: string
-  stack: readonly string[]
+const flagshipStageOrder = [
+  'systemConsequence',
+  'exactOwnership',
+  'consequentialDecision',
+  'sanitizedMechanism',
+  'rolloutAndOperations',
+  'observableOutcome',
+  'retrospective',
+] as const satisfies readonly (keyof FlagshipProof)[]
+
+const flagshipStageHeadings: Record<keyof FlagshipProof, string> = {
+  systemConsequence: 'System consequence',
+  exactOwnership: 'Exact ownership',
+  consequentialDecision: 'Consequential decision',
+  sanitizedMechanism: 'Sanitized mechanism',
+  rolloutAndOperations: 'Rollout and operations',
+  observableOutcome: 'Observable outcome',
+  retrospective: 'Retrospective',
+}
+
+export type CaseStudy = WorkSummary & {
+  tier: FlagshipStory['tier'] | SupportingProof['tier'] | CurrentWorkProof['tier']
   sections: readonly { heading: string; body: readonly string[] }[]
 }
 
-export const caseStudies: readonly CaseStudy[] = [
-  {
-    slug: 'cisco',
-    client: 'Cisco',
-    href: '/work/cisco/',
-    period: `${CISCO_START} — Present`,
-    role: CISCO_TITLE,
-    summary:
-      'Orchestrating speech-to-speech voice AI for contact centres, where the hard constraint is the length of a pause a caller will tolerate.',
-    stack: ['Real-time audio', 'Speech-to-speech AI', 'Orchestration', 'Kubernetes'],
-    sections: [
-      {
-        heading: 'Context',
-        body: [
-          `A contact centre is an unusually unforgiving place to put a conversational
-           model. The caller is on a phone line, often distracted, frequently annoyed,
-           and has no visual feedback to tell them anything is happening. Every
-           millisecond between the end of their sentence and the start of the reply is
-           dead air they interpret as the system being broken.`,
-          `My work sits in the orchestration layer: the component that owns the
-           conversation as a stateful thing. It decides when the caller has finished
-           speaking, when the system may speak, what happens when they talk over each
-           other, what business systems get called mid-turn, and when the whole thing
-           should stop and hand over to a person.`,
-        ],
-      },
-      {
-        heading: 'Constraints',
-        body: [
-          `The latency budget is the constraint everything else negotiates against. It is
-           not a single number you optimise once — it is a chain, and every link wants
-           more of it than it should have: audio arriving over the network, deciding the
-           turn has ended, the model producing a response, any lookup that response
-           depends on, and audio getting back to the caller.`,
-          `The second constraint is that people interrupt. A voice system that cannot be
-           interrupted mid-sentence is worse than a menu tree, because it removes the one
-           thing callers do when a machine misunderstands them. Handling that properly
-           means the system has to be willing to abandon work it has already started and
-           partially delivered.`,
-          `The third is that this runs on real telephony for real customers, so
-           degradation has to be graceful. There is no error page on a phone call.`,
-        ],
-      },
-      {
-        heading: 'Trade-offs',
-        body: [
-          `Turn detection is the clearest example of a trade-off with no correct answer.
-           Wait longer before responding and you almost never cut the caller off, but
-           every exchange gains a pause that makes the system feel slow. Wait less and
-           the system is responsive but starts talking over people mid-thought. The
-           tuning is not a technical optimum; it is a judgement about which failure
-           annoys people less, and it differs by the kind of call.`,
-          `The same tension shows up in whether to call out to business systems during a
-           turn or before one. Fetching data mid-turn gives a better answer and costs
-           latency in the place where latency is most visible. Prefetching costs
-           correctness when the conversation goes somewhere you did not predict.`,
-        ],
-      },
-      {
-        heading: 'What carries over',
-        body: [
-          `The parts of this that feel new — a model in the loop, audio streaming in both
-           directions — sit on top of problems I have had before: distributed state,
-           partial failure, backpressure, and the discipline of knowing which number you
-           are actually optimising. Real-time voice mostly punishes the same mistakes
-           faster and more publicly.`,
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'fidelity',
-    client: 'Fidelity Investments',
-    href: '/work/fidelity/',
-    period: 'Sep 2025 — Apr 2026',
-    role: 'Senior Software Engineer (contract)',
-    summary:
-      'Modernising a legacy Node.js workflow platform into Spring Boot on Java 21, without pausing the business that depended on it.',
-    stack: ['Java 21', 'Spring Boot', 'Node.js', 'Kubernetes', 'Datadog'],
-    sections: [
-      {
-        heading: 'Context',
-        body: [
-          `XTRAC handles workflow automation, batch processing and document management —
-           the unglamorous machinery that financial operations actually run on. The
-           existing services were Node.js, written years earlier, and had reached the
-           point where the cost of changing them safely exceeded the cost of replacing
-           them.`,
-          `The target was Spring Boot on Java 21, deployed to Kubernetes with full
-           observability through Datadog.`,
-        ],
-      },
-      {
-        heading: 'Constraints',
-        body: [
-          `Nothing could stop. These are processes with deadlines attached — batches that
-           must complete, documents that must be produced — so a migration that required
-           a quiet weekend was not available.`,
-          `Behaviour had to be preserved exactly, including behaviour nobody had
-           documented and some that was arguably wrong. In a system of record, a bug that
-           downstream processes have adapted to is a feature until proven otherwise.`,
-        ],
-      },
-      {
-        heading: 'What I did',
-        body: [
-          `Translated asynchronous Node.js logic into fault-tolerant Spring Boot services,
-           service by service rather than as a single cutover, so each piece could be
-           proven in production before the next one moved.`,
-          `Instrumented deliberately rather than by default. In a batch system the useful
-           signals are not request rates — they are how long a run took relative to its
-           window, where it stalled, and which documents failed. Datadog was set up to
-           answer those questions directly.`,
-        ],
-      },
-      {
-        heading: 'Trade-offs',
-        body: [
-          `Rewriting asynchronous JavaScript into Java is where the interesting decisions
-           are. The idiomatic Java version of a Node.js callback chain is often
-           structurally different, and the choice each time is between a faithful
-           translation that is easy to verify against the original, and an idiomatic one
-           that is easier to maintain afterwards. Early in a migration, verifiability is
-           worth more; later, it stops being.`,
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'hmh',
-    client: 'Houghton Mifflin Harcourt',
-    href: '/work/hmh/',
-    period: 'Aug 2024 — Jul 2025',
-    role: 'Senior Software Engineer (contract)',
-    summary:
-      'Leading a migration from an in-house authentication system to Okta, keeping identity consistent across systems during a live cutover.',
-    stack: ['Okta', 'Kafka', 'Java', 'Spring Boot', 'WebClient'],
-    sections: [
-      {
-        heading: 'Context',
-        body: [
-          `HMH ran its own authentication system. The task was to move to Okta — not as a
-           greenfield integration, but as a replacement for something that already held
-           every user and that every other system trusted.`,
-        ],
-      },
-      {
-        heading: 'Constraints',
-        body: [
-          `Identity migrations are unusually unforgiving. A failed deployment can be
-           rolled back; a user who cannot log in has already had the outage. And because
-           education platforms have sharp seasonal peaks, the windows where a mistake is
-           survivable are narrow and known well in advance.`,
-          `The deeper constraint was that user state lived in more than one place. Okta
-           becoming the source of truth did not stop other systems needing to know, more
-           or less immediately, when a user was created, changed or deprovisioned.`,
-        ],
-      },
-      {
-        heading: 'What I did',
-        body: [
-          `Architected the integration and built the provisioning services against Okta's
-           REST APIs using WebClient — creation, updates and deprovisioning, with the
-           failure semantics made explicit rather than assumed.`,
-          `Used Kafka to synchronise user events across systems, so downstream consumers
-           reacted to identity changes as events rather than by polling or by being
-           called directly. That decoupling is what made a gradual cutover possible.`,
-        ],
-      },
-      {
-        heading: 'Trade-offs',
-        body: [
-          `Event-driven synchronisation buys decoupling and pays for it in consistency:
-           between Okta changing and a downstream system knowing, the two disagree. For
-           most identity attributes that window is harmless. For deprovisioning it is
-           not, and those paths deserved different treatment rather than uniform
-           eventual consistency.`,
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'optum',
-    client: 'Optum',
-    href: '/work/optum/',
-    period: 'Oct 2021 — Apr 2023',
-    role: 'Senior Software Engineer (contract)',
-    summary:
-      'Leading the design of an analytics gateway serving pharmaceutical claims and rebate data, under the constraints that regulated healthcare data brings.',
-    stack: ['Java', 'Spring Boot', 'Azure Synapse Analytics', 'Splunk', 'TypeScript'],
-    sections: [
-      {
-        heading: 'Context',
-        body: [
-          `The Emisar Analytics Gateway served pharmaceutical manufacturers with
-           dashboards and reporting over claims and rebate data. I led its design and
-           architecture over roughly eighteen months.`,
-        ],
-      },
-      {
-        heading: 'Constraints',
-        body: [
-          `Healthcare claims data is regulated, commercially sensitive, and belongs to
-           parties who are frequently competitors. Access control is not a feature layered
-           on afterwards — it is a property the data model has to hold, because the
-           consequence of getting it wrong is not a bug report.`,
-          `Analytical queries over claims are also large. The shape of the workload is the
-           opposite of the transactional systems most of this stack is designed for.`,
-        ],
-      },
-      {
-        heading: 'What I did',
-        body: [
-          `Led the architecture, and built the APIs on Java and Spring Boot over Azure
-           Synapse Analytics for the analytical workload.`,
-          `Integrated Splunk and ElasticSearch for observability, and worked directly with
-           the frontend engineers building the dashboards — an API for analytics is shaped
-           by what the charts need, and designing it without that conversation produces
-           something technically correct and awkward to use.`,
-        ],
-      },
-      {
-        heading: 'Trade-offs',
-        body: [
-          `The recurring decision was how much aggregation belongs in the warehouse versus
-           the API. Pushing it down is faster and less flexible; keeping it in the API
-           layer stays flexible and moves volumes of data that do not need moving. The
-           answer differed per report, which meant resisting a single uniform pattern.`,
-        ],
-      },
-    ],
-  },
-] as const
-
-export type Job = {
-  role: string
-  company: string
-  location: string
-  period: string
-  note?: string
-  href?: string
+function asFlagshipCaseStudy(story: FlagshipStory): CaseStudy {
+  return {
+    ...story,
+    sections: flagshipStageOrder.map((stage) => ({
+      heading: flagshipStageHeadings[stage],
+      body: [story.proof[stage].copy],
+    })),
+  }
 }
 
-export const experience: readonly Job[] = [
+export const caseStudies: readonly CaseStudy[] = [
+  ...content.flagships.map(asFlagshipCaseStudy),
   {
-    role: CISCO_TITLE,
-    company: 'Cisco',
-    location: 'Galway',
-    period: `${CISCO_START} — Present`,
-    note: 'Contact-centre speech-to-speech voice AI.',
-    href: '/work/cisco/',
+    ...content.supportingProof,
+    sections: [
+      {
+        heading: 'Contribution',
+        body: [content.supportingProof.contribution.copy],
+      },
+      {
+        heading: 'Evidence boundary',
+        body: [content.supportingProof.roleInNarrative],
+      },
+    ],
   },
   {
-    role: 'Senior Software Engineer (contract)',
-    company: 'Fidelity Investments',
-    location: 'Galway',
-    // NOTE: the CV records this as 09/2025 – Present (it predates the Cisco move), so the
-    // end month is inferred from the Cisco start date. Confirm before publishing.
-    period: 'Sep 2025 — Apr 2026',
-    note: 'XTRAC workflow platform: Node.js to Spring Boot on Java 21.',
-    href: '/work/fidelity/',
+    ...content.currentWork,
+    sections: [
+      {
+        heading: 'Current work',
+        body: [content.currentWork.contribution.copy],
+      },
+      {
+        heading: 'Evidence boundary',
+        body: [content.currentWork.roleInNarrative],
+      },
+    ],
   },
-  {
-    role: 'Senior Software Engineer (contract)',
-    company: 'Houghton Mifflin Harcourt',
-    location: 'Dublin',
-    period: 'Aug 2024 — Jul 2025',
-    note: 'Authentication migration to Okta, event-driven with Kafka.',
-    href: '/work/hmh/',
-  },
-  {
-    role: 'Senior Software Engineer (contract)',
-    company: 'Cisco',
-    location: 'Galway',
-    period: 'Jul 2023 — Apr 2024',
-    note: 'dCloud demonstration platform: Kotlin and Spring Boot microservices on Kubernetes.',
-  },
-  {
-    role: 'Senior Software Engineer (contract)',
-    company: 'Optum',
-    location: 'Dublin',
-    period: 'Oct 2021 — Apr 2023',
-    note: 'Emisar Analytics Gateway for pharmaceutical claims and rebates.',
-    href: '/work/optum/',
-  },
-  {
-    role: 'Software Engineer',
-    company: 'WP Engine',
-    location: 'Limerick',
-    period: 'Apr 2021 — Sep 2021',
-    note: 'Ruby on Rails user portal, billing and signup. Cut single-page render from 7s to 2s.',
-  },
-  {
-    role: 'Software Engineer',
-    company: 'Fexco',
-    location: 'Killorglin, Kerry',
-    period: 'Jan 2016 — Mar 2021',
-    note: 'Payments and financial services. Apache Camel work cut response times from 5 minutes to 1.5. Mentored trainee developers.',
-  },
-] as const
+]
+
+export const experience: readonly Job[] = content.experience
 
 export const background = {
   education: {

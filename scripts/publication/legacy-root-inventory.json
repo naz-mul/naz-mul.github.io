@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "kind": "legacy-generated-output",
+  "origin": "https://nalam.me",
+  "reviewedBaseline": "2026-10-15 pre-Astro branch-root generated output, including existing uncommitted output. Recheck these exact identities before the separately authorized first publication.",
+  "files": [
+    {
+      "path": "404.html",
+      "sha256": "7402a595fcbb9c5f5024c5ea93aaedfe48cb459ce71e9791f534cb157759a73d",
+      "size": 6990
+    },
+    {
+      "path": "assets/cisco-Bd4G44j_.js",
+      "sha256": "8fc5c541ac7d48d04af41e9057f7ae0536b75de5131a925f649e7d5bbe55d372",
+      "size": 52
+    },
+    {
+      "path": "assets/client-Do2rRAqQ.css",
+      "sha256": "016387121b735b86e81e38b32175259ff5597707a20075b87d75ccaf339ebd4e",
+      "size": 30692
+    },
+    {
+      "path": "assets/client-DrEblmjd.js",
+      "sha256": "c6cb362b4251fde3d098ad1b68ab7df587330f7be72a288aec637d8221bd2491",
+      "size": 274714
+    },
+    {
+      "path": "assets/deprovisioningConsistencyNote-BIvs9Dpv.js",
+      "sha256": "6174a50ab831c09451a87357057b15f04265fe0beca81a931ac508bb9896b2cf",
+      "size": 76
+    },
+    {
+      "path": "assets/experience-d6V8Bdww.js",
+      "sha256": "c778b5004318c603afb1120f5dfa03959c0e610fa6d1e94e4f45b503c99a7c39",
+      "size": 57
+    },
+    {
+      "path": "assets/fidelity-C5ar1_XG.js",
+      "sha256": "cd83bab70e0f2e1f14a689d3da200ef01bec0fdfeb0967411ffc244f89dd0600",
+      "size": 55
+    },
+    {
+      "path": "assets/hmh-WoBHSZ4g.js",
+      "sha256": "514ec7c18f7b8d72cc9aa4ed20ed152d14bed571444438e1e4c9be33dc63f219",
+      "size": 50
+    },
+    {
+      "path": "assets/home-Bq5GWq9b.js",
+      "sha256": "ea53c1e52d155a3d57cfabd3218a7085112f146fa7afbde5271c6df1451d5a62",
+      "size": 51
+    },
+    {
+      "path": "assets/notFound-wY8Zo6jE.js",
+      "sha256": "d1e2dd3bc6cf3ea019a4a1417d24bace8b8070d0f619954c49e9d937aa65fb26",
+      "size": 55
+    },
+    {
+      "path": "assets/optum-C2hxqnrB.js",
+      "sha256": "3bedee403b8ad8a8df7cc4aa21edfeb1c43f40c30f66a9f12694db3674f40928",
+      "size": 52
+    },
+    {
+      "path": "assets/voiceInterruptionNote-BEN1v-QF.js",
+      "sha256": "c10dc0b4d20e61e6432df85f26b871d7fc2de7580b6642bafe75fef0549fd117",
+      "size": 68
+    },
+    {
+      "path": "experience/index.html",
+      "sha256": "24b846531beb8126ed2f4464279d5cd60de864d238ad90925f762e7c3353c2b6",
+      "size": 14037
+    },
+    {
+      "path": "index.html",
+      "sha256": "804591a23929f272a8cfa846cae9165beae0a36690ca005a0a680dd9b5600222",
+      "size": 19059
+    },
+    {
+      "path": "notes/consistency-guarantees-for-deprovisioning/index.html",
+      "sha256": "6d32dd9fb935a3f3cfaff554503e7374e762f0dc41f1c76366be9720bb2df9f2",
+      "size": 19325
+    },
+    {
+      "path": "notes/testing-real-time-voice-orchestration-under-interruption/index.html",
+      "sha256": "cdc9d94ba6e99aeb5fd6917dd65301e465f9ee4bd4c1f84ffd5cc6c64c65d65e",
+      "size": 20619
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "e87af5984013e3dec7c9cf8dbe0e1871ea7c291a48d027bce2188bd9d5a4a67b",
+      "size": 613
+    },
+    {
+      "path": "work/cisco/index.html",
+      "sha256": "60b2d93db204dbc6d57157602b1e89c38b2cb4513ba3c07095e8fe52d6c9df1e",
+      "size": 12120
+    },
+    {
+      "path": "work/fidelity/index.html",
+      "sha256": "5d6eb707fb89267c61f5734baf50f6d48cd534a2514ceabc3f920e6a59d1ca53",
+      "size": 11774
+    },
+    {
+      "path": "work/hmh/index.html",
+      "sha256": "3c0971dfd1cc510f35ae3cc04e899c785ec99bcf7698f4943aec488cbd639b2d",
+      "size": 16330
+    },
+    {
+      "path": "work/optum/index.html",
+      "sha256": "e9046dbe2f9e42c1b067f524801cfbbc4415632b981a19948b40562f1a011e89",
+      "size": 16290
+    }
+  ]
+}

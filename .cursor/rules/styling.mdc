@@ -1,87 +1,28 @@
 ---
-description: Design system — tokens, typography, theming, texture
-globs: "{src/styles/**,src/components/ui/**,src/components/Layout.tsx,src/lib/utils.ts,components.json,scripts/check-contrast.py}"
+description: Developer Workspace typography, themes, layout and measured colors
+globs: "{src/styles/**,src/components/workspace/**,src/components/reading/**,src/components/ui/**,src/lib/utils.ts,components.json,scripts/check-contrast.py}"
 alwaysApply: false
 ---
 
-# Design system
+# Developer Workspace
 
-Tailwind v4, **CSS-first**. There is no `tailwind.config.js` and adding one is the wrong
-move — everything lives in `src/styles/globals.css`.
+The selected direction is an explorer, continuous README canvas, sequential project
+rows and optional profile/context rail. It is implemented with normal semantic HTML
+and CSS. Consult the current `DESIGN.md` when present and preserve the approved
+composition; a terminal or editor dependency is not needed for the visual identity.
 
-## The design is deliberately not the shadcn default
+`workspace.css` owns Tailwind v4, the two local font definitions and workspace
+tokens; `reading.css` supplies the quieter technical-reading treatment. Geist Sans carries
+headings and prose, Geist Mono labels/code. Fonts remain self-hosted in
+`src/public/fonts/`. Newsreader definitions and serif-led legacy styles are retained
+for the incumbent path, outside the Astro dependency graph.
 
-The previous version of this site looked generic, and the cause was well-documented
-defaults: neutral slate palette, 8px radius on everything, default type sizes, a muted
-indigo accent, 1px card borders. Those are the recognisable fingerprint of an untuned
-component library. Each has been deliberately moved:
+System is the default theme in CSS: classless HTML follows the OS, `.light` and
+`.dark` override. Keep the guarded pre-paint bootstrap and both dark palette blocks
+consistent. Run `yarn check:contrast` after any palette edit; actual workspace,
+reader and code-highlight colors need AA/sRGB verification, not visual estimates.
 
-| Default tell | What this site does |
-|---|---|
-| slate/zinc neutrals | faintly **cool** neutrals — and explicitly not warm cream, which now reads as generic AI output |
-| `--radius: 0.5rem` | **`--radius: 0`**. Sharp corners everywhere |
-| default Inter | a three-face system, see below |
-| muted indigo accent | a **teal** accent, used sparingly |
-| flat surfaces | grain overlay, hairline grid field, sunken panels |
-
-Do not reintroduce these. If a component looks "off", tune the token, not the primitive.
-
-## Typography — three faces, three jobs
-
-| Face | Job | Token |
-|---|---|---|
-| **Newsreader** | display + long-form prose | `--font-serif` |
-| **Geist Sans** | UI, nav, lists, cards | `--font-sans` |
-| **Geist Mono** | labels, metadata, numbers, tags | `--font-mono` |
-
-All **self-hosted** variable woff2 in `src/public/fonts/`, ~171 KB total.
-**Never replace these with a Google Fonts link** — zero third-party requests is a hard
-constraint (ADR-0004). A new face must be downloaded into the repo.
-
-Scale contrast is doing real work: `--text-display` runs to 5.5rem while body stays at
-1rem. That gap is what stops a single-column page reading as an unstyled document.
-
-## Signature devices
-
-These carry the design. Use them rather than inventing new ornament.
-
-- **`.label`** — mono, uppercase, letterspaced, tabular. Section headings, metadata keys,
-  tags, dates. The site's most recognisable element.
-- **The rail** — a 10rem left column at ≥1024px holding section numbers and labels
-  (`Section` in `Layout.tsx`). It varies horizontal placement, which is the main defence
-  against single-column monotony.
-- **`.grid-field`** — hairline CSS grid, radially masked. Behind heroes only.
-- **`.newthought`** — small-caps opening words. Preferred over a drop cap, whose
-  browser support is still poor.
-- **`.prose-editorial`** — serif long-form setting for case studies.
-- **Grain** — one fixed `body::before` overlay at ~3% opacity.
-
-## Theming
-
-Tri-state: light / dark / **system by default**, and system is CSS-only. No class on
-`<html>` means follow the OS. `.light` / `.dark` override. The dark palette appears
-twice — once in the media query, once under `.dark` — because plain CSS cannot share a
-block between them. **Keep them in sync.**
-
-## Colour is verified, not eyeballed
-
-Values are load-bearing. Every foreground clears WCAG AA against its surface, and every
-colour is inside the sRGB gamut — the light accent's chroma sits exactly at the sRGB
-maximum for its lightness and hue, so raising it clips rather than saturates.
-
-```bash
-yarn check:contrast
-```
-
-Run it after changing any colour. It parses the CSS directly, so it cannot drift.
-
-## shadcn
-
-Still used for primitives (`src/components/ui/`). Generate them:
-
-```bash
-yarn dlx shadcn@latest add <component>
-```
-
-Then tune via tokens. `--radius-*` all map to `0`, so generated components inherit the
-sharp treatment automatically.
+Desktop context is optional; at 900px and below navigation discloses and primary
+content becomes one column. Preserve visible focus, native controls, meaningful
+reading order, mobile contents, reduced motion and narrow reflow. Use existing
+tokens and actual primitives rather than adding ornamental effects or a logo wall.

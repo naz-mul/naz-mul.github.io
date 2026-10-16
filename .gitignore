@@ -5,3 +5,15 @@ node_modules/
 
 # Personal documents — never publish (the site is served from the repo root)
 docs/resume/
+
+# Disposable Astro output and local-only authoring/preview material.
+.astro/
+dist/
+.private-drafts/
+.private-preview/
+.env
+.env.*
+!.env.example
+
+# Local Python verification bytecode.
+__pycache__/

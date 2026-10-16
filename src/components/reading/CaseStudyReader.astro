@@ -1,0 +1,57 @@
+---
+import type { ReaderHeading, WorkStudy } from './model'
+import { evidenceLabels, officialSources, studySections, studyTierLabels } from './model'
+import Contents from './Contents.astro'
+
+interface Props {
+  study: WorkStudy
+  others: readonly WorkStudy[]
+  headings: readonly ReaderHeading[]
+}
+
+const { study, others, headings } = Astro.props
+const sections = studySections(study)
+---
+<article class="reader-document reader-study">
+  <header class="reader-header">
+    <a class="reader-back-link" href="/#experience">All experience</a>
+    <h1>{study.client}</h1>
+    <p class="reader-lead">{study.summary}</p>
+    <dl class="reader-meta-grid">
+      <div><dt>Period</dt><dd>{study.period}</dd></div>
+      <div><dt>Role</dt><dd>{study.role}</dd></div>
+      <div><dt>Evidence</dt><dd>{studyTierLabels[study.tier]}</dd></div>
+      <div><dt>Technology</dt><dd>{study.stack.join(' · ')}</dd></div>
+    </dl>
+  </header>
+  <Contents headings={headings} inline />
+  {sections.map((section) => (
+    <section class="reader-section" aria-labelledby={section.slug}>
+      <h2 id={section.slug}>{section.text}<a class="reader-heading-anchor" href={`#${section.slug}`} aria-label={`Link to ${section.text}`}><span aria-hidden="true">#</span></a></h2>
+      <p class="reader-evidence-label">{evidenceLabels[section.statement.evidenceClass]}</p>
+      <div class="reader-prose reader-section-prose" data-evidence-class={section.statement.evidenceClass}><p>{section.statement.copy}</p></div>
+    </section>
+  ))}
+  <section class="reader-section" aria-labelledby="official-context">
+    <h2 id="official-context">Official context<a class="reader-heading-anchor" href="#official-context" aria-label="Link to Official context"><span aria-hidden="true">#</span></a></h2>
+    <p class="reader-evidence-label">Separate domain context</p>
+    <ul class="reader-source-list">
+      {officialSources(study).map((source) => (
+        <li data-evidence-class={source.evidenceClass}>
+          <a href={source.url} rel="noopener">{source.label}<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg></a>
+          <p>{source.boundary}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+  {others.length > 0 && (
+    <section class="reader-section" aria-labelledby="other-work">
+      <h2 id="other-work">Other work<a class="reader-heading-anchor" href="#other-work" aria-label="Link to Other work"><span aria-hidden="true">#</span></a></h2>
+      <ul class="reader-related-list">
+        {others.map((other) => (
+          <li><a href={other.href}><span>{other.client}</span><span class="reader-related-meta">{studyTierLabels[other.tier]}<span>{other.period}</span></span></a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</article>

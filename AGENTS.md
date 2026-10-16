@@ -1,112 +1,102 @@
 # Agent guide — nalam.me
 
-Personal site of Nazmul Alam. Static, built with Vite + React + shadcn/ui, deployed to
-GitHub Pages from the repo root.
+Personal site of Nazmul Alam. The current source uses **Astro static output, React
+islands, Tailwind v4 and selected shadcn primitives**. GitHub Pages still serves the
+committed branch-root files; a local build prepares a new artifact without replacing
+them.
 
-**Start here:** `CONTEXT.md` for vocabulary (this repo has two things that both look
-like "the site"), then `docs/adr/` for why the architecture is the way it is. `README.md`
-has the diagrams.
+**Start here:** `CONTEXT.md` for vocabulary; `README.md` for the current architecture
+and commands. For architectural changes, read [ADR-0009](docs/adr/0009-astro-staged-publication.md)
+and the relevant earlier ADR. Preserve the existing dirty work.
 
-## Quick facts
+## Build and publication boundaries
 
-| Item | Value |
-|------|-------|
-| Live URL | https://nalam.me (apex; `CNAME` → `nalam.me`) |
-| Hosting | GitHub Pages, **user pages** repo (`naz-mul/naz-mul.github.io`), served from the branch root |
-| Source | `src/` (Vite root) |
-| Build output | **committed at the repo root** — `index.html`, `404.html`, `work/*/`, `assets/` |
-| Package manager | Yarn 4 only (`engines.npm` blocks npm) |
-| Dev server | `yarn dev` → Vite on port 3000 |
+- **Yarn 4 only; Node 24.16.0.** Exact versions and scripts live in `package.json`,
+  `.node-version` and `yarn.lock`. Use the supported Node 24 line.
+- **Astro generates `dist/site-build`; validation exports `dist/public`.** `yarn build`
+  runs explicit checks, the static build and public preparation. It also synchronizes
+  that artifact's CSP hashes into local `firebase.json`. It does not publish root files,
+  commit, push, deploy or change Firebase resources.
+- **The repository root is a publication destination, never Astro's output directory.**
+  It contains source, documentation, static assets and the incumbent generated site.
+  `yarn publish:root` previews a guarded ownership-based plan. Applying root changes
+  and any commit/push require the user's release authorization; follow
+  [the publication runbook](docs/operations/publication.md).
+- **Preserve the incumbent Vite recovery path.** Its configuration still needs
+  `emptyOutDir: false`. `legacy:build`, `clean` and `sync:static` can change root output;
+  they are recovery tools, not ordinary Astro build steps. Never empty or mirror-delete
+  the repository root.
+- **Ordinary static navigation.** Every eligible route is useful HTML before JavaScript;
+  `/404.html` is a genuine non-indexable error document. There is no SPA catch-all or
+  client router.
+- **One publication projection.** `getPublication()` in `src/content/publicationData.ts`
+  supplies routes, metadata, writing, showcase and build-only export. A raw build and
+  `/publication-manifest.json` are tooling inputs, not the deployable site. Preview only
+  `dist/public` with `yarn preview`.
 
-## Architecture
-
-- **Multi-page, not a SPA.** Every route is a real HTML entry point listed in
-  `vite.config.ts` under `rollupOptions.input`. Deep links resolve as static files, so
-  the `404.html` SPA-redirect hack is not needed — and `404.html` stays a genuine error
-  page.
-- **`build.outDir` is the repo root** with **`emptyOutDir: false`**. This is deliberate
-  and load-bearing: emptying the out dir would delete `CNAME`, `img/`, `docs/` and the
-  entire source tree. Vite prints a warning about this on every build; it is expected.
-  `yarn build` chains `yarn clean` (clears `assets/`) and `yarn sync:static` (copies the
-  self-hosted fonts to `fonts/`) explicitly. **Yarn 4 does not auto-run `pre`/`post`
-  scripts** for custom lifecycle names, so these must stay inside `build` — a `prebuild`
-  hook silently never runs, which previously left 54 stale bundles in `assets/` and would
-  have shipped a site whose fonts 404.
-- **`publicDir` is dev-only.** In production the out dir *is* the repo root, where
-  `CNAME`, `favicon.ico` and `img/` already live. `src/public/` mirrors them so the dev
-  server resolves the same absolute paths.
-- **Zero third-party requests.** No analytics, no CDN, no remote fonts. Typefaces are
-  **self-hosted** in `src/public/fonts/` and served from the same origin. Keep it that
-  way; it is a deliberate constraint, not an oversight.
-- **Three typefaces, three jobs.** Newsreader (display + long-form prose), Geist Sans
-  (UI), Geist Mono (labels, metadata, numbers). All variable woff2, ~171 KB total.
-- **Theming is tri-state** — light / dark / **system by default**. System is implemented
-  in CSS, not JavaScript: no class on `<html>` means follow the OS, so it reacts
-  instantly and works with JS disabled. `.light` / `.dark` are explicit overrides.
-  Tokens are Tailwind v4 CSS-first (`@theme`) in `src/styles/globals.css` — there is no
-  `tailwind.config.js`.
-- **Palette values are load-bearing.** Every foreground clears WCAG AA against its
-  surface and every colour is inside sRGB. `yarn check:contrast` proves it — run it
-  after touching any colour.
-
-## Where to edit what
+## Editing map
 
 | Goal | Files |
 |------|-------|
-| **All copy, work history, case studies** | `src/content/site.ts` — single source of truth |
-| Page layout / sections | `src/components/Home.tsx`, `src/components/CaseStudyPage.tsx` |
-| Header, footer, section shell | `src/components/Layout.tsx` |
-| Colours, typography, prose styles | `src/styles/globals.css` |
-| Typeface files | `src/public/fonts/*.woff2` (self-hosted, mirrored to `fonts/` on build) |
-| shadcn primitives | `src/components/ui/` — regenerate with `yarn dlx shadcn@latest add <name>` |
-| Page metadata, canonical, JSON-LD | the per-page `src/**/*.html` files |
-| Adding a route | new `src/<path>/index.html` + `src/entries/<name>.tsx`, then register it in `rollupOptions.input` |
+| Identity, reviewed career and client contributions | `src/content/site.ts` |
+| Experience route introduction | `src/content/routePages.ts` |
+| Original technical writing | `src/content/articles/*.md` or trusted local `*.mdx` |
+| Featured work / curated external metadata | `src/content/showcase.ts` |
+| Publication eligibility, validation and canonical rules | `src/content/publication.ts`, `src/content.config.ts` |
+| Legacy URL compatibility and reviewed metadata | `src/content/routes.ts` |
+| Static route generation / reading | `src/pages/`, `src/components/reading/` |
+| Homepage / shared shell / explorer / theme island | `src/pages/index.astro`, `src/components/workspace/` |
+| Workspace and reading styles | `src/styles/workspace.css`, `src/styles/reading.css` |
+| Incumbent Vite typography/tokens (outside the Astro dependency graph) | `src/styles/globals.css` |
+| Public-asset source | `src/public/` |
+| Firebase browser app | `src/lib/firebase/`, `src/components/FirebaseBootstrap.astro` |
+| Export / root publication / rollback | `scripts/publication/`, `scripts/prepare-public.mjs`, `scripts/publish-root.mjs` |
 
-## Content rules
+For **new writing, publication state, project details or LinkedIn entries**, follow
+[the authoring guide](docs/operations/authoring.md). For **release, recovery, ownership
+conflicts or future Firebase Hosting**, follow [the publication runbook](docs/operations/publication.md).
 
-These are decisions with reasoning recorded in `docs/adr/`; do not quietly reverse them.
+## Preserved product constraints
 
-- **Never publish anything from `docs/resume/`.** It is gitignored because the site
-  serves from the repo root — committing it would publish the CV, phone number included.
-- Case studies name clients but **genericise their systems**. No internal architecture,
-  no proprietary identifiers, no unpublishable metrics.
-- **Do not invent metrics.** Numbers currently on the site (7s→2s, 5min→1.5min) come
-  from the CV. Anything new needs to be confirmed.
-- Voice is direct and specific, first person. No emoji, no "passionate developer", no
-  skill-percentage bars, no tech-logo walls.
-- The term "vibe coding" is deliberately absent.
+- **Reviewed public content only.** Committed source in this public repository is public
+  even if its record is marked draft. Keep private authoring in ignored
+  `.private-drafts/`; `.private-preview/`, `dist/` and `docs/resume/` remain excluded.
+  Never publish or use private CV contents as an artifact input.
+- **Claims stay bounded.** Name clients but genericise their systems. Preserve reviewed
+  ownership, evidence labels and confirmed metrics. The three new featured areas are
+  **In progress**; do not create delivered outcomes, empty detail routes or invented
+  demo/repository links. Principal/architect are goals, not current titles.
+- **Original writing is site-owned; LinkedIn is curated metadata.** Use actual reviewed
+  external article URLs and the explicit Read on LinkedIn label. No import, scrape,
+  embed, token storage or automatic provider request is part of the current site.
+- **Zero third-party runtime requests.** Bundle local assets and self-host fonts.
+  Firebase imports only `firebase/app`; public reading never waits for initialization.
+  Products, analytics and remote deployment need a concrete separately requested feature.
+- **System/light/dark.** Classless HTML follows the OS in CSS; `.light` and `.dark`
+  override. Preserve the guarded pre-paint bootstrap and both dark-token declarations.
+- **Developer Workspace.** Use the explorer, README canvas, sequential project rows
+  and optional context rail. Geist Sans carries headings/prose; Geist Mono carries
+  labels/code. The prior serif-led design is historical. Consult the current `DESIGN.md`
+  when present before changing the visual system.
+- **Contrast and gamut are measured.** Run `yarn check:contrast` after changing colors;
+  retain keyboard focus, reduced motion and usable narrow-screen reading.
 
-Full reasoning: [ADR-0005](docs/adr/0005-sanitised-case-studies.md) and
-[ADR-0004](docs/adr/0004-no-third-party-requests.md).
+## Verification
 
-## Commands
+`yarn build` is the normal complete local build. `yarn check` runs Astro diagnostics
+and TypeScript. `yarn verify` adds contrast/gamut and focused unit/fixture checks.
+After preparing the artifact, `yarn test:e2e` exercises `dist/public`; stop a separately
+running preview first. See [browser-suite scope](tests/e2e/README.md) for evidence and
+limits. Browser results and the publication report stay under ignored `dist/`.
 
-```bash
-yarn dev        # Vite dev server on :3000
-yarn build      # clean, sync fonts, typecheck, then build to the repo root
-yarn preview    # serve the built output on :4173
-yarn typecheck  # tsc --noEmit
-yarn check:contrast  # WCAG AA + sRGB gamut check on the palette
-yarn verify     # typecheck + contrast
-```
+Yarn 4 does not automatically run custom `pre`/`post` hooks. Keep required stages
+explicitly chained in the main scripts. The two scoped checker `packageExtensions`
+in `.yarnrc.yml` repair released manifests; remove them only after verifying the
+upstream fixes. Unused Firebase compatibility-package peer warnings are documented
+in [the Firebase boundary](src/lib/firebase/README.md).
 
-## Cursor / VS Code
+## Repository agents
 
-- Run config: `.vscode/launch.json`, `.claude/launch.json`
-- Tasks: `.vscode/tasks.json`
-- Rules: `.cursor/rules/*.mdc` — `project-overview` (always on), plus `dev-tooling`,
-  `pages-and-routing`, `styling` and `content` scoped by glob
-
-## Agent skills
-
-### Issue tracker
-
-Issues live as GitHub issues in `naz-mul/naz-mul.github.io`, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-The five canonical triage roles, using the default label strings. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Single-context: one `CONTEXT.md` plus `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+- **Issues and native dependencies:** [issue tracker guide](docs/agents/issue-tracker.md).
+- **Triage roles:** [triage labels](docs/agents/triage-labels.md).
+- **Vocabulary and ADRs:** [domain guide](docs/agents/domain.md).

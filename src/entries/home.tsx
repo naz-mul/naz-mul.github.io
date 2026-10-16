@@ -1,10 +1,3 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Home } from '@/components/Home'
-import '@/styles/globals.css'
+import { mountRoute } from '@/routing/client'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Home />
-  </StrictMode>,
-)
+mountRoute('home')

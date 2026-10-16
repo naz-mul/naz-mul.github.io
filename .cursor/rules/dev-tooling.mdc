@@ -1,64 +1,27 @@
 ---
-description: Yarn, Vite, TypeScript and editor tooling
-globs: "{package.json,vite.config.ts,tsconfig.json,components.json,yarn.lock,.vscode/**,.claude/**}"
+description: Astro, Yarn, checker and staged-publication tooling
+globs: "{package.json,astro.config.mjs,vite*.config.ts,tsconfig.json,components.json,yarn.lock,.yarnrc.yml,.node-version,.nvmrc,scripts/**,.vscode/**}"
 alwaysApply: false
 ---
 
-# Dev tooling
+# Development tooling
 
-## Scripts
+Use the supported Node 24.16.0 / Yarn 4.17.0 baseline and `package.json` scripts.
+`yarn dev` is Astro on 3000; `yarn preview` exposes only the validated `dist/public`
+artifact on 4173. Stop a manual preview before `yarn test:e2e`.
 
-| Script | Action |
-|--------|--------|
-| `yarn dev` | Vite dev server, port 3000 |
-| `yarn build` | `clean` → `sync:static` → `tsc --noEmit` → `vite build` |
-| `yarn clean` | removes `assets/` so stale hashed bundles do not accumulate |
-| `yarn sync:static` | copies `src/public/fonts/*.woff2` to the shipped `fonts/` |
-| `yarn check:contrast` | WCAG AA + sRGB gamut audit of the palette |
-| `yarn verify` | typecheck + contrast |
-| `yarn preview` | Serve the built output, port 4173 |
-| `yarn typecheck` | `tsc --noEmit` |
+`yarn build` explicitly chains verification, static generation into `dist/site-build`
+and public preparation. Preparation also synchronizes local `firebase.json` CSP
+hashes; it does not contact the provider. `yarn verify` runs Astro/TypeScript,
+contrast/gamut and focused unit/fixture tests. Required stages stay explicit because
+Yarn 4 does not auto-run custom pre/post hooks.
 
-## vite.config.ts
+The two narrowly scoped `.yarnrc.yml` checker-manifest repairs have actual import
+and peer evidence. Follow the toolchain notes in `docs/operations/publication.md`
+before changing them. Unused Firebase compatibility-package peer warnings are
+qualified in `src/lib/firebase/README.md`.
 
-Exports a **function** of `({ command })`, not a plain object — `publicDir` differs
-between dev and build.
-
-- `root` is `src/`; `base` is `/`
-- `build.outDir` is the repo root, `emptyOutDir: false` — see project-overview
-- `publicDir` is `src/public` in dev, `false` in build. In production the out dir *is*
-  the repo root, where `CNAME`, `favicon.ico` and `img/` already live; copying them over
-  themselves is redundant and Vite warns when publicDir sits inside outDir.
-  **`src/public/img/` must be kept in sync with `img/`** so dev and production resolve
-  the same absolute paths.
-- Every route is registered in `rollupOptions.input`. A new page that is not listed
-  there will not be built.
-
-## Yarn 4 has no pre/post scripts
-
-**Yarn 4 does not automatically run `preX`/`postX` for custom script names.** A
-`prebuild` script is silently ignored. Every step must be chained explicitly inside
-`build`. This bit once: `prebuild` never ran, so `assets/` accumulated 54 stale bundles
-and the self-hosted fonts were never copied into the build output — the deployed site
-would have 404'd all four and fallen back to system stacks.
-
-## Static files that ship
-
-`img/`, `favicon.ico`, `CNAME` live permanently at the repo root. **`fonts/` is
-generated** by `yarn sync:static` from `src/public/fonts/`, which is the source of
-truth — edit fonts there, never in `fonts/`.
-
-## Adding a page
-
-Three steps, all required:
-
-1. `src/<path>/index.html` — copy an existing one; update `<title>`, description, canonical
-2. `src/entries/<name>.tsx` — `createRoot` mount
-3. Register the HTML file in `rollupOptions.input`
-
-## Dependencies
-
-Runtime: `react`, `react-dom`, `clsx`, `tailwind-merge`, `class-variance-authority`,
-`lucide-react`. Everything else is dev-only.
-
-Do not add a router — routing is static HTML files by design (ADR-0002).
+Normal builds never write root output. Retained Vite `legacy:build`, `prerender`,
+`clean` and `sync:static` do; preserve `emptyOutDir: false` and use them only in a
+reviewed recovery. Publication and rollback default to preview, verify exact
+ownership and preserve unrelated files. Follow the publication runbook for any apply.

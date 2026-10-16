@@ -1,0 +1,43 @@
+---
+import type { PublicationRecord } from '../../content/publication'
+import Contents from './Contents.astro'
+import type { ReaderHeading } from './model'
+
+interface Props {
+  record: PublicationRecord
+  headings: readonly ReaderHeading[]
+}
+
+const { record, headings } = Astro.props
+const kindLabels = {
+  'technical-note': 'Technical note',
+  article: 'Article',
+  'research-note': 'Research note',
+} as const
+const kind = record.kind === 'technical-note' || record.kind === 'research-note' ? record.kind : 'article'
+const knowledgeLabels = {
+  analysis: 'Analysis',
+  exploration: 'Exploration',
+  'research-in-progress': 'Research in progress',
+  'research-result': 'Research result',
+} as const
+---
+<article class="reader-document">
+  <header class="reader-header">
+    <a class="reader-back-link" href="/writing/">All writing</a>
+    <h1>{record.title}</h1>
+    <div class="reader-document-meta">
+      <span>{kindLabels[kind]}</span>
+      {record.knowledgeState && <span>{knowledgeLabels[record.knowledgeState]}</span>}
+      {record.publishedAt && <time datetime={record.publishedAt}>{record.publishedAt}</time>}
+      {record.updatedAt && <span>Updated <time datetime={record.updatedAt}>{record.updatedAt}</time></span>}
+    </div>
+    <p class="reader-lead">{record.description}</p>
+  </header>
+  <Contents headings={headings} inline />
+  <div class="reader-prose"><slot /></div>
+  <nav class="reader-end-navigation" aria-label="After this article">
+    <a href="/writing/">Browse technical writing</a>
+    <a href="/#contact">Start a conversation</a>
+  </nav>
+</article>

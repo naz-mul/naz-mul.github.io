@@ -1,0 +1,52 @@
+---
+import { Braces, ChevronDown, ChevronRight, File, FileText, Folder, FolderOpen } from 'lucide-react'
+import type { PublicationRecord } from '../../content/publication'
+import { sectionHref, workspaceSections, type WorkspaceSection } from './navigation'
+
+interface Props {
+  home?: boolean
+  activeSection?: WorkspaceSection
+  featuredWork?: PublicationRecord[]
+  mobile?: boolean
+}
+
+const { home = true, activeSection = 'intro', featuredWork = [], mobile = false } = Astro.props
+---
+<nav class:list={['workspace-explorer', { 'workspace-explorer-mobile': mobile }]} aria-label={mobile ? 'Explore the site' : 'Site explorer'}>
+  <p class="explorer-label">Explorer</p>
+  <a class="explorer-root" href={home ? '#intro' : '/'}>
+    <ChevronDown size={14} aria-hidden="true" />
+    <FolderOpen size={20} aria-hidden="true" />
+    <strong>nalam.me</strong>
+  </a>
+  <ul class="explorer-list">
+    <li>
+      <a class="explorer-file" href={sectionHref('intro', home)} data-section-link="intro" aria-current={activeSection === 'intro' ? 'location' : undefined}>
+        <File size={18} aria-hidden="true" /><span>README.md</span>
+      </a>
+    </li>
+    <li>
+      <a class="explorer-folder" href={sectionHref('projects', home)} data-section-link="projects" aria-current={activeSection === 'projects' ? 'location' : undefined}>
+        <ChevronDown size={13} aria-hidden="true" /><Folder size={18} aria-hidden="true" /><span>projects/</span>
+      </a>
+      {featuredWork.length > 0 && <ul class="explorer-projects">
+        {featuredWork.map((project) => <li>
+          <a href={`${home ? '' : '/'}#${project.id}`}>
+            <ChevronRight size={12} aria-hidden="true" /><File size={16} aria-hidden="true" /><span>{project.id}/</span>
+          </a>
+        </li>)}
+      </ul>}
+    </li>
+    {workspaceSections.slice(2).map((section) => <li>
+      <a class="explorer-folder" href={sectionHref(section.id, home)} data-section-link={section.id} aria-current={activeSection === section.id ? 'location' : undefined}>
+        <ChevronRight size={13} aria-hidden="true" /><Folder size={18} aria-hidden="true" /><span>{section.file}</span>
+      </a>
+    </li>)}
+    <li class="explorer-metadata">
+      <a class="explorer-file" href={home ? '#profile' : '/#about'}><Braces size={19} aria-hidden="true" /><span>profile.json</span></a>
+    </li>
+    <li>
+      <a class="explorer-file" href={home ? '#personal-notes' : '/#about'}><FileText size={18} aria-hidden="true" /><span>notes.txt</span></a>
+    </li>
+  </ul>
+</nav>

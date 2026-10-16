@@ -1,43 +1,32 @@
 ---
-description: Editing site copy — the single content file and its rules
-globs: "src/content/**"
+description: Reviewed career, project, original-writing and LinkedIn content
+globs: "{src/content/**,src/content.config.ts}"
 alwaysApply: false
 ---
 
-# Content
+# Reviewed content
 
-`src/content/site.ts` is the **single source of truth for all copy**. Components render
-it and contain no prose. Change the bio, a job entry, or a case study here.
+Read `docs/operations/authoring.md` before authoring or promoting records. It owns
+the public/private boundary, metadata fields, stable permalinks, reviewed assets,
+references and LinkedIn semantics.
 
-## Rules that are not stylistic preferences
+`site.ts` retains reviewed identity, career and client contributions. Original
+reader bodies live in `articles/*.md` or trusted local MDX; `showcase.ts` holds
+curated summaries/metadata. `publicationData.ts` adapts them into one eligible
+projection. `routes.ts` preserves legacy identities/metadata; `routePages.ts`
+retains experience and incumbent-note compatibility.
 
-These came out of a design process; they encode real constraints (ADR-0005).
+Public eligibility is separate from work/research maturity. All three new project
+areas are In progress, with no supplied demo/repository links. Keep summaries honest;
+review substantive Problem, Your role, Architecture, Challenges, Outcome,
+Technology and Links material before creating detail pages. Principal/architect
+remain goals. Retired student items stay retired.
 
-- **Never invent a metric.** Every number on the site traces to the CV: 7s→2s at
-  WP Engine, 5min→1.5min at Fexco. A new figure needs confirming with Nazmul first.
-- **Clients are named; their systems are genericised.** Naming Cisco, Fidelity, HMH or
-  Optum is fine — all are public on the CV and LinkedIn. Describing their internal
-  architecture, proprietary identifiers, or unpublished metrics is not.
-- **The text is written in the first person on Nazmul's behalf.** It makes claims about
-  his work. Do not add a claim he has not made.
-- **The term "vibe coding" is deliberately absent.** Show the practice, not the label.
+Keep first-person claims direct and bounded. Named clients have genericised systems;
+new metrics, proprietary designs, outcomes or ownership need real review. Preserve
+evidence labels and official context as distinct from personal contribution.
 
-## Voice
-
-Direct, specific, first person. No emoji, no "passionate developer", no skill-percentage
-bars, no tech-logo walls. Prefer a concrete constraint over an adjective.
-
-## Case study shape
-
-Each is `Context → Constraints → What I did → Trade-offs → Outcome` (headings vary
-slightly). **The trade-offs section is the point** — it is what separates a case study
-from a job description. Name the alternative that was rejected and why.
-
-## Structure
-
-- `site` — identity, contact, meta description
-- `heroLine` — one sentence under the name. Specific beats comprehensive
-- `nowText` — current work
-- `caseStudies` — the four detailed engagements; `slug` maps to the route
-- `experience` — full dated history, including roles without a case study
-- `background` — education, certifications, volunteering, personal note
+Only reviewed public source belongs in committed content. A draft/review/private
+metadata label does not conceal a committed file; private drafts stay in ignored
+local authoring. Curated LinkedIn is reviewed metadata plus an explicit external
+reading destination, with no imported body, local mirror or automatic provider call.

@@ -2,26 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Open nalam.me (Vite dev)",
+      "name": "Open nalam.me (Astro dev)",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000",
+      "url": "http://127.0.0.1:3000",
       "webRoot": "${workspaceFolder}/src",
-      "preLaunchTask": "dev: Vite"
+      "preLaunchTask": "dev: Astro"
     },
     {
-      "name": "Open nalam.me (built preview)",
+      "name": "Open nalam.me (validated public artifact)",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:4173",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "preview: built output"
+      "url": "http://127.0.0.1:4173",
+      "webRoot": "${workspaceFolder}/dist/public",
+      "preLaunchTask": "preview: public artifact"
     },
     {
       "name": "Attach: already running dev server",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000",
+      "url": "http://127.0.0.1:3000",
       "webRoot": "${workspaceFolder}/src"
     }
   ]

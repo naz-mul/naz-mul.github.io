@@ -1,55 +1,20 @@
 ---
-description: Core context for nalam.me — Vite + React static site on GitHub Pages
+description: Current nalam.me architecture and publication boundaries
 alwaysApply: true
 ---
 
-# nalam.me project context
+# nalam.me
 
-Personal site of Nazmul Alam, senior software engineer. Static, client-rendered,
-served by GitHub Pages from the repo root at `nalam.me`.
+Read `AGENTS.md` for the current editing map and required branch-specific guides;
+`CONTEXT.md` defines source, staged build, public artifact and managed root output.
 
-## Stack
+Astro produces static documents with small React islands. `yarn build` validates a
+candidate at `dist/public` and updates local Firebase CSP hashes; GitHub Pages still
+serves the incumbent committed root files. `yarn publish:root` is a dry-run. Root
+application, commit/push and remote deployment require the user's release instruction.
+Never empty or mirror-delete the mixed repository root.
 
-- **Vite 8** multi-page build, **React 19**, **TypeScript** (strict)
-- **Tailwind v4**, CSS-first — there is no `tailwind.config.js`
-- **Self-hosted variable fonts**: Newsreader, Geist Sans, Geist Mono
-- **shadcn/ui** primitives in `src/components/ui/`
-- **Yarn 4** — npm is blocked (`engines.npm: please-use-yarn`)
-
-## The one structural fact to hold onto
-
-**The repo root contains both build output and static assets; all source is in `src/`.**
-
-Generated at the root, never hand-edited: `index.html`, `404.html`, `work/*/index.html`,
-`assets/`. If you find yourself editing one of those, you are in the wrong file — edit
-`src/` and rebuild.
-
-`build.outDir` is the repo root with **`emptyOutDir: false`**. That flag is load-bearing:
-without it a build would delete `CNAME`, `img/`, `docs/` and the entire source tree.
-Vite warns about this arrangement on every build; the warning is expected.
-
-## Key files
-
-| File | Role |
-|------|------|
-| `src/content/site.ts` | **All copy.** Bio, experience, case studies. Components hold no prose. |
-| `src/components/Home.tsx` | Home page sections |
-| `src/components/CaseStudyPage.tsx` | Shared case study template, selected by slug |
-| `src/components/Layout.tsx` | `Page`, `Header`, `Footer`, `Section` |
-| `src/styles/globals.css` | Design tokens, base layer, `prose-editorial` |
-| `vite.config.ts` | Route registry (`rollupOptions.input`), outDir rules |
-| `CONTEXT.md` | Domain vocabulary — use these terms |
-| `docs/adr/` | Why the architecture is the way it is |
-
-## Principles
-
-- **Zero third-party requests.** No analytics, no CDN, no remote fonts. Typefaces are
-  self-hosted in `src/public/fonts/`. This is a deliberate constraint (ADR-0004), not an
-  oversight. Do not add any.
-- **The look is deliberately not shadcn-default** — radius 0, cool neutrals, teal accent,
-  a three-face type system. See `.cursor/rules/styling.mdc` before changing visuals.
-- **Colour values are verified.** `yarn check:contrast` enforces WCAG AA and sRGB gamut.
-- **Never publish `docs/resume/`.** Gitignored; contains the CV and a phone number.
-- Use Yarn, not npm.
-- Prefer editing `src/content/site.ts` over touching components when the change is copy.
-- Read `AGENTS.md` and `README.md` before structural changes.
+For content or route changes, read `docs/operations/authoring.md`. For publication,
+recovery or future Firebase Hosting, read `docs/operations/publication.md`.
+[ADR-0009](../../docs/adr/0009-astro-staged-publication.md) records the migration;
+earlier ADRs preserve the original decisions and dated amendments.
